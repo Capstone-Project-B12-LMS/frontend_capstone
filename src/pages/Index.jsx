@@ -22,22 +22,21 @@ const Index = () => {
           </div>
         <div className="container mx-auto">
             <div className="relative">
-              <div className="absolute inset-[100px] mt-[380px]">
-              <div className="box-border h-[600px] w-[1250px] p-4 border-4">
-              <div className="grid grid-cols-2">
-                <div className="cols-span-2 box-border border-4">HAHHA</div>
-                <div className="
-                cols-span-2 box-border border-4 bg-[#A5CECD]">
+              <div className="absolute inset-[100px] mt-[300px]">
+              <div className="h-[600px] w-[1250px] p-32">
+              <div className="grid grid-cols-3 w-[1000px] ">
+                <div className="box-border border-4">HAHHA</div>
+                <div className="col-span-2 box-border border-4 bg-[#A5CECD] text-[#FFFFFF]">
                   <h2 className="text-center mt-4">Contact US</h2><br></br>
                   <div className="container mx-auto px-5">
                   <form>
                   <label>Your Name</label><br></br>
-                  <input placeholder="Full Name"></input><br></br>
+                  <input placeholder="Full Name" className="rounded-md w-[620px] h-10 bg-[#A5CECD] border-2 border-[#FFFFF]"></input><br></br>
                   <label>Your Email</label><br></br>
-                  <input placeholder="Email Address"></input><br></br>
+                  <input placeholder="Email Address" className="rounded-md w-[620px] h-10 bg-[#A5CECD] border-2 border-[#FFFFF]"></input><br></br>
                   <label>Your Message</label><br></br>
-                  <textarea placeholder="Message"></textarea><br></br>
-                  <button type="submit" className="w-[90px] h-[52px] rounded-[20px] text-xl font-medium mb-5">
+                  <textarea placeholder="Message" className="rounded-md w-[620px] h-10 bg-[#A5CECD] border-2 border-[#FFFFF]"></textarea><br></br>
+                  <button type="submit" className="w-[620px] h-[52px] rounded-[10px] text-xl font-medium mb-5">
                     Send</button><br></br>
                   </form>
                   </div>
