@@ -1,5 +1,6 @@
 import Header from "../components/Header";
 import home from "../assets/img/home.png";
+import Footer from "../components/Footer";
 
 const Index = () => {
   return (
@@ -36,18 +37,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-        <div className="">
-            <div className="relative">
-              <div className="absolute mt-[1150px]">
-              <div className="box-border  w-[1519px] p-4 bg-[#A5CECD]">
-                
-              <h2>Welcome To </h2>
-                <h2>The world of Learning</h2>
-                
-              </div>
-              </div>
-            </div>
-          </div> 
+           <Footer />
       </body>
     </div>
   );
