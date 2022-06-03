@@ -7,51 +7,47 @@ const Index = () => {
       <Header />
       <body>
         <div className="container mx-auto px-6">
-          <div className="flex">
-            <div className="flex-1">
-              {" "}
-              <h2>Welcome To </h2>
+          <div className="absolute">
+            <div className="flex">
+              <div className="mt-[200px] ml-[100px]">
+              <h2>Welcome To </h2><p></p>
               <h2>The world of Learning</h2>
               <div className="mt-[20px] text-[25px]">
                 <strong>The knowledge you gain quickly and efficiently</strong>
               </div>
-              <div className="flex-1">
+          </div>
                 <img src={home} alt="" />
+              </div>
+          </div>
+        <div className="container mx-auto">
+            <div className="relative">
+              <div className="absolute inset-[100px] mt-[380px]">
+              <div className="box-border h-[600px] w-[1250px] p-4 border-4">
+                
+              <h2>Welcome To </h2>
+                <h2>The world of Learning</h2>
+                <div className="mt-[20px] text-[25px]">
+                  <strong>
+                    The knowledge you gain quickly and efficiently
+                  </strong>
+                </div>
+              </div>
               </div>
             </div>
           </div>
         </div>
-        {/* <div className="container mx-auto">
-          <div className="static w-[1112px] h-[862-px] mt-[100]">
-            <div className="static w-[687px] h-[491px] ml-[610px] mt-[12px]">
-              <img src={home} alt="" />
-              <div className="static">
-                <h2>Welcome To </h2>
+        <div className="">
+            <div className="relative">
+              <div className="absolute mt-[1150px]">
+              <div className="box-border  w-[1519px] p-4 bg-[#A5CECD]">
+                
+              <h2>Welcome To </h2>
                 <h2>The world of Learning</h2>
-                <div className="mt-[20px] text-[25px]">
-                  <strong>
-                    The knowledge you gain quickly and efficiently
-                  </strong>
-                </div>
+                
+              </div>
               </div>
             </div>
-
-            <div className="relative w-[1112px] h-[862-px] mt-[120]">
-              <div className="relative w-[687px] h-[491px] ml-[610px] mt-[172px]">
-                <img src={home} alt="" />
-              </div>
-              <div className="absolute mt-[320px] ">
-                <h2>Welcome To </h2>
-                <h2>The world of Learning</h2>
-                <div className="mt-[20px] text-[25px]">
-                  <strong>
-                    The knowledge you gain quickly and efficiently
-                  </strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
+          </div> 
       </body>
     </div>
   );
