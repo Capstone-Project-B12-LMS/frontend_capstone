@@ -1,8 +1,8 @@
 import { useEffect } from "react"
 
-const useClickOutSide = (ref, show ,setClickOutSide)=> {
+const useClickOutSide = (ref, show ,callback)=> {
 
-    const clickOutSide = (e)=> show && !ref.current.contains(e.target) ? setClickOutSide(true) : false;
+    const clickOutSide = (e)=> show && !ref.current.contains(e.target) ? callback(true) : false;
 
     useEffect(()=>{
         document.addEventListener('click',clickOutSide,true)

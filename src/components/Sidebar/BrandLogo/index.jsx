@@ -1,22 +1,20 @@
+import Logo from '../../../images/brand-logo.svg';
+
 import { Link } from "react-router-dom";
 
 
-const BrandLogo = ({ img, img_width, img_height, text }) => {
+const BrandLogo = ({wrapperImgStyle,logoClick}) => {
+  
   return (
-    <div className="flex justify-center my-8">
-      <Link to="/" className="hover:opacity-80">
-        {
-            img ?
-            <div className={`w-[${img_width}] h-[${img_height}] overflow-hidden`}>
-                <img
-                src={img}
+    <div className="flex justify-center my-8" onClick={logoClick}>
+      <Link to="home" className="hover:opacity-80">
+          <div className={`${wrapperImgStyle} overflow-hidden`}>
+              <img
+                src={Logo}
                 alt="brand-logo"
                 className="w-full h-full object-cover"
-                />
-            </div>
-            : 
-            <p className="font-medium text-3xl">{text}</p>
-        }
+              />
+          </div>
       </Link>
     </div>
   );
