@@ -1,10 +1,22 @@
-function App() {
+import { Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+
+
+const App = ()=> {
   return (
-    <div className="App">
-      <h1 className="text-6xl font-bold underline">Hello world!</h1>
-      <h2>Belajar menggunakan Tailwind</h2>
+    <div>
+      <Routes>
+        <Route index element={<Login />}/>
+        <Route path="login" element={<Login />}/>
+        <Route path="register" element={<Register />}/>
+        <Route path="dashboard" element={<Dashboard />}/>
+      </Routes>
     </div>
   );
 }
+
 
 export default App;
