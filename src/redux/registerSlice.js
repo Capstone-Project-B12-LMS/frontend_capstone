@@ -6,7 +6,8 @@ export const registerSlice = createSlice({
     username: '',
     email:'',
     password:'',
-    isValid: true
+    isValid: true,
+    isSuccess: false
   },
   reducers: {
     registerSubmit: (state) => {
@@ -25,11 +26,14 @@ export const registerSlice = createSlice({
     },
     setIsValid: (state, action) => {
       state.isValid = action.payload
+    },
+    setIsSuccess: (state, action) => {
+      state.isSuccess= action.payload
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setUsername, setPassword, setEmail, registerSubmit, setIsValid } = registerSlice.actions
+export const { setUsername, setPassword, setEmail, registerSubmit, setIsValid, setIsSuccess } = registerSlice.actions
 
 export default registerSlice.reducer

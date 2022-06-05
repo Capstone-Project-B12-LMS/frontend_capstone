@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import InputComponent from "../components/InputComponent";
@@ -9,8 +9,10 @@ import {
   setEmail,
   registerSubmit,
   setIsValid,
+  setIsSuccess
 } from "../redux/registerSlice";
 import PasswordWarning from "../components/PasswordWarning";
+import RegisterAlert from "../components/RegisterAlert";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,12 @@ const Register = () => {
   const { email } = useSelector((state) => state.register);
   const { password } = useSelector((state) => state.register);
   const { isValid } = useSelector((state) => state.register);
+  const { isSuccess } = useSelector((state) => state.register);
+  useEffect(() => {
+    setTimeout(()=>{
+      dispatch(setIsSuccess(false));
+    }, 4000);
+  }, [isSuccess]);
   const handleRegister = (e) => {
     e.preventDefault();
     if (
@@ -26,6 +34,7 @@ const Register = () => {
       )
     ) {
       dispatch(registerSubmit());
+      dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
       return;
     }
@@ -36,7 +45,8 @@ const Register = () => {
     <div className="flex items-center justify-center h-screen">
       <div className="max-w-[1000px] w-4/5 max-h-[800px] h-4/5 flex flex-col items-center justify-center bg-[#fff] rounded-[30px]">
         <h2 className="text-[32px] leading-[48px] mb-[7px]">Register</h2>
-        <h4 className="text-2xl font-medium mb-10">Create your account</h4>
+        <h4 className="text-2xl font-medium mb-[16px]">Create your account</h4>
+        {isSuccess && <RegisterAlert />}
         <form
           className="max-w-[640px] w-4/5 flex flex-col items-center"
           onSubmit={handleRegister}
