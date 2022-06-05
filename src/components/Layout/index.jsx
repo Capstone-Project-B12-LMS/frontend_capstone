@@ -20,7 +20,7 @@ import JoinIcon from '../../images/icons/join-icon.svg';
 
 const Layout = () => {
 
-    const [showSidebar,setShowSidebar] = useState(false);
+    const [showSidebar,setShowSidebar] = useState(true);
     const handleSidebarShow = (e,show = !showSidebar)=> setShowSidebar(show);
     
     const dropdownItem = {
