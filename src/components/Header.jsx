@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -12,18 +13,22 @@ const Header = () => {
 
             <div></div>
             <div>
-              <button
-                type="submit"
-                className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
-              >
-                Login
-              </button>
-              <button
-                type="submit"
-                className="w-full h-[52px] w-[117px] ml-[50px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
-              >
-                Sign up{" "}
-              </button>
+              <Link to="login">
+                <button
+                  type="submit"
+                  className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
+                >
+                  Login
+                </button>
+              </Link>
+              <Link to="register">
+                <button
+                  type="submit"
+                  className="w-full h-[52px] w-[117px] ml-[50px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
+                >
+                  Sign up
+                </button>
+              </Link>
             </div>
           </div>
         </div>

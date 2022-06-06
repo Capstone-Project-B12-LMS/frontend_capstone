@@ -38,12 +38,9 @@
   [type="reset"],
   [type="submit"] {
     @apply bg-[#415A80] capitalize text-white;
-<<<<<<< HEAD
-=======
   }
   input[type="password"]::-ms-reveal,
   input[type="password"]::-ms-clear {
     display: none;
->>>>>>> master
   }
 }
