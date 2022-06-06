@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Popup from "reactjs-popup";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const Header = () => {
   return (
@@ -13,22 +16,35 @@ const Header = () => {
 
             <div></div>
             <div>
-              <Link to="login">
-                <button
-                  type="submit"
-                  className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
-                >
-                  Login
-                </button>
-              </Link>
-              <Link to="register">
-                <button
-                  type="submit"
-                  className="w-full h-[52px] w-[117px] ml-[50px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
-                >
-                  Sign up
-                </button>
-              </Link>
+              <Popup
+                trigger={
+                  <button
+                    type="submit"
+                    className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
+                  >
+                    Login
+                  </button>
+                }
+                modal
+                nested
+              >
+                <Login />
+              </Popup>
+              <Popup
+                trigger={
+                  <button
+                    type="submit"
+                    className="w-full h-[52px] w-[117px] ml-[50px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
+                  >
+                    Sign up
+                  </button>
+                }
+                modal
+                nested
+                className="my-popup"
+              >
+                <Register />
+              </Popup>
             </div>
           </div>
         </div>
