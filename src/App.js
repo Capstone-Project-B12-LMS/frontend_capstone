@@ -1,14 +1,17 @@
-import Login from "./components/Login";
 import Index from "./pages/Index";
+import Login from "./pages/Login";
+import { Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+
 function App() {
   return (
-    <div className="App">
-      {/* <h1 className="text-6xl font-bold underline">Hello world!</h1>
-      <h2>Belajar menggunakan Tailwind</h2> */}
-      <div>
-        {/* <Login /> */}
-        <Index />
-      </div>
+    <div>
+      <Routes>
+        <Route index element={<Login />} />
+        <Route path="/" element={<Index />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+      </Routes>
     </div>
   );
 }
