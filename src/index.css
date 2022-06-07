@@ -52,7 +52,7 @@
   border-bottom: 1px solid gray;
   font-size: 18px;
   text-align: center;
-  padding: px;
+  padding: 0px;
 }
 .modal > .content {
   width: 50%;
@@ -81,6 +81,7 @@
   margin: auto;
   background: rgb(255, 255, 255);
   width: 50%;
+  height: 80%;
   padding: 5px;
 }
 .popup-arrow {

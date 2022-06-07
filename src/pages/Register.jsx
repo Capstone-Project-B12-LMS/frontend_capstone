@@ -9,10 +9,12 @@ import {
   setEmail,
   registerSubmit,
   setIsValid,
-  setIsSuccess
+  setIsSuccess,
 } from "../redux/registerSlice";
 import PasswordWarning from "../components/PasswordWarning";
 import RegisterAlert from "../components/RegisterAlert";
+import Popup from "reactjs-popup";
+import Login from "./Login";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -22,7 +24,7 @@ const Register = () => {
   const { isValid } = useSelector((state) => state.register);
   const { isSuccess } = useSelector((state) => state.register);
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       dispatch(setIsSuccess(false));
     }, 4000);
   }, [isSuccess]);
@@ -42,7 +44,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center mt-[6%]" id="register">
       <div className="max-w-[1000px] w-4/5 max-h-[800px] h-4/5 flex flex-col items-center justify-center bg-[#fff] rounded-[30px]">
         <h2 className="text-[32px] leading-[48px] mb-[7px]">Register</h2>
         <h4 className="text-2xl font-medium mb-[16px]">Create your account</h4>
@@ -76,12 +78,27 @@ const Register = () => {
           <Button buttonValue="Daftar" />
           <p className="text-2xl leading-9 text-[#ADADAD]">
             Already have an account?
-            <Link
-              to="/login"
-              className="text-[#000] font-semibold hover:underline"
+            <Popup
+              trigger={
+                <a
+                  href="#login"
+                  className="text-[#000] font-semibold hover:underline"
+                >
+                  Login
+                </a>
+              }
+              modal
+              nested
             >
-              Login
-            </Link>
+              {(close) => (
+                <div className="modal">
+                  <button className="close" onClick={close}>
+                    <div className="text-black">X</div>
+                  </button>
+                  <Login />
+                </div>
+              )}
+            </Popup>
           </p>
         </form>
       </div>

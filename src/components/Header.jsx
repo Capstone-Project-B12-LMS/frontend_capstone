@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -28,9 +27,18 @@ const Header = () => {
                 modal
                 nested
               >
-                <Login />
+                {(close) => (
+                  <div className="modal">
+                    <button className="close" onClick={close}>
+                      <div className="text-black">X</div>
+                    </button>
+                    <Login />
+                  </div>
+                )}
               </Popup>
+
               <Popup
+                id="2"
                 trigger={
                   <button
                     type="submit"
@@ -41,9 +49,15 @@ const Header = () => {
                 }
                 modal
                 nested
-                className="my-popup"
               >
-                <Register />
+                {(close) => (
+                  <div className="modal">
+                    <button className="close" onClick={close}>
+                      <div className="text-black">X</div>
+                    </button>
+                    <Register />
+                  </div>
+                )}
               </Popup>
             </div>
           </div>
