@@ -1,8 +1,26 @@
 import Header from "../components/Header";
 import home from "../assets/img/home.png";
 import Footer from "../components/Footer";
+import emailjs from "emailjs-com";
+import picture_contactus from "../assets/img/bg-contact-us.png";
 
 const Index = () => {
+  function sendEmail(e) {
+    e.preventDefault();
+    emailjs
+      .sendForm(
+        "service_8nwcki9",
+        "template_lmwdt0h",
+        e.target,
+        "rAAkn0OTCciFiL6cn"
+      )
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div>
       <body className="bg-[url('/src/assets/img/Vector.png')] bg-no-repeat bg-[length:600px_584px]">
@@ -28,12 +46,18 @@ const Index = () => {
               <div className="">
                 <div className="grid justify-items-center">
                   <div className=" grid grid-cols-3 w-[1100px] h-[654px]">
-                    <div className=" bg-[#C0DEDD] rounded-l-xl shadow-[0px_2px_0px_rgba(0,0,0,1)]"></div>
+                    <div className=" bg-[#384EA1] rounded-l-xl shadow-[0px_2px_0px_rgba(0,0,0,1)]">
+                      <img
+                        src={picture_contactus}
+                        alt=""
+                        className="mt-[50%]"
+                      />
+                    </div>
                     <div className="col-span-2  rounded-r-xl shadow-[1px_2px_2px_rgba(0,0,0,1)]">
                       <h2 className="text-center mt-4">Contact US</h2>
                       <br></br>
                       <div className="grid place-items-center mx-auto px-5 ">
-                        <form>
+                        <form onSubmit={sendEmail}>
                           <label>Your Name</label>
                           <div className="relative">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
