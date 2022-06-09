@@ -1,18 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
+import useLoginMutation from '../graphql/LoginMutation';
 
 export const loginSlice = createSlice({
   name: 'login',
   initialState: {
-    username: '',
+    email: '',
     password:''
   },
   reducers: {
-    loginSubmit: (state) => {
-      state.username = '';
-      state.password = '';
-    },
-    setUsername: (state, action) => {
-      state.username = action.payload
+    setEmail: (state, action) => {
+      state.email = action.payload
     },
     setPassword: (state, action) => {
       state.password = action.payload
@@ -21,6 +18,6 @@ export const loginSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setUsername, setPassword, loginSubmit } = loginSlice.actions
+export const { setEmail, setPassword } = loginSlice.actions
 
 export default loginSlice.reducer

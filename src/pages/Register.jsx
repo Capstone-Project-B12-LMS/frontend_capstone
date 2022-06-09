@@ -7,14 +7,17 @@ import {
   setUsername,
   setPassword,
   setEmail,
-  registerSubmit,
   setIsValid,
-  setIsSuccess
+  setIsSuccess,
 } from "../redux/registerSlice";
 import PasswordWarning from "../components/PasswordWarning";
 import RegisterAlert from "../components/RegisterAlert";
+import useRegisterMutation from "../graphql/RegisterMutation";
+
+
 
 const Register = () => {
+  const {insertRegisterData, data, loading, error} = useRegisterMutation();
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.register);
   const { email } = useSelector((state) => state.register);
@@ -22,10 +25,11 @@ const Register = () => {
   const { isValid } = useSelector((state) => state.register);
   const { isSuccess } = useSelector((state) => state.register);
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       dispatch(setIsSuccess(false));
     }, 4000);
   }, [isSuccess]);
+
   const handleRegister = (e) => {
     e.preventDefault();
     if (
@@ -33,7 +37,16 @@ const Register = () => {
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
       )
     ) {
-      dispatch(registerSubmit());
+      insertRegisterData({
+        variables: {
+          fullName: username,
+          email: email,
+          password: password,
+        },
+      });
+      dispatch(setUsername(''));
+      dispatch(setEmail(''));
+      dispatch(setPassword(''));
       dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
       return;
@@ -41,6 +54,8 @@ const Register = () => {
     dispatch(setIsValid(false));
   };
 
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="max-w-[1000px] w-4/5 max-h-[800px] h-4/5 flex flex-col items-center justify-center bg-[#fff] rounded-[30px]">
@@ -73,7 +88,7 @@ const Register = () => {
           ) : (
             <PasswordWarning />
           )}
-          <Button buttonValue="Daftar" />
+          <Button buttonText="Daftar" width="w-full" height="h-[62px]"/>
           <p className="text-2xl leading-9 text-[#ADADAD]">
             Already have an account?
             <Link
