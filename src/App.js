@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -16,7 +16,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Layout/>}>
           <Route path='home' element={<Home/>}/>
-          Absolute route path "/home" nested under path "/dashboard" is not valid.
         </Route>
       </Routes>
     </div>
