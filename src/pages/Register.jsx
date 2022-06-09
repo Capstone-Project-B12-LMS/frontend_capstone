@@ -16,7 +16,6 @@ import Login from "./Login";
 // Component
 import { Button , Input , PasswordWarning , RegisterAlert } from '../components'
 
-
 const Register = () => {
   const {insertRegisterData, data, loading, error} = useRegisterMutation();
   const dispatch = useDispatch();
