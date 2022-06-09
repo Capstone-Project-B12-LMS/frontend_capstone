@@ -10,15 +10,10 @@ import {
   setIsSuccess,
 } from "../redux/registerSlice";
 import useRegisterMutation from "../graphql/RegisterMutation";
-
-
-
-
 import Popup from "reactjs-popup";
 import Login from "./Login";
 
 // Component
-
 import { Button , Input , PasswordWarning , RegisterAlert } from '../components'
 
 

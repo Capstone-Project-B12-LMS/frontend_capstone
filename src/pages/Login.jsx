@@ -7,7 +7,6 @@ import Popup from "reactjs-popup";
 import Register from "./Register";
 
 // Component
-
 import { Button, Input } from '../components'
 
 
