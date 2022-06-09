@@ -13,7 +13,7 @@ const Header = ({ usingToggle ,toggleClick , children }) => {
                 </button> : false
             }
             <nav className="w-full flex justify-between">
-                <BrandLogo wrapperImgStyle='w-[191px] h-[50px]'/>
+                <BrandLogo wrapperImgStyle='w-[200px] h-[50px]'/>
                 {children}
             </nav>
         </header>

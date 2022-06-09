@@ -25,8 +25,8 @@ const Dropdown = ({children,list}) => {
                 <ul className="w-full bg-light-blue min-w-[200px] absolute top-[130px] right-0">
                     {
                         list.map(item => 
-                            <li className="h-[64px] pl-4 hover:bg-dark-blue" key={item.text}>
-                                <ItemList {...item}/>
+                            <li className="h-[64px] hover:bg-dark-blue" key={item.text}>
+                                <ItemList {...item} spacing='pl-4'/>
                             </li>
                         )
                     }

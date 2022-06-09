@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 // Component
 
-import Header from '../Header';
+import Header from '../Header/Header.jsx';
 import Sidebar from "../Sidebar";
 import Dropdown from "../Dropdown";
 
@@ -20,7 +20,7 @@ import JoinIcon from '../../images/icons/join-icon.svg';
 
 const Layout = () => {
 
-    const [showSidebar,setShowSidebar] = useState(true);
+    const [showSidebar,setShowSidebar] = useState(false);
     const handleSidebarShow = (e,show = !showSidebar)=> setShowSidebar(show);
     
     const dropdownItem = {
@@ -33,19 +33,19 @@ const Layout = () => {
             {
                 icon: LogOutIcon,
                 text: 'logout',
-                path: '/logout'
+                path: null
             }
         ],
         class : [
             {
                 icon: CreateIcon,
                 text: 'create class',
-                path: 'create-class'
+                path: null
             },
             {
                 icon: JoinIcon,
                 text: 'join class',
-                path: 'join'
+                path: null
             }
         ]
     }
@@ -69,7 +69,9 @@ const Layout = () => {
 
             <Sidebar isOpen={showSidebar} setIsOpen={handleSidebarShow}/>
 
-            <Outlet/>
+            <div className="px-10">
+                <Outlet/>
+            </div>
         </>
     )
 }

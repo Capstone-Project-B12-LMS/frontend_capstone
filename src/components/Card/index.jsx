@@ -1,17 +1,17 @@
-import pic from "../../images/Dragunov.jpg"
+import { Link } from "react-router-dom";
 
 
-const Card = ({ CardTitle, CardProgress }) => {
+const Card = ({ title, progress, thumbnail, url }) => {
     return (
-        <div className="mt-8">
-            <div className="bg-white rounded overflow-hidden shadow-md w-[300px] h-[240px]">
-                <img src={pic} alt="Picture" className="w-[100%] h-[150px]" />
-                <div className="m-4">
-                    <span className="font-bold">{CardTitle}</span>
-                    <p className="block text-gray-500 text-sm">Progress: {CardProgress}</p>
+        <Link to={url}>
+            <div className="bg-white rounded overflow-hidden shadow-md w-full h-full flex flex-col rounded-2xl">
+                <img src={thumbnail} alt="thumbnail" className="w-[100%] h-[160px] object-cover" />
+                <div className="p-6 h-full flex flex-col justify-between">
+                    <h3 className="text-2xl font-medium text-black">{ title }</h3>
+                    <p className="text-base text-[#A9A9A9] font-normal">Progress: <span className="text-black font-bold">{progress}</span> </p>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

@@ -11,6 +11,15 @@ module.exports = {
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],
       },
+      backgroundImage: {
+        'banner-dashboard': "url('/src/images/banner.png')"
+      },
+      gridTemplateColumns: {
+        'card-class': 'repeat(auto-fill,minmax(320px,1fr))',
+      },
+      gridAutoRows: {
+        'card-class': 'minmax(300px,320px)'
+      }
     },
   },
   plugins: [],

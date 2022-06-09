@@ -1,12 +1,13 @@
 import React from "react";
 
-const Button = ({buttonValue}) => {
+const Button = ({ text, formBtn, styling, handleClick }) => {
   return (
     <button
-      type="submit"
-      className="w-full h-[62px] rounded-[20px] text-xl leading-[30px] font-medium mb-5"
+      type={formBtn ? "submit" : ""}
+      className={styling}
+      onClick={handleClick}
     >
-     {buttonValue}
+      {text}
     </button>
   );
 };

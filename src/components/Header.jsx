@@ -1,0 +1,39 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Header = () => {
+  return (
+    <header>
+      <div>
+        <div className="relative">
+          <div className="flex w-full bg-transparent grid grid-cols-3 ">
+            <div>
+              <div className="absolute rounded-full w-[80px] h-[80px] ml-[80px] mt-[15px] bg-[#000000]"></div>
+            </div>
+
+            <div></div>
+            <div>
+              <Link to="login">
+                <button
+                  type="submit"
+                  className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
+                >
+                  Login
+                </button>
+              </Link>
+              <Link to="register">
+                <button
+                  type="submit"
+                  className="w-full h-[52px] w-[117px] ml-[50px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
+                >
+                  Sign up
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+export default Header;
