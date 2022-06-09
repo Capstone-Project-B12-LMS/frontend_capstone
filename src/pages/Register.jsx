@@ -6,21 +6,18 @@ import {
   setUsername,
   setPassword,
   setEmail,
-  registerSubmit,
   setIsValid,
   setIsSuccess,
 } from "../redux/registerSlice";
-
-
+import useRegisterMutation from "../graphql/RegisterMutation";
 import Popup from "reactjs-popup";
 import Login from "./Login";
 
 // Component
-
 import { Button , Input , PasswordWarning , RegisterAlert } from '../components'
 
-
 const Register = () => {
+  const {insertRegisterData, data, loading, error} = useRegisterMutation();
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.register);
   const { email } = useSelector((state) => state.register);
@@ -32,6 +29,7 @@ const Register = () => {
       dispatch(setIsSuccess(false));
     }, 4000);
   }, [isSuccess]);
+
   const handleRegister = (e) => {
     e.preventDefault();
     if (
@@ -39,7 +37,16 @@ const Register = () => {
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
       )
     ) {
-      dispatch(registerSubmit());
+      insertRegisterData({
+        variables: {
+          fullName: username,
+          email: email,
+          password: password,
+        },
+      });
+      dispatch(setUsername(''));
+      dispatch(setEmail(''));
+      dispatch(setPassword(''));
       dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
       return;
@@ -47,6 +54,8 @@ const Register = () => {
     dispatch(setIsValid(false));
   };
 
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>
   return (
     <div className="flex items-center justify-center mt-[6%]" id="register">
       <div className="max-w-[1000px] w-4/5 max-h-[800px] h-4/5 flex flex-col items-center justify-center bg-[#fff] rounded-[30px]">
