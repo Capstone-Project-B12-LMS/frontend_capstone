@@ -12,7 +12,7 @@ module.exports = {
         'poppins': ['Poppins', 'sans-serif'],
       },
       backgroundImage: {
-        'banner-dashboard': "url('/src/images/banner.png')"
+        'banner-dashboard': "url('/src/assets/img/banner.png')"
       },
       gridTemplateColumns: {
         'card-class': 'repeat(auto-fill,minmax(320px,1fr))',

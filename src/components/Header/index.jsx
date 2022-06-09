@@ -1,5 +1,5 @@
 import BrandLogo from "../Sidebar/BrandLogo";
-import Hamburger from '../../images/icons/hamburger-icon.svg';
+import Hamburger from '../../assets/icons/hamburger-icon.svg';
 
 
 const Header = ({ usingToggle ,toggleClick , children }) => {
@@ -19,5 +19,6 @@ const Header = ({ usingToggle ,toggleClick , children }) => {
         </header>
     )
 }
+
 
 export default Header

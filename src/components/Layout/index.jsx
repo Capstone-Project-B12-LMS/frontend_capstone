@@ -3,18 +3,16 @@ import { Outlet } from "react-router-dom";
 
 // Component
 
-import Header from '../Header/Header.jsx';
-import Sidebar from "../Sidebar";
-import Dropdown from "../Dropdown";
+import {Header,Sidebar,Dropdown} from '../'
 
 // Icon
 
-import ExpandIcon from '../../images/icons/expand-icon.svg';
-import AccountIcon from '../../images/icons/account-icon.svg';
-import LogOutIcon from '../../images/icons/logout-icon.svg';
-import AddIcon from '../../images/icons/add-icon.svg';
-import CreateIcon from '../../images/icons/create-class-icon.svg';
-import JoinIcon from '../../images/icons/join-icon.svg';
+import ExpandIcon from '../../assets/icons/expand-icon.svg';
+import AccountIcon from '../../assets/icons/account-icon.svg';
+import LogOutIcon from '../../assets/icons/logout-icon.svg';
+import AddIcon from '../../assets/icons/add-icon.svg';
+import CreateIcon from '../../assets/icons/create-class-icon.svg';
+import JoinIcon from '../../assets/icons/join-icon.svg';
 
 
 
@@ -22,30 +20,41 @@ const Layout = () => {
 
     const [showSidebar,setShowSidebar] = useState(false);
     const handleSidebarShow = (e,show = !showSidebar)=> setShowSidebar(show);
+
+    const createClass = ()=> alert('create class');
+    const joinClass = ()=> alert('join class');
+    const logout = ()=> alert('are u sure to logout ?')
     
     const dropdownItem = {
         user : [
             {
                 icon: AccountIcon,
                 text: 'my account',
+                type: 'list',
                 path: '/account'
             },
             {
                 icon: LogOutIcon,
                 text: 'logout',
-                path: null
+                type: 'button',
+                path: null,
+                clicked : logout
             }
         ],
         class : [
             {
                 icon: CreateIcon,
+                type: 'button',
                 text: 'create class',
-                path: null
+                path: null,
+                clicked : createClass
             },
             {
                 icon: JoinIcon,
+                type: 'button',
                 text: 'join class',
-                path: null
+                path: null,
+                clicked: joinClass
             }
         ]
     }
@@ -69,9 +78,13 @@ const Layout = () => {
 
             <Sidebar isOpen={showSidebar} setIsOpen={handleSidebarShow}/>
 
-            <div className="px-10">
+            {/* Content area */}
+
+            <div className="px-10 mx-auto max-w-[1600px]">
                 <Outlet/>
             </div>
+
+            {/* End Content Area */}
         </>
     )
 }

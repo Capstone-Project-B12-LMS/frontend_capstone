@@ -19,19 +19,15 @@ const Dropdown = ({children,list}) => {
             <button className="flex items-center bg-transparent" ref={ref} onClick={()=> setExpand(!expand)}>
                 {children}
             </button>
-            {
-                expand ? 
-
-                <ul className="w-full bg-light-blue min-w-[200px] absolute top-[130px] right-0">
-                    {
-                        list.map(item => 
-                            <li className="h-[64px] hover:bg-dark-blue" key={item.text}>
-                                <ItemList {...item} spacing='pl-4'/>
-                            </li>
-                        )
-                    }
-                </ul> : false
-            }
+            <ul className={`w-full bg-light-blue min-w-[200px] absolute top-[130px] right-0 ${expand ? 'visible' : 'invisible'}`}>
+                {
+                    list.map(item => 
+                        <li className="h-[64px] hover:bg-dark-blue" key={item.text}>
+                            <ItemList {...item} spacing='pl-4'/>
+                        </li>
+                    )
+                }
+            </ul>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { Card,Button } from "../../components";
+import { Card , Button } from "../../components";
 
 
 

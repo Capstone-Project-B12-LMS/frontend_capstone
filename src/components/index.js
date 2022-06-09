@@ -3,7 +3,11 @@ import Dropdown from "./Dropdown";
 import Header from "./Header";
 import Layout from "./Layout";
 import Sidebar from "./Sidebar";
-import Button from "./Button.jsx"
+import Button from "./Button";
+import Input from "./Input";
+import Footer from './Footer'
+import PasswordWarning from "./PasswordWarning";
+import RegisterAlert from "./RegisterAlert";
 
 export {
     Card,
@@ -11,5 +15,9 @@ export {
     Header,
     Layout,
     Sidebar,
-    Button
+    Button,
+    Input,
+    Footer,
+    PasswordWarning,
+    RegisterAlert
 }
