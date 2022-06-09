@@ -1,0 +1,1 @@
+// Component to protected page
