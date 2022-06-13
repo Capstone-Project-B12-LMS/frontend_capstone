@@ -25,16 +25,39 @@ const Home = ({ createClass, joinClass }) => {
                             <h1 className="text-[40px] text-white">Welcome back Veronica !</h1>
                             <p className="text-2xl font-light text-white mt-4">Do you want to add a new class ?</p>
                             <div className="mt-8">
-                                <Button
-                                    text="Join Class"
-                                    styling='text-2xl font-medium px-8 py-3 rounded-[20px] mr-4'
-                                    handleClick={joinClass}
-                                />
-                                <Button
-                                    text="Create Class"
-                                    styling='text-2xl font-medium px-8 py-3 rounded-[20px] bg-[#FFFFFF] text-[#415A80]'
-                                    handleClick={createClass}
-                                />
+                                <Popup
+                                    trigger={
+                                        <button className="text-normal font-medium px-6 py-2 rounded-[20px] mr-4 border hover:bg-transparent hover:text-[#415A80] hover:border-[#415A80]">Join Class</button>
+                                    }
+                                    modal
+                                    nested
+                                >
+                                    {close => (
+                                        <div className="modal">
+                                            <button className="close" onClick={close}>
+                                                <div className="text-black">X</div>
+                                            </button>
+                                            <JoinClass />
+                                        </div>
+                                    )}
+                                </Popup>
+                                <Popup
+                                    trigger={
+                                        <button className="text-normal font-medium px-6 py-2 rounded-[20px] border border-[#415A80] text-[#415A80] bg-transparent hover:bg-[#415A80] hover:text-white">
+                                            Create Class</button>
+                                    }
+                                    modal
+                                    nested
+                                >
+                                    {close => (
+                                        <div className="modal">
+                                            <button className="close" onClick={close}>
+                                                <div className="text-black">X</div>
+                                            </button>
+                                            <CreateClass />
+                                        </div>
+                                    )}
+                                </Popup>
                             </div>
                         </div>
 
