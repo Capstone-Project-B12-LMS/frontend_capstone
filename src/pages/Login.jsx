@@ -27,11 +27,18 @@ const Login = () => {
     });
     dispatch(setEmail(""));
     dispatch(setPassword(""));
-    navigate("/dashboard");
   };
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
+  if(data?.user.login.token){
+    console.log(data);
+    navigate("/dashboard");
+  }else{
+    console.log("error");
+  }
+
+  
   data && localStorage.setItem('token', data.user.login.token)
   return (
     <div className="modal">
