@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import useLoginMutation from '../graphql/LoginMutation';
 
 export const loginSlice = createSlice({
   name: 'login',

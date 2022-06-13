@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setPassword } from "../redux/loginSlice";
 import useLoginMutation from "../graphql/LoginMutation";
@@ -8,9 +7,11 @@ import Register from "./Register";
 
 // Component
 import { Button, Input } from '../components'
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+  const navigate = useNavigate();
   const { insertLoginData, data, loading, error } = useLoginMutation();
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.login);
@@ -30,6 +31,15 @@ const Login = () => {
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
+  if(data?.user.login.token){
+    console.log(data);
+    navigate("/dashboard");
+  }else{
+    console.log("error");
+  }
+
+  
+  data && localStorage.setItem('token', data.user.login.token)
   return (
     <div className="modal">
       <div className="flex items-center justify-center mt-[10%]" id="login">
