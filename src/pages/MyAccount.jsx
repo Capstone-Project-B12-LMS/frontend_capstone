@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header, Sidebar, Dropdown } from "../components";
 import MyAccountInput from "../components/MyAccountInput";
 import ExpandIcon from "../assets/icons/expand-icon.svg";
@@ -12,8 +12,15 @@ import useGetUser from "../graphql/GetUser";
 import jwtDecode from "jwt-decode";
 
 const MyAccount = () => {
-  const decoded = jwtDecode(localStorage.getItem("token"));
-  const userId = decoded.userId;
+  const [userId, setUserId] = useState('')
+  const getId = () =>{
+    const decoded = jwtDecode(localStorage.getItem("token"));
+    setUserId(decoded.userId);
+  }
+  useEffect(()=>{
+    getId();
+  }, [])
+  
   const { data, loading, error } = useGetUser(userId);
   const [showSidebar, setShowSidebar] = useState(false);
   const handleSidebarShow = (e, show = !showSidebar) => setShowSidebar(show);
