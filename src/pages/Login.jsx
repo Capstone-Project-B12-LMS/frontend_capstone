@@ -30,6 +30,7 @@ const Login = () => {
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
+  data && localStorage.setItem('token', data.user.login.token)
   return (
     <div className="modal">
       <div className="flex items-center justify-center mt-[10%]" id="login">
