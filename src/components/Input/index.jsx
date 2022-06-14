@@ -25,14 +25,14 @@ const InputComponent = ({ name, value, setValue, icon }) => {
         {name === "password" &&
           (!isEyeClicked ? (
             <img
-              src={require("../assets/img/eye-open.png")}
+              src={require("../../assets/img/eye-open.png")}
               alt="eye"
               className="cursor-pointer -ml-12 object-contain"
               onClick={() => setIsEyeClicked(true)}
             />
           ) : (
             <img
-              src={require("../assets/img/eye-closed.png")}
+              src={require("../../assets/img/eye-closed.png")}
               alt="eye"
               className="cursor-pointer -ml-12 object-contain"
               onClick={() => setIsEyeClicked(false)}
