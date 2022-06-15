@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEmail, setPassword } from "../redux/loginSlice";
+import { setEmail, setPassword, setIsLoggedIn, setDecode, setDataLogin } from "../redux/loginSlice";
 import useLoginMutation from "../graphql/LoginMutation";
+import useGetUser from "../graphql/GetUser";
 import Popup from "reactjs-popup";
 import Register from "./Register";
+import jwtDecode from "jwt-decode";
 
 // Component
 import { Button, Input } from '../components'
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { insertLoginData, data, loading, error } = useLoginMutation();
+  const navigate = useNavigate();  
   const dispatch = useDispatch();
+  const { insertLoginData, data, loading, error } = useLoginMutation();
   const { email } = useSelector((state) => state.login);
   const { password } = useSelector((state) => state.login);
+  const {dataLogin} = useSelector((state) => state.login)
+
+  useEffect(()=>{
+    if(data?.user.login.token){
+      //setuserid
+      dispatch(setDecode(jwtDecode(data.user.login.token).userId));
+      localStorage.setItem("token",data.user.login.token);
+      // dispatch(setIsLoggedIn(true));//getuser dilakukan didalam login
+      navigate('/dashboard');
+    }
+  },[data]);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -31,15 +45,6 @@ const Login = () => {
 
   if (loading) return "Loading...";
   if (error) return <pre>{error.message}</pre>;
-  if(data?.user.login.token){
-    console.log(data);
-    navigate("/dashboard");
-  }else{
-    console.log("error");
-  }
-
-  
-  data && localStorage.setItem('token', data.user.login.token)
   return (
     <div className="modal">
       <div className="flex items-center justify-center mt-[10%]" id="login">
