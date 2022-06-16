@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // Component
@@ -24,9 +24,13 @@ const Layout = ({children}) => {
     const {dataLogin} = useSelector((state) => state.login)
     const handleSidebarShow = (e,show = !showSidebar)=> setShowSidebar(show);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
     const createClass = ()=> alert('create class');
     const joinClass = ()=> alert('join class');
     const logout = ()=> alert('are u sure to logout ?')
+    
     
     const dropdownItem = {
         user : [
@@ -61,6 +65,13 @@ const Layout = ({children}) => {
             }
         ]
     }
+
+
+    useEffect(() => {
+        if(location.pathname === '/dashboard') navigate('home' , {replace : true})
+    },[location.pathname])
+
+
 
     return(
         <>

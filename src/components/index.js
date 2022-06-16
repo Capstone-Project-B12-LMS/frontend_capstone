@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import Button from "./Button";
 import Input from "./Input";
 import Footer from './Footer'
+import Tab from './Tab'
 import PasswordWarning from "./PasswordWarning";
 import RegisterAlert from "./RegisterAlert";
 
@@ -18,6 +19,7 @@ export {
     Button,
     Input,
     Footer,
+    Tab,
     PasswordWarning,
     RegisterAlert
 }
