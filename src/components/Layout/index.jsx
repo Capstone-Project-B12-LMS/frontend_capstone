@@ -18,7 +18,7 @@ import JoinIcon from '../../assets/icons/join-icon.svg';
 
 
 
-const Layout = () => {
+const Layout = ({children}) => {
 
     const [showSidebar,setShowSidebar] = useState(false);
     const {dataLogin} = useSelector((state) => state.login)
@@ -34,7 +34,7 @@ const Layout = () => {
                 icon: AccountIcon,
                 text: 'my account',
                 type: 'list',
-                path: '/account'
+                path: '/myaccount'
             },
             {
                 icon: LogOutIcon,
@@ -84,7 +84,7 @@ const Layout = () => {
             {/* Content area */}
 
             <div className="px-10 mx-auto max-w-[1600px]">
-                <Outlet/>
+                { children || <Outlet/> }
             </div>
 
             {/* End Content Area */}
