@@ -39,7 +39,7 @@ const MyAccount = () => {
         icon: AccountIcon,
         text: "my account",
         type: "list",
-        path: "/account",
+        path: "/myaccount",
       },
       {
         icon: LogOutIcon,
