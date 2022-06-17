@@ -8,6 +8,7 @@ import Input from "./Input";
 import Footer from './Footer'
 import PasswordWarning from "./PasswordWarning";
 import RegisterAlert from "./RegisterAlert";
+import PopUp from "./Popup";
 
 export {
     Card,
@@ -19,5 +20,6 @@ export {
     Input,
     Footer,
     PasswordWarning,
-    RegisterAlert
+    RegisterAlert,
+    PopUp,
 }

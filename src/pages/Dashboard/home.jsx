@@ -2,7 +2,7 @@ import { useState } from "react";
 import Popup from "reactjs-popup";
 import { Link } from "react-router-dom";
 
-import { Card, Button } from "../../components";
+import { Card, Button, PopUp } from "../../components";
 import Illustration from '../../assets/img/illustration_1.png';
 import JoinClass from "./JoinClass";
 import CreateClass from "./CreateClass";
@@ -12,6 +12,13 @@ import CreateClass from "./CreateClass";
 const Home = ({ createClass, joinClass }) => {
 
     const [collectionClass, setCollectionClass] = useState(0);
+
+    const [classCode, setClassCode] = useState("");
+
+    const HandleSubmitJoin = (e) => {
+        e.preventDefault();
+        setClassCode("");
+    }
 
     return (
         <>
@@ -96,10 +103,32 @@ const Home = ({ createClass, joinClass }) => {
                                             <button className="close" onClick={close}>
                                                 <div className="text-black">X</div>
                                             </button>
-                                            <JoinClass />
+                                            <PopUp
+                                                title={"Duar"}
+                                                description={"Ask the admin or mentor for the class code, then enter the code here"}
+                                                style1={"flex items-center justify-center mt-[1rem]"}
+                                                style2={"flex flex-col items-center justify-center bg-[#fff] rounded-[30px]"}
+                                            >
+                                                <form onSubmit={HandleSubmitJoin}>
+                                                    <input
+                                                        required
+                                                        type="text"
+                                                        placeholder="Input Class Code"
+                                                        className="border-[1px] px-4 rounded-[10px] border-[#D9D9D9] focus:outline-none w-full h-[62px] placeholder:text-[24px] text-[24px]"
+                                                        value={classCode}
+                                                        onChange={(e) => setClassCode(e.target.value)}
+                                                    />
+                                                    <Button
+                                                        formBtn={true}
+                                                        styling={"rounded-[15px] w-full mt-10 h-[62px] text-[20px] font-bold"}
+                                                        text={"JOIN"}
+                                                    />
+                                                </form>
+                                            </PopUp>
                                         </div>
                                     )}
                                 </Popup>
+
                                 <Popup
                                     trigger={
                                         <button className="text-normal font-medium px-6 py-2 rounded-[20px] border border-[#415A80] text-[#415A80] bg-transparent hover:bg-[#415A80] hover:text-white">

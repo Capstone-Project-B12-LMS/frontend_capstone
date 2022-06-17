@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 // Component
 
-import {Header,Sidebar,Dropdown} from '../'
+import { Header, Sidebar, Dropdown, PopUp, } from '../'
 
 // Icon
 
@@ -18,15 +18,15 @@ import JoinIcon from '../../assets/icons/join-icon.svg';
 
 const Layout = () => {
 
-    const [showSidebar,setShowSidebar] = useState(false);
-    const handleSidebarShow = (e,show = !showSidebar)=> setShowSidebar(show);
+    const [showSidebar, setShowSidebar] = useState(false);
+    const handleSidebarShow = (e, show = !showSidebar) => setShowSidebar(show);
 
-    const createClass = ()=> alert('create class');
-    const joinClass = ()=> alert('join class');
-    const logout = ()=> alert('are u sure to logout ?')
-    
+    const createClass = () => alert('create class');
+    const joinClass = () => alert('join class');
+    const logout = () => alert('are u sure to logout ?')
+
     const dropdownItem = {
-        user : [
+        user: [
             {
                 icon: AccountIcon,
                 text: 'my account',
@@ -38,16 +38,16 @@ const Layout = () => {
                 text: 'logout',
                 type: 'button',
                 path: null,
-                clicked : logout
+                clicked: logout
             }
         ],
-        class : [
+        class: [
             {
                 icon: CreateIcon,
                 type: 'button',
                 text: 'create class',
                 path: null,
-                clicked : createClass
+                clicked: createClass
             },
             {
                 icon: JoinIcon,
@@ -59,32 +59,34 @@ const Layout = () => {
         ]
     }
 
-    return(
+    return (
         <>
-            <Header usingToggle={true} toggleClick={handleSidebarShow}>
-                <div className="flex ml-auto">
-                    <Dropdown list={dropdownItem.class}>
-                        <img src={AddIcon} alt="icon" className="w-[24px] h-[24px]"/>
-                    </Dropdown>
-                    <Dropdown list={dropdownItem.user}>
-                        <div className="w-[50px] h-[50px] overflow-hidden rounded-full mr-2">
-                            <img src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="avatar" />
-                        </div>
-                        <span className="text-2xl text-black font-medium mr-4">Veronica</span>
-                        <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]"/>
-                    </Dropdown>
+            <PopUp>
+                <Header usingToggle={true} toggleClick={handleSidebarShow}>
+                    <div className="flex ml-auto">
+                        <Dropdown list={dropdownItem.class}>
+                            <img src={AddIcon} alt="icon" className="w-[24px] h-[24px]" />
+                        </Dropdown>
+                        <Dropdown list={dropdownItem.user}>
+                            <div className="w-[50px] h-[50px] overflow-hidden rounded-full mr-2">
+                                <img src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="avatar" />
+                            </div>
+                            <span className="text-2xl text-black font-medium mr-4">Veronica</span>
+                            <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]" />
+                        </Dropdown>
+                    </div>
+                </Header>
+
+                <Sidebar isOpen={showSidebar} setIsOpen={handleSidebarShow} />
+
+                {/* Content area */}
+
+                <div className="px-10 mx-auto max-w-[1600px]">
+                    <Outlet />
                 </div>
-            </Header>
 
-            <Sidebar isOpen={showSidebar} setIsOpen={handleSidebarShow}/>
-
-            {/* Content area */}
-
-            <div className="px-10 mx-auto max-w-[1600px]">
-                <Outlet/>
-            </div>
-
-            {/* End Content Area */}
+                {/* End Content Area */}
+            </PopUp>
         </>
     )
 }
