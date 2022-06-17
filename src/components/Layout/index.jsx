@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // Component
 
@@ -16,9 +17,11 @@ import JoinIcon from '../../assets/icons/join-icon.svg';
 
 
 
+
 const Layout = () => {
 
     const [showSidebar,setShowSidebar] = useState(false);
+    const {dataLogin} = useSelector((state) => state.login)
     const handleSidebarShow = (e,show = !showSidebar)=> setShowSidebar(show);
 
     const createClass = ()=> alert('create class');
@@ -70,7 +73,7 @@ const Layout = () => {
                         <div className="w-[50px] h-[50px] overflow-hidden rounded-full mr-2">
                             <img src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="avatar" />
                         </div>
-                        <span className="text-2xl text-black font-medium mr-4">Veronica</span>
+                        <span className="text-2xl text-black font-medium mr-4">{dataLogin?.fullName}</span>
                         <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]"/>
                     </Dropdown>
                 </div>

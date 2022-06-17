@@ -1,12 +1,19 @@
-import React from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { setUsername, setPassword, loginSubmit } from "../redux/loginSlice";
+import Modal from "./Modal";
+import React, { useEffect, useState } from "react";
+import {
+  setEmail,
+  setPassword,
+  setIsLoggedIn,
+  setDecode,
+  setDataLogin,
+} from "../redux/loginSlice";
+import useLoginMutation from "../graphql/LoginMutation";
+import jwtDecode from "jwt-decode";
 
 // Component
-
 import { Button, Input } from "../components";
-import Modal from "./Modal";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({
   openLoginModal,
@@ -14,9 +21,37 @@ const Login = ({
   setOpenRegisterModal,
   openRegisterModal,
 }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { username } = useSelector((state) => state.login);
+  const { insertLoginData, data, loading, error } = useLoginMutation();
+  const { email } = useSelector((state) => state.login);
   const { password } = useSelector((state) => state.login);
+  const { dataLogin } = useSelector((state) => state.login);
+
+  useEffect(() => {
+    if (data?.user.login.token) {
+      //setuserid
+      dispatch(setDecode(jwtDecode(data.user.login.token).userId));
+      localStorage.setItem("token", data.user.login.token);
+      // dispatch(setIsLoggedIn(true));//getuser dilakukan didalam login
+      navigate("/dashboard");
+    }
+  }, [data]);
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    insertLoginData({
+      variables: {
+        email: email,
+        password: password,
+      },
+    });
+    dispatch(setEmail(""));
+    dispatch(setPassword(""));
+  };
+
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>;
   return (
     <div>
       <Modal open={[openLoginModal, openRegisterModal]}>
@@ -33,16 +68,13 @@ const Login = ({
             <h4 className="text-2xl font-medium mb-10">Please login here</h4>
             <form
               className="max-w-[640px] w-4/5 flex flex-col items-center"
-              onSubmit={(e) => {
-                e.preventDefault();
-                dispatch(loginSubmit());
-              }}
+              onSubmit={handleLoginSubmit}
             >
               <Input
-                icon={require("../assets/img/person.png")}
-                name="username"
-                value={username}
-                setValue={(value) => dispatch(setUsername(value))}
+                icon={require("../assets/img/email.png")}
+                name="email"
+                value={email}
+                setValue={(value) => dispatch(setEmail(value))}
               />
               <Input
                 icon={require("../assets/img/lock.png")}

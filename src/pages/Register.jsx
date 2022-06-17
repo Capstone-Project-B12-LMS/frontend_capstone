@@ -6,17 +6,16 @@ import {
   setUsername,
   setPassword,
   setEmail,
-  registerSubmit,
   setIsValid,
   setIsSuccess,
 } from "../redux/registerSlice";
-
-// Component
-
-import { Button, Input, PasswordWarning, RegisterAlert } from "../components";
 import Modal from "./Modal";
+import { Button, Input, PasswordWarning, RegisterAlert } from "../components";
+import useRegisterMutation from "../graphql/RegisterMutation";
 
 const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
+  const { insertRegisterData, data, loading, error } = useRegisterMutation();
+
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.register);
   const { email } = useSelector((state) => state.register);
@@ -28,6 +27,7 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
       dispatch(setIsSuccess(false));
     }, 4000);
   }, [isSuccess]);
+
   const handleRegister = (e) => {
     e.preventDefault();
     if (
@@ -35,7 +35,16 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
       )
     ) {
-      dispatch(registerSubmit());
+      insertRegisterData({
+        variables: {
+          fullName: username,
+          email: email,
+          password: password,
+        },
+      });
+      dispatch(setUsername(""));
+      dispatch(setEmail(""));
+      dispatch(setPassword(""));
       dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
       return;
@@ -43,6 +52,8 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
     dispatch(setIsValid(false));
   };
 
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>;
   return (
     <div>
       <Modal open={openRegisterModal}>

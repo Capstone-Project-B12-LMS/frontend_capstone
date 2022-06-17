@@ -3,16 +3,24 @@ import { createSlice } from '@reduxjs/toolkit'
 export const loginSlice = createSlice({
   name: 'login',
   initialState: {
-    username: '',
-    password:''
+    email: '',
+    password:'',
+    isLoggedIn: false,
+    decode: '',
+    dataLogin:''
   },
   reducers: {
-    loginSubmit: (state) => {
-      state.username = '';
-      state.password = '';
+    setDecode: (state, action) => {
+      state.decode = action.payload;
     },
-    setUsername: (state, action) => {
-      state.username = action.payload
+    setDataLogin: (state, action) => {
+      state.dataLogin = action.payload
+    },
+    setIsLoggedIn: (state,action) =>{
+      state.isLoggedIn = action.payload;
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload
     },
     setPassword: (state, action) => {
       state.password = action.payload
@@ -21,6 +29,6 @@ export const loginSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setUsername, setPassword, loginSubmit } = loginSlice.actions
+export const { setEmail, setPassword, setIsLoggedIn, setDecode, setDataLogin } = loginSlice.actions
 
 export default loginSlice.reducer
