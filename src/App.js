@@ -10,11 +10,14 @@ import { useEffect, useState } from "react";
 import { setIsLoggedIn, setDecode, setDataLogin } from "./redux/loginSlice";
 import jwtDecode from "jwt-decode";
 import useGetUser from "./graphql/GetUser";
+import Classall from "./pages/Dashboard/classAll";
+import ClassStudent from "./pages/Dashboard/classStudent";
+import ClassTeacher from "./pages/Dashboard/classTeacher";
 
 const App = () => {
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
-  const {dataLogin} = useSelector((state)=>state.login)
+  const { dataLogin } = useSelector((state) => state.login);
   const { data, loading } = useGetUser(decode);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(setDataLogin(data?.user.findById))
+    dispatch(setDataLogin(data?.user.findById));
   }, [data]);
   return (
     <div>
@@ -32,13 +35,14 @@ const App = () => {
         <Route index element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Layout/>}>
+        <Route path="/dashboard" element={<Layout />}>
+          <Route path="home" element={<Home />} />
+          <Route path="/dashboard/class" element={<Classall />} />
+          <Route path="/dashboard/student/class" element={<ClassStudent />} />
+          <Route path="/dashboard/teacher/class" element={<ClassTeacher />} />
           <Route path="home" element={<Home />} />
         </Route>
-        <Route
-          path="/myaccount"
-          element={<MyAccount/>}
-        />
+        <Route path="/myaccount" element={<MyAccount />} />
       </Routes>
     </div>
   );

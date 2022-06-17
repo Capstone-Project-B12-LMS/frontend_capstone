@@ -9,17 +9,6 @@ import {
   setIsValid,
   setIsSuccess,
 } from "../redux/registerSlice";
-<<<<<<< HEAD
-import useRegisterMutation from "../graphql/RegisterMutation";
-import Popup from "reactjs-popup";
-import Login from "./Login";
-
-// Component
-import { Button , Input , PasswordWarning , RegisterAlert } from '../components'
-
-const Register = () => {
-  const {insertRegisterData, data, loading, error} = useRegisterMutation();
-=======
 import Modal from "./Modal";
 import { Button, Input, PasswordWarning, RegisterAlert } from "../components";
 import useRegisterMutation from "../graphql/RegisterMutation";
@@ -27,7 +16,6 @@ import useRegisterMutation from "../graphql/RegisterMutation";
 const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
   const { insertRegisterData, data, loading, error } = useRegisterMutation();
 
->>>>>>> feature-landing
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.register);
   const { email } = useSelector((state) => state.register);
@@ -54,15 +42,9 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
           password: password,
         },
       });
-<<<<<<< HEAD
-      dispatch(setUsername(''));
-      dispatch(setEmail(''));
-      dispatch(setPassword(''));
-=======
       dispatch(setUsername(""));
       dispatch(setEmail(""));
       dispatch(setPassword(""));
->>>>>>> feature-landing
       dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
       return;
@@ -71,11 +53,7 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
   };
 
   if (loading) return "Loading...";
-<<<<<<< HEAD
-  if (error) return <pre>{error.message}</pre>
-=======
   if (error) return <pre>{error.message}</pre>;
->>>>>>> feature-landing
   return (
     <div>
       <Modal open={openRegisterModal}>
