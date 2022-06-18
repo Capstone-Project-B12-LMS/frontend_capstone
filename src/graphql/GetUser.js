@@ -6,6 +6,8 @@ query User($id: ID!){
       findById(id: $id) {
         id
         email
+        fullName
+        telepon
       }
     }
   }

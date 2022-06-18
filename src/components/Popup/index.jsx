@@ -1,14 +1,18 @@
-const PopUp = ({ title, style1, style2, description, children }) => {
+import { useRef } from "react";
+import { useClickOutSide } from "../../customHooks/useClickOutside";
+
+
+const PopUp = ({styling, title, description, children , show , setShow }) => {
+
+    const ref = useRef();
+    useClickOutSide(ref,show,setShow);
+
     return (
-        <div className="modal">
-            <div className={style1}>
-                <div className={style2}>
-                    <h2 className="text-[2rem]">{title}</h2>
-                    <p className="text-[1.5rem] text-center">{description}</p>
-                    <div>
-                        {children}
-                    </div>
-                </div>
+        <div className={`fixed inset-0 w-screen height-screen bg-[rgba(0,0,0,0.5)] inset-y-0 z-30 ${show ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+            <div ref={ref} className={`flex flex-col px-[180px] py-[148px] items-center absolute bg-white inset-2/4 translate-y-[-50%] translate-x-[-50%] rounded-[30px] ${styling}`}>
+                <h1 className="text-black font-bold text-[32px] capitalize text-center">{title}</h1>
+                { description ? <p className="text-2xl text-black font-medium mt-4 text-center">{description}</p> : false }
+                { children }
             </div>
         </div>
     );

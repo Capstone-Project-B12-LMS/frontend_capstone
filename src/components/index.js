@@ -9,6 +9,7 @@ import Footer from './Footer'
 import PasswordWarning from "./PasswordWarning";
 import RegisterAlert from "./RegisterAlert";
 import PopUp from "./Popup";
+import Spinner from './Spinner'
 
 export {
     Card,
@@ -22,4 +23,5 @@ export {
     PasswordWarning,
     RegisterAlert,
     PopUp,
+    Spinner
 }

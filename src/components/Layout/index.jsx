@@ -1,10 +1,20 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Popup from "reactjs-popup";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+// GraphQL
+
+import { useMutation } from "@apollo/client/react";
+import { CREATE_CLASS, JOIN_CLASS} from "../../graphql/ClassQuery";
 
 // Component
 
-import { Header, Sidebar, Dropdown, PopUp, Button } from '../'
+import { Header, Sidebar, Dropdown, PopUp, Button, Spinner } from '../'
+
+// Page
+
+import Home from "../../pages/Dashboard/home";
+import StudentClass from "../../pages/StudentClass";
 
 // Icon
 
@@ -17,76 +27,123 @@ import JoinIcon from '../../assets/icons/join-icon.svg';
 
 
 
+
 const Layout = () => {
 
+
+    // State
+
     const [showSidebar, setShowSidebar] = useState(false);
-    const handleSidebarShow = (e, show = !showSidebar) => setShowSidebar(show);
+    const [createClassShow,setCreateClassShow] = useState(false);
+    const [joinClassShow,setjoinClassShow] = useState(false);
 
-    const createClass = () => alert('create class');
-    const joinClass = () => alert('join class');
-    const logout = () => alert('are u sure to logout ?')
-
-    const [classCode, setClassCode] = useState("");
-    const HandleSubmitJoin = (e) => {
-        e.preventDefault();
-        setClassCode("");
-    }
-
-    const [inputs, setInputs] = useState([
-        {
-            placeholder: "Class Name",
-            type: "text",
-            value: "",
-        },
-        {
-            placeholder: "Subject",
-            type: "text",
-            value: "",
-        },
-        {
-            placeholder: "Room",
-            type: "number",
-            value: "",
-        },
-        {
-            placeholder: "End Date",
-            type: "date",
-            value: "",
-        },
-    ])
-
-    const HandleSubmitCreate = (e) => {
-        e.preventDefault();
-        setInputs([
+    const [inputs,setInputs] = useState({
+        create : [
             {
                 placeholder: "Class Name",
                 type: "text",
                 value: "",
+                pattern: /^[A-Za-z0-9\s]+$/,
+                form: 'create'
             },
             {
-                placeholder: "Subject",
+                placeholder: "Room (optional)",
                 type: "text",
                 value: "",
-            },
+                pattern : /^[A-Za-z0-9\s\-]*$/,
+                form: 'create'
+            }
+        ] ,
+        join : [
             {
-                placeholder: "Room",
-                type: "number",
+                placeholder: "Input Class Code",
+                type: "text",
                 value: "",
-            },
-            {
-                placeholder: "End Date",
-                type: "date",
-                value: "",
-            },
-        ]);
+                pattern : /^[A-Za-z0-9]*$/,
+                form: 'join'
+            }
+        ]
+    })
+
+
+    // Redux store , router , etc .
+
+    const {dataLogin} = useSelector((state) => state.login);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    
+    // GraphQL Fetching
+
+    const [creating , { loading : creatingLoad }] = useMutation(CREATE_CLASS ,{ 
+        onCompleted : data => navigateToClass(`class/${data?.class?.save?.id}`,setCreateClassShow) , 
+        onError: ()=> {},
+        notifyOnNetworkStatusChange : true
+    });
+
+
+    const [joined , { loading : joinLoading}] = useMutation(JOIN_CLASS , {
+        onCompleted : data => navigateToClass(`teacher/${data?.class?.save?.id}`,setjoinClassShow) , 
+        onError: ()=> {},
+        notifyOnNetworkStatusChange : true
+    })
+
+
+
+
+    
+    // Event handler method
+
+    const handleSidebarShow = (e, show = !showSidebar) => setShowSidebar(show);
+    const showPopupCreate = (e, show = !createClassShow) => setCreateClassShow(show);
+    const showPopupJoin = (e, show = !joinClassShow) => setjoinClassShow(show);
+
+    const handleInputChange = (value , index , form) =>{
+        const newInputs = [...inputs[form]]
+        newInputs[index] = {...newInputs[index], value};
+        setInputs({...inputs , [form] : newInputs})
     }
 
-    const HandleChange = (value, index) => {
-        const newInput = { ...inputs[index], value };
-        const newInputs = [...inputs];
-        newInputs[index] = newInput;
-        setInputs(newInputs);
+    const navigateToClass = (path , popupShow) => {
+
+        const create = inputs.create.map(input => ({...input , value : ""}));
+        const join = inputs.join.map(input => ({...input, value: ""}));
+
+        setInputs({create , join});
+
+        popupShow(false);
+        return navigate(path, { replace : true})
+    }
+
+
+    // Request Method
+
+    const createClass = (e) => {
+
+        e.preventDefault(); 
+
+        const [classname , room ] = inputs.create;
+        const matchClassname = classname.value.trim() !== "" && classname.pattern.test(classname.value);
+        const matchRoom = room.pattern.test(room.value)
+
+        if(!(matchClassname && matchRoom)) return false;
+
+        return creating({ variables : { name : classname.value , room : room.value }});
+    }
+
+    const joinClass = (e) => {
+        e.preventDefault();
+
+        const { value : class_code , pattern } = inputs.join[0];
+        const u_id = dataLogin.id;
+
+        if(!pattern.test(class_code)) return false
+        return joined({ variables : { class_code : class_code.toLowerCase() , u_id}})
     };
+
+
+    const logout = () => alert('are u sure to logout ?');
+
 
     const dropdownItem = {
         user: [
@@ -94,7 +151,7 @@ const Layout = () => {
                 icon: AccountIcon,
                 text: 'my account',
                 type: 'list',
-                path: '/account'
+                path: '/myaccount'
             },
             {
                 icon: LogOutIcon,
@@ -110,105 +167,81 @@ const Layout = () => {
                 type: 'button',
                 text: 'create class',
                 path: null,
-                clicked: createClass
+                clicked: showPopupCreate
             },
             {
                 icon: JoinIcon,
                 type: 'button',
                 text: 'join class',
                 path: null,
-                clicked: joinClass
+                clicked: showPopupJoin
             }
         ]
     }
 
+
+    useEffect(()=>{
+        if(location.pathname === '/dashboard') navigate('home', {replace : true})
+    },[location.pathname])
+
+
     return (
         <>
-            <Popup
-                trigger={
-                    <button
-                        id="JoinClass"
-                        className="text-normal font-medium px-6 py-2 rounded-[20px] mr-4 border hover:bg-transparent hover:text-[#415A80] hover:border-[#415A80] hidden"
-                    >Join Class</button>
-                }
-                modal
-                nested
+            <PopUp 
+                title='Create Class'
+                styling='w-[1000px] min-h-[300px] max-h-min'
+                show={createClassShow}
+                setShow={showPopupCreate}
             >
-                {close => (
-                    <div className="modal">
-                        <button className="close" onClick={close}>
-                            <div className="text-black">X</div>
-                        </button>
-                        <PopUp
-                            title={"Input Class Code"}
-                            description={"Ask the admin or mentor for the class code, then enter the code here"}
-                            style1={"flex items-center justify-center mt-[2rem]"}
-                            style2={"flex flex-col items-center justify-center bg-[#fff] rounded-[30px]"}
-                        >
-                            <form onSubmit={HandleSubmitJoin} className="mt-[2rem] gap-2">
-                                <input
-                                    required
-                                    type="text"
-                                    placeholder="Input Class Code"
-                                    className="border-[1px] px-4 rounded-[10px] border-[#D9D9D9] focus:outline-none w-full h-[62px] placeholder:text-[24px] text-[24px]"
-                                    value={classCode}
-                                    onChange={(e) => setClassCode(e.target.value)}
-                                />
-                                <Button
-                                    formBtn={true}
-                                    styling={"rounded-[15px] w-full mt-10 h-[62px] text-[20px] font-bold"}
-                                    text={"JOIN"}
-                                />
-                            </form>
-                        </PopUp>
-                    </div>
-                )}
-            </Popup>
+                <form onSubmit={createClass} className='mt-6 w-full'>
+                    {
+                        inputs.create.map((input,i) => (
+                            <input
+                                key={i}
+                                {...input}
+                                required
+                                className="border-[1px] px-8 rounded-[10px] border-[#D9D9D9] w-full h-[62px] placeholder:text-[24px] text-[24px] my-2"
+                                onChange={(e) => handleInputChange(e.target.value,i,input.form)}
+                            />
+                        ))
+                    }
+                    <Button
+                        formBtn={true}
+                        styling={"rounded-[15px] w-full mt-8 h-[62px] text-[20px] font-bold flex justify-center items-center"}
+                        text={"Create"}
+                        icon={creatingLoad ? <Spinner styling='ml-3'/> : false}
+                    />
+                </form>
+            </PopUp>
 
-            <Popup
-                trigger={
-                    <button
-                        id="CreateClass"
-                        className="text-normal font-medium px-6 py-2 rounded-[20px] border border-[#415A80] text-[#415A80] bg-transparent hover:bg-[#415A80] hover:text-white hidden"
-                    >Create Class</button>
-                }
-                modal
-                nested
+
+            <PopUp 
+                title='class code'
+                description='Ask the admin or mentor for the class code, then enter the code here . '
+                styling='w-[1000px] min-h-[300px] max-h-min'
+                show={joinClassShow}
+                setShow={showPopupJoin}
             >
-                {close => (
-                    <div className="modal">
-                        <button className="close" onClick={close}>
-                            <div className="text-black">X</div>
-                        </button>
-                        <PopUp
-                            title={"Create Class"}
-                            style1={"flex items-center justify-center mt-[1rem]"}
-                            style2={"w-4/5 flex flex-col items-center justify-center bg-[#fff] rounded-[30px]"}
-                        >
-                            <form onSubmit={HandleSubmitCreate}>
-                                {
-                                    inputs.map((input, inputIdx) => (
-                                        <input
-                                            key={inputIdx}
-                                            required
-                                            type={input.type}
-                                            placeholder={input.placeholder}
-                                            value={input.value}
-                                            className="border-[1px] px-4 rounded-[10px] border-[#D9D9D9] w-full h-[62px] placeholder:text-[24px] text-[24px] my-2"
-                                            onChange={(e) => HandleChange(e.target.value, inputIdx)}
-                                        />
-                                    ))
-                                }
-                                <Button
-                                    formBtn={true}
-                                    styling={"rounded-[15px] w-full mt-2 h-[62px] text-[20px] font-bold"}
-                                    text={"Create"}
-                                />
-                            </form>
-                        </PopUp>
-                    </div>
-                )}
-            </Popup>
+                <form onSubmit={joinClass} className='mt-6 w-full'>
+                    {
+                        inputs.join.map((input,i) => (
+                            <input
+                                key={i}
+                                {...input}
+                                required
+                                className="border-[1px] px-8 rounded-[10px] border-[#D9D9D9] w-full h-[62px] placeholder:text-[24px] text-[24px] my-2"
+                                onChange={(e) => handleInputChange(e.target.value,i,input.form)}
+                            />
+                        ))
+                    }
+                    <Button
+                        formBtn={true}
+                        styling={"rounded-[15px] w-full mt-8 h-[62px] text-[20px] font-bold flex justify-center items-center"}
+                        text={"Join"}
+                        icon={joinLoading ? <Spinner styling='ml-3'/> : false}
+                    />
+                </form>
+            </PopUp>
 
 
             <Header usingToggle={true} toggleClick={handleSidebarShow}>
@@ -220,8 +253,8 @@ const Layout = () => {
                         <div className="w-[50px] h-[50px] overflow-hidden rounded-full mr-2">
                             <img src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="avatar" />
                         </div>
-                        <span className="text-2xl text-black font-medium mr-4">Veronica</span>
-                        <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]" />
+                        <span className="text-2xl text-black font-medium mr-4">{dataLogin?.fullName}</span>
+                        <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]"/>
                     </Dropdown>
                 </div>
             </Header>
@@ -231,7 +264,10 @@ const Layout = () => {
             {/* Content area */}
 
             <div className="px-10 mx-auto max-w-[1600px]">
-                <Outlet />
+                <Routes>
+                    <Route path='home' element={<Home joinClass={showPopupJoin} createClass={showPopupCreate}/>}/>
+                    <Route path='class/:id' element={<StudentClass/>}/>
+                </Routes>
             </div>
 
             {/* End Content Area */}
