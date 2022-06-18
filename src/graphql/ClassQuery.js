@@ -24,14 +24,12 @@ const JOIN_CLASS = gql`
 
 // Query
 
-const GET_CLASS_BY_SIZE = gql`
-    query GET_CLASS_BY_SIZE{
-        class{
-            findAllWithPageable(size:4,page:1){
-                data{
-                    id,
-                    name
-                }
+const GET_CLASS_USER = gql`
+    query GET_CLASS_USER($id: ID!, $status: ClassStatus!){
+        user{
+            findByClassByUserId(id: $id, classStatus: $status){
+                id,
+                name
             }
         }
     }
@@ -42,5 +40,5 @@ const GET_CLASS_BY_SIZE = gql`
 export {
     CREATE_CLASS,
     JOIN_CLASS,
-    GET_CLASS_BY_SIZE
+    GET_CLASS_USER
 }
