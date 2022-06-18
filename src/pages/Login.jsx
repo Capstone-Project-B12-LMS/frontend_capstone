@@ -6,14 +6,17 @@ import useGetUser from "../graphql/GetUser";
 import Popup from "reactjs-popup";
 import Register from "./Register";
 import jwtDecode from "jwt-decode";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 // Component
 import { Button, Input } from '../components'
-import { useNavigate } from "react-router-dom";
+
 
 
 
 const Login = () => {
+  const cookies = new Cookies();
   const navigate = useNavigate();  
   const dispatch = useDispatch();
   const { insertLoginData, data, loading, error } = useLoginMutation();
@@ -25,7 +28,9 @@ const Login = () => {
     if(data?.user.login.token){
       //setuserid
       dispatch(setDecode(jwtDecode(data.user.login.token).userId));
-      localStorage.setItem("token",data.user.login.token);
+      cookies.set("token", data.user.login.token, {
+        maxAge: 3600,
+      });
       // dispatch(setIsLoggedIn(true));//getuser dilakukan didalam login
       navigate('/dashboard');
     }

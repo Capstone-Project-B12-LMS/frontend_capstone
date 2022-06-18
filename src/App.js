@@ -6,20 +6,21 @@ import Landing from "./pages/Index";
 import Home from "./pages/Dashboard/home";
 import Layout from "./components/Layout";
 import MyAccount from "./pages/MyAccount";
-import { useEffect, useState } from "react";
-import { setIsLoggedIn, setDecode, setDataLogin } from "./redux/loginSlice";
+import { useEffect} from "react";
+import { setDecode, setDataLogin } from "./redux/loginSlice";
 import jwtDecode from "jwt-decode";
 import useGetUser from "./graphql/GetUser";
+import { Cookies } from "react-cookie";
 
 const App = () => {
+  const cookies = new Cookies();
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
-  const {dataLogin} = useSelector((state)=>state.login)
-  const { data, loading } = useGetUser(decode);
+  const { data } = useGetUser(decode);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      dispatch(setDecode(jwtDecode(localStorage.getItem("token")).userId));
+    if (cookies.get("token")) {
+      dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
     }
   }, []);
 
