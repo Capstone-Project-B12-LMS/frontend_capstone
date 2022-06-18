@@ -8,16 +8,19 @@ import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloProvider } from "@apollo/client";
 import client from "./graphql/ApolloSetup";
+import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ApolloProvider client={client}>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <CookiesProvider>
+          <App />
+        </CookiesProvider>
       </Provider>
     </BrowserRouter>
-   </ApolloProvider>
+  </ApolloProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
