@@ -15,22 +15,24 @@ import { Header, Sidebar, Dropdown, PopUp, Button, Spinner } from '../'
 
 import Home from "../../pages/Dashboard/home";
 import StudentClass from "../../pages/StudentClass";
+import Classall from '../../pages/Dashboard/classAll';
+import ClassStudent from '../../pages/Dashboard/classStudent';
+import ClassTeacher from '../../pages/Dashboard/classTeacher';
 
 // Icon
 
-import ExpandIcon from '../../assets/icons/expand-icon.svg';
-import AccountIcon from '../../assets/icons/account-icon.svg';
-import LogOutIcon from '../../assets/icons/logout-icon.svg';
-import AddIcon from '../../assets/icons/add-icon.svg';
-import CreateIcon from '../../assets/icons/create-class-icon.svg';
-import JoinIcon from '../../assets/icons/join-icon.svg';
+import ExpandIcon from "../../assets/icons/expand-icon.svg";
+import AccountIcon from "../../assets/icons/account-icon.svg";
+import LogOutIcon from "../../assets/icons/logout-icon.svg";
+import AddIcon from "../../assets/icons/add-icon.svg";
+import CreateIcon from "../../assets/icons/create-class-icon.svg";
+import JoinIcon from "../../assets/icons/join-icon.svg";
 
 
 
 
 const Layout = () => {
-
-
+ 
     // State
 
     const [showSidebar, setShowSidebar] = useState(false);
@@ -87,7 +89,6 @@ const Layout = () => {
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     })
-
 
 
 
@@ -267,12 +268,15 @@ const Layout = () => {
                 <Routes>
                     <Route path='home' element={<Home joinClass={showPopupJoin} createClass={showPopupCreate}/>}/>
                     <Route path='class/:id' element={<StudentClass/>}/>
+                    <Route path="class" element={<Classall />} />
+                    <Route path="student" element={<ClassStudent />} />
+                    <Route path="teacher" element={<ClassTeacher />} />
                 </Routes>
             </div>
 
             {/* End Content Area */}
         </>
-    )
-}
+    );
+};
 
-export default Layout
+export default Layout;
