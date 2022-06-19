@@ -1,4 +1,4 @@
-giimport React from "react";
+import React from "react";
 
 const Button = ({ text, formBtn, styling, handleClick , icon }) => {
   return (

@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { GET_CLASS_USER } from "../../graphql/ClassQuery";
+import { GET_ACTIVE_CLASS } from "../../graphql/ClassQuery";
 import { useQuery } from "@apollo/client";
 
 import { Card, } from "../../components";
@@ -13,13 +12,17 @@ const Home = ({ createClass, joinClass }) => {
 
     const { dataLogin } = useSelector((state) => state.login);
 
-    const { loading , data } = useQuery(GET_CLASS_USER , 
+    const { loading , data } = useQuery(GET_ACTIVE_CLASS , 
         { 
             variables : { id: dataLogin?.id , status : "ACTIVE"}
         }
     );
 
-    console.log(data)
+    const checkIfStudent = ( user , owner , status , members ) => {
+        const { id , email } = user;
+        const amStudent = members.some(member => member.id === id);
+        return status === "ACTIVE" && (email  !== owner && amStudent)
+    }
 
     return (
         <>
@@ -30,7 +33,7 @@ const Home = ({ createClass, joinClass }) => {
                         {/* Banner Dashboard */}
 
                         {
-                            data?.user?.findByClassByUserId.length > 0 ?
+                            data?.class?.findAllWithPageable?.data.length > 0 ?
 
                             <>
                                 <div className="w-full h-[320px] mt-6 pl-24 bg-banner-dashboard bg-cover rounded-[30px] flex flex-col justify-center overflow-hidden">
@@ -58,9 +61,12 @@ const Home = ({ createClass, joinClass }) => {
                                     </div>
                                     <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
                                         {
-                                            data?.user?.findByClassByUserId.map(room => (
-                                                <Card title={room.name} url={`class/${room.id}`} />
-                                            ))
+                                            data?.class?.findAllWithPageable?.data.map(room => {
+                                                const { owner , status , users } = room;
+                                                return checkIfStudent({id: dataLogin?.id ,email: dataLogin?.email},owner,status,users,) ? 
+                                                    <Card key={room.id} title={room.name} url={`class/${room.id}`} /> : false
+                                            }
+                                            )
                                         }
                                     </div>
                                 </div>

@@ -83,7 +83,7 @@ const Layout = () => {
 
 
     const [joined , { loading : joinLoading}] = useMutation(JOIN_CLASS , {
-        onCompleted : data => navigateToClass(`teacher/${data?.class?.save?.id}`,setjoinClassShow) , 
+        onCompleted : data => navigateToClass(`teacher/${data?.class?.join?.id}`,setjoinClassShow) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     })
@@ -138,7 +138,7 @@ const Layout = () => {
         const u_id = dataLogin.id;
 
         if(!pattern.test(class_code)) return false
-        return joined({ variables : { class_code : class_code.toLowerCase() , u_id}})
+        return joined({ variables : { class_code , u_id}})
     };
 
 
