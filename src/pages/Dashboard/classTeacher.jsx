@@ -4,18 +4,20 @@ import { Link, NavLink } from "react-router-dom";
 import { Card , Button } from "../../components";
 import Illustration from '../../assets/img/illustration_1.png';
 import HeaderClass from "./headerClass";
-import useGetClass from "../../graphql/GetClass";
+import useClassTeacher from "../../graphql/GetClassTeacher";
 
 const Home = ({ createClass,joinClass }) => {
 
     const [collectionClass,setCollectionClass] = useState(0);
-    const {data, loading, error} = useGetClass();
+    const {data, loading, error} = useClassTeacher();
 
     const teacher = data.class.findAll.filter((e) => e.users[0].email === e.createdBy);
    
+    console.log(teacher)
     if (loading) return "Loading...";
     if (error) return "Data Error...";
-    console.log(data);
+  
+
 
     return (
 
