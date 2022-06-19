@@ -10,6 +10,8 @@ import Tab from './Tab'
 import UserList from "./UserList";
 import PasswordWarning from "./PasswordWarning";
 import RegisterAlert from "./RegisterAlert";
+import PopUp from "./Popup";
+import Spinner from './Spinner'
 
 export {
     Card,
@@ -23,5 +25,7 @@ export {
     Tab,
     UserList,
     PasswordWarning,
-    RegisterAlert
+    RegisterAlert,
+    PopUp,
+    Spinner
 }

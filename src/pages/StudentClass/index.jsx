@@ -78,6 +78,3 @@ const StudentClass = () => {
 };
 
 export default StudentClass;
-
-
-//bg-white border border-solid border-[#A8A8A8]

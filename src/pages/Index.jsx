@@ -1,18 +1,17 @@
-import React from "react";
-import Popup from "reactjs-popup";
+import React, { useState } from "react";
 import emailjs from "emailjs-com";
 
 import Login from "./Login";
 import Register from "./Register";
 
-import { Footer } from '../components';
+import { Footer } from "../components";
 
 import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
 
-
-
 const Index = () => {
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
   function sendEmail(e) {
     e.preventDefault();
@@ -33,7 +32,6 @@ const Index = () => {
   return (
     <div>
       <body className="bg-[url('/src/assets/img/Vector.png')] bg-no-repeat bg-[length:600px_584px]">
-        
         {/* Header Area */}
 
         <header>
@@ -43,53 +41,33 @@ const Index = () => {
                 <div>
                   <div className="absolute rounded-full w-[80px] h-[80px] ml-[80px] mt-[15px] bg-[#000000]"></div>
                 </div>
-
                 <div></div>
                 <div>
-                  <Popup
-                    trigger={
-                      <button
-                        type="submit"
-                        className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
-                      >
-                        Login
-                      </button>
-                    }
-                    modal
-                    nested
+                  {openLoginModal && openLoginModal && (
+                    <Login
+                      openLoginModal={openLoginModal}
+                      setOpenLoginModal={() => setOpenLoginModal(false)}
+                    />
+                  )}
+                  <button
+                    onClick={() => setOpenLoginModal(true)}
+                    className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
                   >
-                    {(close) => (
-                      <div className="modal">
-                        <button className="close" onClick={close}>
-                          <div className="text-black">X</div>
-                        </button>
-                        <Login />
-                      </div>
-                    )}
-                  </Popup>
+                    Login
+                  </button>
 
-                  <Popup
-                    id="2"
-                    trigger={
-                      <button
-                        type="submit"
-                        className="w-full h-[52px] w-[117px] ml-[50px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
-                      >
-                        Sign up
-                      </button>
-                    }
-                    modal
-                    nested
+                  <button
+                    onClick={() => setOpenRegisterModal(true)}
+                    className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
                   >
-                    {(close) => (
-                      <div className="modal">
-                        <button className="close" onClick={close}>
-                          <div className="text-black">X</div>
-                        </button>
-                        <Register />
-                      </div>
-                    )}
-                  </Popup>
+                    Sign up
+                  </button>
+                  {openRegisterModal && openRegisterModal && (
+                    <Register
+                      openRegisterModal={openRegisterModal}
+                      setOpenRegisterModal={() => setOpenRegisterModal(false)}
+                    />
+                  )}
                 </div>
               </div>
             </div>
