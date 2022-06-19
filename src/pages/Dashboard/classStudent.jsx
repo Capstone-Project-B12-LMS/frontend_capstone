@@ -4,27 +4,18 @@ import { Link, NavLink } from "react-router-dom";
 import { Card, Button } from "../../components";
 import Illustration from "../../assets/img/illustration_1.png";
 import HeaderClass from "./headerClass";
-import useClassStudent from "../../graphql/GetClassStudent";
+import useGetClass from "../../graphql/GetClass";
+
 
 const Home = ({ createClass, joinClass }) => {
   const [collectionClass, setCollectionClass] = useState(0);
-  const { data, loading, error } = useClassStudent();
+  const { data, loading, error } = useGetClass();
 
   const student = data.class.findAll.filter((e) => e.users[0].email !== e.createdBy);
-  console.log(student)
-
-//   const student = data.class.findAll[0].users[0].email;
-//   console.log(student);
-
-//   const halo = "ini teacher";
-//   if (teacher === student) {
-//     console.log(halo);
-//   } else {
-//     console.log("salah nih");
-//   }
 
   if (loading) return "Loading...";
   if (error) return "Data Error...";
+  console.log(data);
 
   return (
     <div className="w-full mt-8">
