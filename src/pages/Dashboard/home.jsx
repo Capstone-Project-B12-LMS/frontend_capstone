@@ -4,30 +4,22 @@ import { Link } from "react-router-dom";
 import { GET_ACTIVE_CLASS } from "../../graphql/ClassQuery";
 import { useQuery } from "@apollo/client";
 
+import { areActiveClassUser } from '../../utils/dashboard';
+
 import { Card, } from "../../components";
 import Illustration from '../../assets/img/illustration_1.png';
+
 
 
 const Home = ({ createClass, joinClass }) => {
 
     const { dataLogin } = useSelector((state) => state.login);
-
-    const { loading , data } = useQuery(GET_ACTIVE_CLASS , 
-        { 
-            variables : { id: dataLogin?.id , status : "ACTIVE"}
-        }
-    );
-
-    const checkIfStudent = ( user , owner , status , members ) => {
-        const { id , email } = user;
-        const amStudent = members.some(member => member.id === id);
-        return status === "ACTIVE" && (email  !== owner && amStudent)
-    }
+    const { loading , data } = useQuery(GET_ACTIVE_CLASS , { variables : { id: dataLogin?.id , status : "ACTIVE"}});
 
     return (
         <>
             {
-                !loading ?
+                loading ? <h2>Sabar guys loading dulu ya....</h2> :
 
                     <>
                         {/* Banner Dashboard */}
@@ -63,7 +55,7 @@ const Home = ({ createClass, joinClass }) => {
                                         {
                                             data?.class?.findAllWithPageable?.data.map(room => {
                                                 const { owner , status , users } = room;
-                                                return checkIfStudent({id: dataLogin?.id ,email: dataLogin?.email},owner,status,users,) ? 
+                                                return areActiveClassUser({id: dataLogin?.id ,email: dataLogin?.email},owner,status,users,) ? 
                                                     <Card key={room.id} title={room.name} url={`../class/${room.id}`} /> : false
                                             }
                                             )
@@ -98,9 +90,6 @@ const Home = ({ createClass, joinClass }) => {
                 
                     </> 
                 
-                : 
-                
-                false
             }
         </>
     );
