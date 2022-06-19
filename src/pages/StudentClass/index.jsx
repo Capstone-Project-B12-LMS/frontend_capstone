@@ -1,4 +1,11 @@
-import { Routes,Route } from "react-router-dom"
+import { useState, useEffect } from "react";
+
+import { Routes,Route, useParams } from "react-router-dom"
+import { useQuery } from "@apollo/client";
+
+import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
+
+// Component
 
 import { Tab, Button } from "../../components";
 
@@ -9,6 +16,13 @@ import Description from "./Description";
 
 const StudentClass = () => {
 
+    const params = useParams();
+
+    const { data } = useQuery(GET_CLASS_BYID , {variables : {id : params.id}});
+
+    const room = data?.class?.findById;
+    const owner = room?.users[room?.users.length - 1]?.fullName;
+
     const Tabpath = [
         { text : "description" , path: `.`},
         { text : "content", path: './content'},
@@ -16,7 +30,7 @@ const StudentClass = () => {
     ]
 
     const doCounselling = ()=> alert('Counselling')
-    
+
 
     return (
         <div className="my-6 mx-auto w-full">
@@ -24,7 +38,7 @@ const StudentClass = () => {
             <Tab list={Tabpath}/>
 
             <div className="flex justify-between w-full h-[320px] mt-6 px-10 bg-[#79C9DB] rounded-[20px]">
-                <p className="text-[40px] text-white font-bold mb-6 uppercase self-end max-w-[1000px]">UI/UX Designer For Beginner</p>
+                <p className="text-[40px] text-white font-bold mb-6 uppercase self-end max-w-[1000px]">{room?.name}</p>
                 <img src={Banner_Illust} className="w-[445px] h-[307px] object-cover" alt="illustration"/>
             </div>
 
@@ -45,8 +59,8 @@ const StudentClass = () => {
                             />
                         </div>
                         <div className="mt-4">
-                            <h4 className="font-medium text-black text-center text-2xl">Cortney Mc Gregor</h4>
-                            <p className="text-base text-center text-[#A8A8A8]">Professional UI/UX Teacher</p>
+                            <h4 className="font-medium text-black text-center text-2xl">{ owner }</h4>
+                            <p className="text-base text-center text-[#A8A8A8]">Lecturer {room?.name}</p>
                         </div>
                     </div>
 

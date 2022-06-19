@@ -49,9 +49,26 @@ const GET_ACTIVE_CLASS = gql`
 `
 
 
+const GET_CLASS_BYID = gql`
+    query GET_CLASS_BYID($id: ID!){
+        class{
+            findById(id:$id){
+                    name,
+                    createdBy,
+                    users{
+                    id,
+                    fullName,
+                    email
+                }
+            }
+        }
+    }
+`
+
 
 export {
     CREATE_CLASS,
     JOIN_CLASS,
-    GET_ACTIVE_CLASS
+    GET_ACTIVE_CLASS,
+    GET_CLASS_BYID
 }

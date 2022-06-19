@@ -267,7 +267,7 @@ const Layout = () => {
             <div className="px-10 mx-auto max-w-[1600px]">
                 <Routes>
                     <Route path='home' element={<Home joinClass={showPopupJoin} createClass={showPopupCreate}/>}/>
-                    <Route path='class/:id' element={<StudentClass/>}/>
+                    <Route path='class/:id/*' element={<StudentClass/>}/>
                     <Route path="class" element={<Classall />} />
                     <Route path="student" element={<ClassStudent />} />
                     <Route path="teacher" element={<ClassTeacher />} />
