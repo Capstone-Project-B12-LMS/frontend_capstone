@@ -6,6 +6,7 @@ import Landing from "./pages/Index";
 import Home from "./pages/Dashboard/home";
 import Layout from "./components/Layout";
 import MyAccount from "./pages/MyAccount";
+import TeacherClass from "./pages/Dashboard/Teacher";
 import { useEffect, useState } from "react";
 import { setIsLoggedIn, setDecode, setDataLogin } from "./redux/loginSlice";
 import jwtDecode from "jwt-decode";
@@ -14,7 +15,7 @@ import useGetUser from "./graphql/GetUser";
 const App = () => {
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
-  const {dataLogin} = useSelector((state)=>state.login)
+  const { dataLogin } = useSelector((state) => state.login)
   const { data, loading } = useGetUser(decode);
 
   useEffect(() => {
@@ -32,12 +33,13 @@ const App = () => {
         <Route index element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Layout/>}>
+        <Route path="/dashboard" element={<Layout />}>
           <Route path="home" element={<Home />} />
+          <Route path="Teacher/" element={<TeacherClass />} />
         </Route>
         <Route
           path="/myaccount"
-          element={<MyAccount/>}
+          element={<MyAccount />}
         />
       </Routes>
     </div>
