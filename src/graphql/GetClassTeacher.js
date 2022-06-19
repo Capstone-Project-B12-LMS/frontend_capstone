@@ -15,9 +15,9 @@ const classStudent = gql`
   }
 `;
 
-const useClassStudent = () => {
+const useClassTeacher = () => {
   const { data, loading, error } = useQuery(classStudent);
   return { data, loading, error };
 };
 
-export default useClassStudent;
+export default useClassTeacher;
