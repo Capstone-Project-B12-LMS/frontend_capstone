@@ -1,33 +1,9 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-
-import { Card, Button } from "../../components";
-import Illustration from "../../assets/img/illustration_1.png";
+import { Card } from "../../components";
 import HeaderClass from "./headerClass";
-import useClassStudent from "../../graphql/GetClassStudent";
 import useGetClass from "../../graphql/GetClass";
 
-const Home = ({ createClass, joinClass }) => {
-  const [collectionClass, setCollectionClass] = useState(0);
-<<<<<<< HEAD
+const Home = () => {
   const { data, loading, error } = useGetClass();
-=======
-  const { data, loading, error } = useClassStudent();
-
-  const teacher = data?.class.findAll[0].createdBy;
-  console.log(teacher);
-
-  const student = data?.class.findAll[0].users[0].email;
-  console.log(student);
-
-  const halo = "ini teacher";
-  if (teacher === student) {
-    console.log(halo);
-  } else {
-    console.log("salah nih");
-  }
-
->>>>>>> master
   if (loading) return "Loading...";
   if (error) return "Data Error...";
 

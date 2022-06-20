@@ -1,14 +1,9 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Card } from "../../components";
 
-import { Card, Button } from "../../components";
-import Illustration from "../../assets/img/illustration_1.png";
 import HeaderClass from "./headerClass";
-import useClassTeacher from "../../graphql/GetClassTeacher";
 import useGetClass from "../../graphql/GetClass";
 
-const Home = ({ createClass, joinClass }) => {
-  const [collectionClass, setCollectionClass] = useState(0);
+const Home = () => {
   const { data, loading, error } = useGetClass();
 
   if (loading) return "Loading...";
