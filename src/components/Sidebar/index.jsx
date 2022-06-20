@@ -26,25 +26,25 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         icon:HomeIcon,
         type: 'list',
         text:'dashboard',
-        path:'home',
+        path:'/dashboard/home',
     },
     {
         icon:BookIcon,
         type: 'list',
         text:'my class',
-        path:'class',
+        path:'/dashboard/class',
     },
     {
         icon:HistoryIcon,
         type: 'list',
         text:'history',
-        path:'history',
+        path:'/dashboard/history',
     },
     {
         icon:SettingsIcon,
         type: 'list',
         text:'settings',
-        path:'settings',
+        path:'/dashboard/settings',
     },
   ]
 
