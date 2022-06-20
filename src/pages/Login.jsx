@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import Modal from "./Modal";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setEmail,
   setPassword,
@@ -9,7 +8,9 @@ import {
   setDataLogin,
 } from "../redux/loginSlice";
 import useLoginMutation from "../graphql/LoginMutation";
+import useGetUser from "../graphql/GetUser";
 import jwtDecode from "jwt-decode";
+import Modal from "./Modal";
 
 // Component
 import { Button, Input } from "../components";
