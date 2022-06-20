@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button = ({ text, formBtn, styling, handleClick }) => {
+const Button = ({ text, formBtn, styling, handleClick , icon }) => {
   return (
     <button
       type={formBtn ? "submit" : ""}
@@ -8,6 +8,7 @@ const Button = ({ text, formBtn, styling, handleClick }) => {
       onClick={handleClick}
     >
       {text}
+      {icon}
     </button>
   );
 };
