@@ -26,7 +26,10 @@ const client = new ApolloClient({
         fields: {
           class: {
             merge: true,
-            }
+          },
+          user: {
+            merge: true,
+          },
         },
       },
     },

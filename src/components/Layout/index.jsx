@@ -78,14 +78,14 @@ const Layout = () => {
     // GraphQL Fetching
 
     const [creating , { loading : creatingLoad }] = useMutation(CREATE_CLASS ,{ 
-        onCompleted : data => navigateToClass(`class/${data?.class?.save?.id}`,setCreateClassShow) , 
+        onCompleted : data => navigateToClass(`teacher/${data?.class?.save?.id}`,setCreateClassShow) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     });
 
 
     const [joined , { loading : joinLoading}] = useMutation(JOIN_CLASS , {
-        onCompleted : data => navigateToClass(`teacher/${data?.class?.join?.id}`,setjoinClassShow) , 
+        onCompleted : data => navigateToClass(`class/${data?.class?.join?.id}`,setjoinClassShow) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     })
@@ -128,7 +128,7 @@ const Layout = () => {
         const matchRoom = room.pattern.test(room.value)
 
         if(!(matchClassname && matchRoom)) return false;
-
+            
         return creating({ variables : { name : classname.value , room : room.value }});
     }
 

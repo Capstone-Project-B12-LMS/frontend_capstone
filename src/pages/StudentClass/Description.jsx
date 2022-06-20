@@ -5,10 +5,6 @@ import { useParams } from 'react-router';
 
 import { GET_CLASS_BYID } from '../../graphql/ClassQuery';
 
-// Utils
-
-import { splitMembers } from '../../utils/class';
-
 // Component
 
 import { UserList } from '../../components'
@@ -22,7 +18,7 @@ import Illustration from '../../assets/img/no-description.png'
 
 const Description = ({ participant })=>{
 
-    const membersTotal = participant.teacher.concat(participant.student).length;
+    const membersTotal =[...participant.teacher , ...participant.users].length;
 
     return(
         <>
@@ -69,10 +65,12 @@ const Description = ({ participant })=>{
 
                     <div className='mt-10 px-6'>
                         <div className='pb-4 border border-solid border-x-transparent border-t-transparent border-b-[#415A80]'>
-                            <h3 className='text-2xl text-[#415A80] font-light'>Member</h3>
+                            <h3 className='text-2xl text-[#415A80] font-light'>Student</h3>
                         </div>
                         <div className='mt-6 min-h-[150px] max-h-[250px] overflow-y-auto'>
                             {
+                                !participant.users.length ? <p>No student in your class</p> :
+
                                 participant.users.map(member => (
                                     <UserList 
                                         key={member.id}
