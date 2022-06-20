@@ -19,8 +19,8 @@ const Home = () => {
           <Card
             title={materi.name}
             progress={materi.code}
-            thumbnail="https://i.ibb.co/w7vmxmH/image-2.png"
-            url="/class"
+            thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
+            url={`../class/${materi.id}`}
           />
         ))}
       </div>

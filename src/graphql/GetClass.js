@@ -5,6 +5,7 @@ const classQuery = gql`
   query UserClass($id: ID!) {
     user {
       findByClassByUserId(id: $id, classStatus: ACTIVE) {
+        id
         name
         createdBy
         users {
