@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Cookies } from "react-cookie";
 
 // GraphQL
 
@@ -73,6 +74,7 @@ const Layout = () => {
     const {dataLogin} = useSelector((state) => state.login);
     const location = useLocation();
     const navigate = useNavigate();
+    const cookies = new Cookies();
 
     
     // GraphQL Fetching
@@ -143,7 +145,10 @@ const Layout = () => {
     };
 
 
-    const logout = () => alert('are u sure to logout ?');
+    const logout = () => {
+        cookies.remove('token');
+        navigate('/');
+    };
 
 
     const dropdownItem = {
@@ -152,7 +157,7 @@ const Layout = () => {
                 icon: AccountIcon,
                 text: 'my account',
                 type: 'list',
-                path: '/myaccount'
+                path: '/account'
             },
             {
                 icon: LogOutIcon,

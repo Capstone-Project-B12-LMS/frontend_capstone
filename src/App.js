@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { setIsLoggedIn, setDecode, setDataLogin } from "./redux/loginSlice";
+import { Cookies } from "react-cookie";
 
 import { Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,16 +22,21 @@ import ClassStudent from "./pages/Dashboard/classStudent";
 import ClassTeacher from "./pages/Dashboard/classTeacher";
 import ChangeClass from "./components/Popup/ChangeClass";
 
+
+
+
 const App = () => {
+
+  const cookies = new Cookies();
 
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
   const { dataLogin } = useSelector((state) => state.login);
-  const { data, loading } = useGetUser(decode);
+  const { data } = useGetUser(decode);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      dispatch(setDecode(jwtDecode(localStorage.getItem("token")).userId));
+    if (cookies.get("token")) {
+      dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
     }
   }, []);
 

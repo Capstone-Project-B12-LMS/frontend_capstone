@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import Modal from "./Modal";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setEmail,
   setPassword,
@@ -9,11 +8,16 @@ import {
   setDataLogin,
 } from "../redux/loginSlice";
 import useLoginMutation from "../graphql/LoginMutation";
+import useGetUser from "../graphql/GetUser";
 import jwtDecode from "jwt-decode";
+import Modal from "./Modal";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 // Component
 import { Button, Input } from "../components";
-import { useNavigate } from "react-router-dom";
+
+
 
 const Login = ({
   openLoginModal,
@@ -22,6 +26,7 @@ const Login = ({
   openRegisterModal,
 }) => {
   const navigate = useNavigate();
+  const cookies = new Cookies();
   const dispatch = useDispatch();
   const { insertLoginData, data, loading, error } = useLoginMutation();
   const { email } = useSelector((state) => state.login);
@@ -32,8 +37,9 @@ const Login = ({
     if (data?.user.login.token) {
       //setuserid
       dispatch(setDecode(jwtDecode(data.user.login.token).userId));
-      localStorage.setItem("token", data.user.login.token);
-      // dispatch(setIsLoggedIn(true));//getuser dilakukan didalam login
+      cookies.set("token", data.user.login.token, {
+        maxAge: 3600,
+      });
       navigate("/dashboard");
     }
   }, [data]);
