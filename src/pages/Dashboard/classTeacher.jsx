@@ -23,7 +23,7 @@ const Home = () => {
             title={data.name}
             progress={data.id}
             thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
-            url={`../class/${data.id}`}
+            url={`../teacher/${data.id}`}
           />
         ))}
       </div>
