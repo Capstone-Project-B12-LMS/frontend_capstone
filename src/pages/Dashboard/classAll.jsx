@@ -19,7 +19,7 @@ const Home = ({ createClass, joinClass }) => {
       <HeaderClass />
 
       <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
-        {data.class.findAll.map((materi) => (
+        {data.user.findByClassByUserId.map((materi) => (
           <Card
             title={materi.name}
             progress={materi.code}
