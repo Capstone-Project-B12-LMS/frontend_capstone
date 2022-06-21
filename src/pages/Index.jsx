@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
+import { Cookies } from "react-cookie";
 
 import Login from "./Login";
 import Register from "./Register";
@@ -10,6 +11,7 @@ import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
 
 const Index = () => {
+  const cookies = new Cookies();
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
@@ -49,19 +51,23 @@ const Index = () => {
                       setOpenLoginModal={() => setOpenLoginModal(false)}
                     />
                   )}
-                  <button
-                    onClick={() => setOpenLoginModal(true)}
-                    className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
-                  >
-                    Login
-                  </button>
+                  {!cookies.get('token') &&
+                    <>
+                      <button
+                        onClick={() => setOpenLoginModal(true)}
+                        className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
+                      >
+                        Login
+                      </button>
 
-                  <button
-                    onClick={() => setOpenRegisterModal(true)}
-                    className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
-                  >
-                    Sign up
-                  </button>
+                      <button
+                        onClick={() => setOpenRegisterModal(true)}
+                        className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
+                      >
+                        Sign up
+                      </button>
+                    </>
+                  }
                   {openRegisterModal && openRegisterModal && (
                     <Register
                       openRegisterModal={openRegisterModal}
