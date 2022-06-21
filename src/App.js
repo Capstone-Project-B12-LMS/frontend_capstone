@@ -22,11 +22,7 @@ import ClassStudent from "./pages/Dashboard/classStudent";
 import ClassTeacher from "./pages/Dashboard/classTeacher";
 import ChangeClass from "./components/Popup/ChangeClass";
 
-
-
-
 const App = () => {
-
   const cookies = new Cookies();
 
   const dispatch = useDispatch();
@@ -47,15 +43,22 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route index element={<Landing />} />
-        <Route path="/popup" element={<ChangeClass />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard/*" element={<Layout/>}/>
-        <Route
-          path="/myaccount"
-          element={<MyAccount/>}
-        />
+        {!cookies.get("token") && (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </>
+        )}
+
+        {cookies.get("token") && (
+          <>
+            <Route path="/popup" element={<ChangeClass />} />
+
+            <Route path="/dashboard/*" element={<Layout />} />
+            <Route path="/myaccount" element={<MyAccount />} />
+          </>
+        )}
+        <Route path="*" element={<Landing />} />
       </Routes>
     </div>
   );
