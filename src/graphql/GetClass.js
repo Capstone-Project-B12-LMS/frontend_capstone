@@ -8,6 +8,7 @@ const classQuery = gql`
         id
         name
         createdBy
+        code
         users {
           email
           fullName
