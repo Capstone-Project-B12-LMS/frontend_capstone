@@ -8,6 +8,7 @@ const Home = () => {
 
   if (loading) return "Loading...";
   if (error) return "Data Erorr...";
+
   console.log(data);
 
   return (

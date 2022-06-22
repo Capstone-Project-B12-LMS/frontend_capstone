@@ -21,7 +21,7 @@ const Home = () => {
         {teacher.map((data) => (
           <Card
             title={data.name}
-            progress={data.id}
+            progress={data.code}
             thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
             url={`../teacher/${data.id}`}
           />

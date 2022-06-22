@@ -24,7 +24,9 @@ const Index = () => {
       )
       .then((res) => {
         console.log(res);
+
         window.location.reload();
+        alert("pesan anda Sudah terkirim");
       })
       .catch((err) => console.log(err));
   }
@@ -39,7 +41,13 @@ const Index = () => {
             <div className="relative">
               <div className="flex w-full bg-transparent grid grid-cols-3 ">
                 <div>
-                  <div className="absolute rounded-full w-[80px] h-[80px] ml-[80px] mt-[15px] bg-[#000000]"></div>
+                  <div className="">
+                    <img
+                      src="/static/media/brand-logo.616d35e5af80b0bdfdcf810955ffd617.svg"
+                      alt="brand-logo"
+                      className="w-[300px] h-[60px] ml-[80px] mt-[15px]"
+                    />
+                  </div>
                 </div>
                 <div></div>
                 <div>
