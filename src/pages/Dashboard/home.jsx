@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -12,9 +13,13 @@ import Illustration from '../../assets/img/illustration_1.png';
 const Home = ({ createClass, joinClass }) => {
 
     const { dataLogin } = useSelector((state) => state.login);
-    const { loading , data } = useQuery(GET_CLASS_BY_U_ID , { variables : { id: dataLogin?.id , status : "ACTIVE"}});    
+    const { loading , data , refetch } = useQuery(GET_CLASS_BY_U_ID , { variables : { id: dataLogin?.id , status : "ACTIVE"}});    
    
     const collectionClass = () => data?.user?.findByClassByUserId.filter(room => room.createdBy !== dataLogin?.email);
+
+    useEffect(()=>{
+        refetch();
+    },[])
 
     return (
         <>

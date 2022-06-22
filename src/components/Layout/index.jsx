@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 // GraphQL
 
@@ -10,7 +12,7 @@ import { CREATE_CLASS, JOIN_CLASS} from "../../graphql/ClassQuery";
 
 // Component
 
-import { Header, Sidebar, Dropdown, PopUp, Button, Spinner } from '../'
+import { Header, Sidebar, Dropdown, PopUp, Button, Spinner ,ErrorAlert } from '../'
 
 // Page
 
@@ -39,6 +41,7 @@ const Layout = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const [createClassShow,setCreateClassShow] = useState(false);
     const [joinClassShow,setjoinClassShow] = useState(false);
+    const [error,setError] = useState(false)
 
     const [inputs,setInputs] = useState({
         create : [
@@ -46,7 +49,7 @@ const Layout = () => {
                 placeholder: "Class Name",
                 type: "text",
                 value: "",
-                pattern: /^[A-Za-z0-9\s]+$/,
+                pattern: /^[A-Za-z0-9\s\-\.\&]+$/,
                 form: 'create'
             },
             {
@@ -62,7 +65,7 @@ const Layout = () => {
                 placeholder: "Input Class Code",
                 type: "text",
                 value: "",
-                pattern : /^[A-Za-z0-9]*$/,
+                pattern : /^[A-Za-z0-9]{10}$/,
                 form: 'join'
             }
         ]
@@ -75,6 +78,7 @@ const Layout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const cookies = new Cookies();
+    const MySwal = withReactContent(Swal)
 
     
     // GraphQL Fetching
@@ -86,14 +90,11 @@ const Layout = () => {
     });
 
 
-    const [joined , { loading : joinLoading }] = useMutation(JOIN_CLASS , {
-        onCompleted : data => navigateToClass(`class/${data?.class?.join?.id}`,setjoinClassShow) , 
+    const [joined , { data, loading : joinLoading }] = useMutation(JOIN_CLASS , {
+        onCompleted : data => data?.class?.join ? navigateToClass(`class/${data?.class?.join?.id}`,setjoinClassShow) : setError(true) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     })
-
-
-
 
 
     
@@ -104,6 +105,8 @@ const Layout = () => {
     const showPopupJoin = (e, show = !joinClassShow) => setjoinClassShow(show);
 
     const handleInputChange = (value , index , form) =>{
+        if(data?.class?.join === null) setError(false);
+
         const newInputs = [...inputs[form]]
         newInputs[index] = {...newInputs[index], value};
         setInputs({...inputs , [form] : newInputs})
@@ -115,8 +118,8 @@ const Layout = () => {
         const join = inputs.join.map(input => ({...input, value: ""}));
 
         setInputs({create , join});
-
         popupShow(false);
+
         return navigate(path, { replace : true})
     }
 
@@ -148,8 +151,21 @@ const Layout = () => {
 
 
     const logout = () => {
-        cookies.remove('token');
-        navigate('/');
+        MySwal.fire({
+            title: 'Logout Account',
+            text: "Are you sure you want to log out?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#415A80',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Logout'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+                cookies.remove('token')
+                navigate('/')
+            }
+        })
     };
 
 
@@ -241,6 +257,9 @@ const Layout = () => {
                                 onChange={(e) => handleInputChange(e.target.value,i,input.form)}
                             />
                         ))
+                    }
+                    { error ? 
+                        <ErrorAlert text="Sorry, the code you entered does not exist" /> : false 
                     }
                     <Button
                         formBtn={true}

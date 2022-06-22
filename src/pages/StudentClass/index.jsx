@@ -64,7 +64,7 @@ const StudentClass = () => {
             {
                 loading ? <h2>Loading dulu ya guys...</h2> :
 
-                    !data?.class?.findById || !isUserAllowed(dataLogin?.id) ? <h2>Class not found...</h2> :
+                    !data?.class?.findById && !isUserAllowed(dataLogin?.id) ? <h2>Class not found...</h2> :
 
                     <>
                         <div className="my-6 mx-auto w-full">
@@ -108,7 +108,9 @@ const StudentClass = () => {
 
                             <div>
                                 <Routes>
-                                    <Route index element={<Description participant={participants}/>}/>
+                                    <Route index element={
+                                        <Description participant={participants} class_id={params.id}/>
+                                    }/>
                                     <Route path="content" element={<h1>Content</h1>}/>
                                 </Routes>
                             </div>
