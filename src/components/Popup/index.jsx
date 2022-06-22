@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useClickOutSide } from "../../customHooks/useClickOutside";
+import { useClickOutSide } from "../../utils/hooks/useClickOutside";
 
 
 const PopUp = ({styling, title, description, children , show , setShow }) => {

@@ -86,11 +86,13 @@ const Layout = () => {
     });
 
 
-    const [joined , { loading : joinLoading}] = useMutation(JOIN_CLASS , {
+    const [joined , { loading : joinLoading }] = useMutation(JOIN_CLASS , {
         onCompleted : data => navigateToClass(`class/${data?.class?.join?.id}`,setjoinClassShow) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     })
+
+
 
 
 
@@ -157,7 +159,7 @@ const Layout = () => {
                 icon: AccountIcon,
                 text: 'my account',
                 type: 'list',
-                path: '/account'
+                path: '/myaccount'
             },
             {
                 icon: LogOutIcon,
