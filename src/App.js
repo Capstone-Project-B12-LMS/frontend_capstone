@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { setIsLoggedIn, setDecode, setDataLogin } from "./redux/loginSlice";
 import { Cookies } from "react-cookie";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import jwtDecode from "jwt-decode";
@@ -23,13 +23,12 @@ import ClassTeacher from "./pages/Dashboard/classTeacher";
 import ChangeClass from "./components/Popup/ChangeClass";
 
 const App = () => {
-  const cookies = new Cookies();
 
+  const cookies = new Cookies();
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
-  const { dataLogin } = useSelector((state) => state.login);
   const { data } = useGetUser(decode);
-
+  
   useEffect(() => {
     if (cookies.get("token")) {
       dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
@@ -47,18 +46,20 @@ const App = () => {
           <>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Landing />} />
           </>
         )}
-
         {cookies.get("token") && (
           <>
-            <Route path="/popup" element={<ChangeClass />} />
-
             <Route path="/dashboard/*" element={<Layout />} />
+            <Route path="/popup" element={<ChangeClass />} />
             <Route path="/myaccount" element={<MyAccount />} />
           </>
         )}
-        <Route path="*" element={<Landing />} />
+        <Route
+          index
+          element={cookies.get("token") ? <Layout /> : <Landing />}
+        />
       </Routes>
     </div>
   );

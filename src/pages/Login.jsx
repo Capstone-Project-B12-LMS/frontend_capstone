@@ -25,13 +25,12 @@ const Login = ({
   setOpenRegisterModal,
   openRegisterModal,
 }) => {
-  const navigate = useNavigate();
   const cookies = new Cookies();
   const dispatch = useDispatch();
   const { insertLoginData, data, loading, error } = useLoginMutation();
   const { email } = useSelector((state) => state.login);
   const { password } = useSelector((state) => state.login);
-  const { dataLogin } = useSelector((state) => state.login);
+  
 
   useEffect(() => {
     if (data?.user.login.token) {
@@ -40,7 +39,6 @@ const Login = ({
       cookies.set("token", data.user.login.token, {
         maxAge: 3600,
       });
-      navigate("/dashboard");
     }
   }, [data]);
 
