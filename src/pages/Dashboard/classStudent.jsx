@@ -1,41 +1,30 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-
-import { Card, Button } from "../../components";
-import Illustration from "../../assets/img/illustration_1.png";
+import { Card } from "../../components";
 import HeaderClass from "./headerClass";
-import useClassStudent from "../../graphql/GetClassStudent";
+import useGetClass from "../../graphql/GetClass";
 
-const Home = ({ createClass, joinClass }) => {
-  const [collectionClass, setCollectionClass] = useState(0);
-  const { data, loading, error } = useClassStudent();
-
-  const teacher = data?.class.findAll[0].createdBy;
-  console.log(teacher);
-
-  const student = data?.class.findAll[0].users[0].email;
-  console.log(student);
-
-  const halo = "ini teacher";
-  if (teacher === student) {
-    console.log(halo);
-  } else {
-    console.log("salah nih");
-  }
-
+const Home = () => {
+  const { data, loading, error } = useGetClass();
   if (loading) return "Loading...";
   if (error) return "Data Error...";
+
+  const loadingData = data;
+  const student = data.user.findByClassByUserId.filter(
+    (e) => e.users[0].email !== e.createdBy
+  );
+  console.log(loadingData);
 
   return (
     <div className="w-full mt-8">
       <HeaderClass />
       <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
-        <Card
-          title={"Tutorial React JS 18 for Beginner"}
-          progress={"75%"}
-          thumbnail="https://i.ibb.co/w7vmxmH/image-2.png"
-          url="/class"
-        />
+        {student.map((data) => (
+          <Card
+            title={data.name}
+            progress={data.code}
+            thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
+            url={`../class/${data.id}`}
+          />
+        ))}
       </div>
     </div>
   );

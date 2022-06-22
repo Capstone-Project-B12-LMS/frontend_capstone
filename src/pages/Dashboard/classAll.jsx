@@ -1,17 +1,14 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Card } from "../../components";
 
-import { Card, Button } from "../../components";
-import Illustration from "../../assets/img/illustration_1.png";
 import HeaderClass from "./headerClass";
 import useGetClass from "../../graphql/GetClass";
 
-const Home = ({ createClass, joinClass }) => {
+const Home = () => {
   const { data, loading, error } = useGetClass();
-  const [collectionClass, setCollectionClass] = useState(0);
 
   if (loading) return "Loading...";
   if (error) return "Data Erorr...";
+
   console.log(data);
 
   return (
@@ -19,12 +16,12 @@ const Home = ({ createClass, joinClass }) => {
       <HeaderClass />
 
       <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
-        {data.class.findAll.map((materi) => (
+        {data.user.findByClassByUserId.map((materi) => (
           <Card
             title={materi.name}
             progress={materi.code}
-            thumbnail="https://i.ibb.co/w7vmxmH/image-2.png"
-            url="/class"
+            thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
+            url={`../class/${materi.id}`}
           />
         ))}
       </div>
