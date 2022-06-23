@@ -2,7 +2,6 @@ import { Card } from "../../components";
 
 import HeaderClass from "./headerClass";
 import useGetClass from "../../graphql/GetClass";
-import nameReplacer from "../../utils/nameReplacer";
 
 
 const Home = () => {
@@ -25,7 +24,7 @@ const Home = () => {
             title={data.name}
             code={data.code}
             thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
-            url={`../class/t/${nameReplacer(data.name)}`}
+            url={`../class/t/${data.id}`}
           />
         ))}
       </div>

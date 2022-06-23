@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 
 const Card = ({
-  id,
   title,
   code,
   thumbnail = "https://i.ibb.co/k6wjmXK/thumbnail-class.png",
   url,
 }) => {
   return (
-    <Link to={url} state={{class_id : id }}>
+    <Link to={url}>
       <div className="bg-white rounded overflow-hidden shadow-md w-full h-full flex flex-col rounded-2xl">
         <img
           src={thumbnail}

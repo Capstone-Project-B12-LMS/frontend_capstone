@@ -33,6 +33,9 @@ const client = new ApolloClient({
           user: {
             merge: true,
           },
+          material: {
+            merge: true,
+          },
         },
       },
     },

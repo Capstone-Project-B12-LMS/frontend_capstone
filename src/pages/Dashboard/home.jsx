@@ -2,8 +2,6 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import nameReplacer from '../../utils/nameReplacer'
-
 import { GET_CLASS_BY_U_ID } from "../../graphql/ClassQuery";
 import { useQuery } from "@apollo/client";
 
@@ -56,16 +54,15 @@ const Home = ({ createClass, joinClass }) => {
                                 <div className="w-full mt-8">
                                     <div className="flex justify-between">
                                         <h2 className="text-2xl text-black font-medium">Active Class</h2>
-                                        <Link to='/dashboard/class' className="bg-transparent text-black text-base font-medium capitalize">view all</Link>
+                                        <Link to='/dashboard/my-class' className="bg-transparent text-black text-base font-medium capitalize">view all</Link>
                                     </div>
                                     <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
                                         {
                                             collectionClass().map((room , i) => i <= 3 ? 
                                                 <Card 
                                                     key={room.id} 
-                                                    id={room.id} 
                                                     title={room.name} 
-                                                    url={`../class/${nameReplacer(room.name)}`} 
+                                                    url={`../class/${room.id}`} 
                                                     code={room.code}
                                                 /> : false
                                             )

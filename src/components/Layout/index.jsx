@@ -9,7 +9,6 @@ import withReactContent from 'sweetalert2-react-content'
 
 import { useMutation } from "@apollo/client/react";
 import { CREATE_CLASS, JOIN_CLASS } from "../../graphql/ClassQuery";
-import nameReplacer from "../../utils/nameReplacer";
 
 // Component
 
@@ -84,14 +83,14 @@ const Layout = () => {
     // GraphQL Fetching
 
     const [creating , { loading : creatingLoad }] = useMutation(CREATE_CLASS ,{ 
-        onCompleted : data => navigateToClass(`class/t/${nameReplacer(data?.class?.save?.name)}`,setCreateClassShow) , 
+        onCompleted : data => navigateToClass(`class/t/${data?.class?.save?.id}`,setCreateClassShow) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     });
 
 
     const [joined , { data, loading : joinLoading }] = useMutation(JOIN_CLASS , {
-        onCompleted : data => data?.class?.join ? navigateToClass(`class/${nameReplacer(data?.class?.join?.name)}`,setjoinClassShow) : setError(true) , 
+        onCompleted : data => data?.class?.join ? navigateToClass(`class/${data?.class?.join?.id}`,setjoinClassShow) : setError(true) , 
         onError: ()=> {},
         notifyOnNetworkStatusChange : true
     })

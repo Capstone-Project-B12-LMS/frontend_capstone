@@ -1,5 +1,6 @@
+import { useState , useEffect} from "react";
 import { useSelector } from "react-redux";
-import { Routes, Route , useLocation } from "react-router-dom"
+import { Routes, Route , useParams } from "react-router-dom"
 import { useQuery } from "@apollo/client";
 
 // GraphQL
@@ -15,8 +16,6 @@ import { Tab, Button } from "../../components";
 
 import Banner_Illust from '../../assets/img/illustration-class.png'
 import Description from "./Description";
-import { useEffect } from "react";
-import { useState } from "react";
 
 
 
@@ -27,10 +26,10 @@ const StudentClass = () => {
         student : [],
     })
 
-    const { state : { class_id } } =  useLocation();
+    const param =  useParams();
 
     const { dataLogin } = useSelector((state) => state.login);
-    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : class_id}});
+    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
 
     const Tabpath = [
         { text : "description" , path: `.`},
@@ -56,7 +55,9 @@ const StudentClass = () => {
 
 
     useEffect(()=>{
-        if(!loading && !!data?.class?.findById) setParticipants({...getParticipant()});
+        if(!loading && !!data?.class?.findById) {
+            setParticipants({...getParticipant()});
+        }
     },[loading , data])
    
 
@@ -110,7 +111,7 @@ const StudentClass = () => {
                             <div>
                                 <Routes>
                                     <Route index element={
-                                        <Description participant={participants} class_id={class_id}/>
+                                        <Description participant={participants} class_id={param.id}/>
                                     }/>
                                     <Route path="content" element={<h1>Content</h1>}/>
                                 </Routes>
@@ -119,7 +120,7 @@ const StudentClass = () => {
                         </div>
                     </>
             }
-        </>
+        </> 
     );
 };
 
