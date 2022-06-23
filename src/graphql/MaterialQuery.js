@@ -1,15 +1,16 @@
 import { gql } from "@apollo/client";
 
-const FIND_MATERIAL_CLASS = gql`
-    query FIND_MATERIAL_CLASS($class_id: ID!){
+const FIND_CLASS_MATERIAL = gql`
+    query FIND_CLASS_MATERIAL($class_id : ID!){
         material{
-            findAllByClassId(classId: $class_id){
-                id
-                title
-                content
-                point
-                videoUrl
-                fileUrl
+            findAllByClassId(classId:$class_id){
+                id,
+                title,
+                content,
+                videoUrl,
+                fileUrl,
+                deadline,
+                point,
                 createdBy
             }
         }
@@ -17,5 +18,5 @@ const FIND_MATERIAL_CLASS = gql`
 `
 
 export {
-    FIND_MATERIAL_CLASS
+    FIND_CLASS_MATERIAL
 }

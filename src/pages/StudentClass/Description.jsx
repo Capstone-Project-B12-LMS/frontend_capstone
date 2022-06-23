@@ -1,10 +1,8 @@
 import { memo } from 'react'
-import { UserList , EmptyContent } from '../../components';
-
 import { useQuery } from '@apollo/client';
-import { FIND_MATERIAL_CLASS } from '../../graphql/MaterialQuery';
 
-
+import { UserList , EmptyContent , Material} from '../../components';
+import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 import Illustration from '../../assets/img/no-description.png'
 
 
@@ -13,18 +11,18 @@ import Illustration from '../../assets/img/no-description.png'
 
 const Description = ({ participant , class_id })=>{
 
-    const {data , loading } = useQuery(FIND_MATERIAL_CLASS , {
-        variables : { class_id }
-    })
+    const {data , loading } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id }})
 
     const membersTotal = [...participant.teacher , ...participant.student].length;
+
+    console.log(data)
 
     return(
         <>
                 {
                     loading ? <h2>Loading Dulu nih...</h2> : 
 
-                    <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-6 flex items-center">
+                    <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-8">
                         {
                             !data.material.findAllByClassId.length ?
 
@@ -36,13 +34,7 @@ const Description = ({ participant , class_id })=>{
 
                             :
 
-                            <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-6 mt-6">
-                                <h1 className="text-2xl font-bold text-black">Introduction About This Class</h1>
-                                <div className="w-full h-[400px] rounded-[20px] mt-6 overflow-hidden">
-                                    <iframe className="w-full h-full" src="https://www.youtube.com/embed/emSv9TTHZVY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                                </div>
-                                <p className="text-black text-xl font-normal mt-6">In this course, you will learn about the process of designing the appearance of an application starting from an introduction to design, how to design and execution in making designs. This course will also give you the opportunity to learn more about application and website design to improve your skills in making a design look more effective and efficient.</p>
-                            </div>
+                            <Material assets={data.material.findAllByClassId[0]}/>
                         }
                     </div>
                 }
@@ -50,8 +42,8 @@ const Description = ({ participant , class_id })=>{
                 {
                     membersTotal > 0 ?
                     
-                    <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] py-6 mt-6">
-                        <div className="flex justify-between px-6">
+                    <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-8 mt-6">
+                        <div className="flex justify-between">
                             <h1 className="text-2xl font-bold text-black">Class Members</h1>
                             <span className="text-black font-normal text-xl">
                                 { membersTotal  === 1 ? 
@@ -62,7 +54,7 @@ const Description = ({ participant , class_id })=>{
                         </div>
 
                         
-                        <div className='mt-10 px-6'>
+                        <div className='mt-10'>
                             <div className='pb-4 border border-solid border-x-transparent border-t-transparent border-b-[#415A80]'>
                                 <h3 className='text-2xl text-[#415A80] font-light'>Teacher</h3>
                             </div>
@@ -81,7 +73,7 @@ const Description = ({ participant , class_id })=>{
                         </div>
 
 
-                        <div className='mt-10 px-6'>
+                        <div className='mt-10'>
                             <div className='pb-4 border border-solid border-x-transparent border-t-transparent border-b-[#415A80]'>
                                 <h3 className='text-2xl text-[#415A80] font-light'>Student</h3>
                             </div>

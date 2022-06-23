@@ -212,7 +212,7 @@ const Layout = () => {
       <>
         <PopUp 
             title='Create Class'
-            styling='w-[1000px] min-h-[300px] max-h-min'
+            styling='w-[1000px] min-h-[300px] max-h-min px-[180px] py-[148px]'
             show={createClassShow}
             setShow={showPopupCreate}
         >
@@ -241,7 +241,7 @@ const Layout = () => {
         <PopUp 
             title='class code'
             description='Ask the admin or mentor for the class code, then enter the code here . '
-            styling='w-[1000px] min-h-[300px] max-h-min'
+            styling='w-[1000px] min-h-[300px] max-h-min px-[180px] py-[148px]'
             show={joinClassShow}
             setShow={showPopupJoin}
         >

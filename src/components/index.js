@@ -14,6 +14,7 @@ import PopUp from "./Popup";
 import Spinner from './Spinner';
 import ErrorAlert from "./ErrorAlert";
 import EmptyContent from "./EmptyContent";
+import Material from "./Material";
 
 export {
     Card,
@@ -31,5 +32,6 @@ export {
     PopUp,
     Spinner,
     ErrorAlert,
-    EmptyContent
+    EmptyContent,
+    Material
 }
