@@ -1,7 +1,7 @@
 // Module
 
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import jwtDecode from "jwt-decode";
@@ -23,12 +23,12 @@ import ChangeClass from "./components/Popup/ChangeClass";
 
 
 const App = () => {
-  const cookies = new Cookies();
 
+  const cookies = new Cookies();
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
   const { data } = useGetUser(decode);
-
+  
   useEffect(() => {
     if (cookies.get("token")) dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
   },[]);
@@ -40,23 +40,26 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        {!cookies.get("token") && (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </>
-        )}
+        <Route index element={cookies.get("token") ? <Navigate to="dashboard/home" /> : <Landing />}/>
+        { 
+          !cookies.get("token") && (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<h1>401 UNAUTHORIZED</h1>} />
+            </>
+          )
+        }
 
-        {cookies.get("token") && (
-          <>
-            <Route path="/popup" element={<ChangeClass />} />
-
-            <Route path="/dashboard/*" element={<Layout />} />
-            <Route path="/myaccount" element={<MyAccount />} />
-          </>
-        )}
-        <Route path="*" element={<h1>Page not found </h1>}/>
+        {
+          cookies.get("token") && (
+            <>
+              <Route path="/dashboard/*" element={<Layout />} />
+              <Route path="/popup" element={<ChangeClass />} />
+              <Route path="/myaccount" element={<MyAccount />} />
+            </>
+          )
+        }
       </Routes>
     </div>
   );

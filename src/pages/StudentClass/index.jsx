@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Routes,Route, useParams } from "react-router-dom"
+import { Routes, Route , useLocation } from "react-router-dom"
 import { useQuery } from "@apollo/client";
 
 // GraphQL
@@ -27,9 +27,10 @@ const StudentClass = () => {
         student : [],
     })
 
-    const params = useParams();
+    const { state : { class_id } } =  useLocation();
+
     const { dataLogin } = useSelector((state) => state.login);
-    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : params.id}});
+    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : class_id}});
 
     const Tabpath = [
         { text : "description" , path: `.`},
@@ -109,7 +110,7 @@ const StudentClass = () => {
                             <div>
                                 <Routes>
                                     <Route index element={
-                                        <Description participant={participants} class_id={params.id}/>
+                                        <Description participant={participants} class_id={class_id}/>
                                     }/>
                                     <Route path="content" element={<h1>Content</h1>}/>
                                 </Routes>

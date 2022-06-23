@@ -7,6 +7,7 @@ const CREATE_CLASS = gql`
     class {
       save(request: { name: $name, room: $room }) {
         id
+        name
       }
     }
   }
@@ -18,9 +19,6 @@ const JOIN_CLASS = gql`
       join(classCode: $class_code, userId: $u_id) {
         id
         name
-        users {
-          id
-        }
       }
     }
   }
@@ -35,6 +33,7 @@ const GET_CLASS_BY_U_ID = gql`
         id
         name
         status
+        code
         users {
           id
           email

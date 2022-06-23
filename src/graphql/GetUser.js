@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 
 const userQuery = gql`
-query User($id: ID!){
+  query User($id: ID!) {
     user {
       findById(id: $id) {
         id
@@ -11,11 +11,12 @@ query User($id: ID!){
       }
     }
   }
-  
 `;
 
 const useGetUser = (userId) => {
-  const { data, loading, error } = useQuery(userQuery, {variables: {id: userId}});
+  const { data, loading, error } = useQuery(userQuery, {
+    variables: { id: userId },
+  });
   return { data, loading, error };
 };
 

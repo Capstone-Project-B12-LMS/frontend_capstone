@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         icon:BookIcon,
         type: 'list',
         text:'my class',
-        path:'/dashboard/class',
+        path:'/dashboard/my-class',
     },
     {
         icon:HistoryIcon,
