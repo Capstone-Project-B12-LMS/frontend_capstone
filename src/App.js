@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
-import { setIsLoggedIn, setDecode, setDataLogin } from "./redux/loginSlice";
+// Module
+
+import { useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
-
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import jwtDecode from "jwt-decode";
+
+// Redux , GraphQL
+
+import { setDecode, setDataLogin } from "./redux/loginSlice";
+import useGetUser from "./graphql/GetUser";
+
+// Pages & Component
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Landing from "./pages/Index";
-import Home from "./pages/Dashboard/home";
 import MyAccount from "./pages/MyAccount";
-import StudentClass from "./pages/StudentClass";
-
 import Layout from "./components/Layout";
-
-import useGetUser from "./graphql/GetUser";
-import Classall from "./pages/Dashboard/classAll";
-import ClassStudent from "./pages/Dashboard/classStudent";
-import ClassTeacher from "./pages/Dashboard/classTeacher";
 import ChangeClass from "./components/Popup/ChangeClass";
+
+
 
 const App = () => {
 
@@ -30,10 +30,8 @@ const App = () => {
   const { data } = useGetUser(decode);
   
   useEffect(() => {
-    if (cookies.get("token")) {
-      dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
-    }
-  }, []);
+    if (cookies.get("token")) dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
+  },[]);
 
   useEffect(() => {
     dispatch(setDataLogin(data?.user.findById));
@@ -42,24 +40,26 @@ const App = () => {
   return (
     <div>
       <Routes>
-        {!cookies.get("token") && (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="*" element={<Landing />} />
-          </>
-        )}
-        {cookies.get("token") && (
-          <>
-            <Route path="/dashboard/*" element={<Layout />} />
-            <Route path="/popup" element={<ChangeClass />} />
-            <Route path="/myaccount" element={<MyAccount />} />
-          </>
-        )}
-        <Route
-          index
-          element={cookies.get("token") ? <Layout /> : <Landing />}
-        />
+        <Route index element={cookies.get("token") ? <Navigate to="dashboard/home" /> : <Landing />}/>
+        { 
+          !cookies.get("token") && (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<h1>401 UNAUTHORIZED</h1>} />
+            </>
+          )
+        }
+
+        {
+          cookies.get("token") && (
+            <>
+              <Route path="/dashboard/*" element={<Layout />} />
+              <Route path="/popup" element={<ChangeClass />} />
+              <Route path="/myaccount" element={<MyAccount />} />
+            </>
+          )
+        }
       </Routes>
     </div>
   );

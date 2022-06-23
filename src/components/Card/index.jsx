@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Card = ({
   title,
-  progress,
+  code,
   thumbnail = "https://i.ibb.co/k6wjmXK/thumbnail-class.png",
   url,
 }) => {
@@ -17,7 +17,7 @@ const Card = ({
         <div className="p-6 h-full flex flex-col justify-between">
           <h3 className="text-2xl font-medium text-black">{title}</h3>
           <p className="text-base text-[#A9A9A9] font-normal">
-            Code Class: <span className="text-black font-bold">{progress}</span>{" "}
+            Code Class: <span className="text-black font-bold">{code}</span>{" "}
           </p>
         </div>
       </div>

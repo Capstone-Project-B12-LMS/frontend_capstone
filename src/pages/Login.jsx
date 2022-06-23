@@ -34,11 +34,10 @@ const Login = ({
 
   useEffect(() => {
     if (data?.user.login.token) {
+
       //setuserid
       dispatch(setDecode(jwtDecode(data.user.login.token).userId));
-      cookies.set("token", data.user.login.token, {
-        maxAge: 3600,
-      });
+      cookies.set("token", data.user.login.token, { maxAge: 3600});
     }
   }, [data]);
 

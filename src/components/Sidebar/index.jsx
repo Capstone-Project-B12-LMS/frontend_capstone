@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useClickOutSide } from "../../customHooks/useClickOutside"
+import { useClickOutSide } from "../../utils/hooks/useClickOutside"
 
 
 // Component
@@ -32,7 +32,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         icon:BookIcon,
         type: 'list',
         text:'my class',
-        path:'/dashboard/class',
+        path:'/dashboard/my-class',
     },
     {
         icon:HistoryIcon,

@@ -21,7 +21,7 @@ const classQuery = gql`
 const useGetClass = () => {
   const { dataLogin } = useSelector((state) => state.login);
   const { data, loading, error } = useQuery(classQuery, {
-    variables: { id: dataLogin.id },
+    variables: { id: dataLogin?.id },
   });
   return { data, loading, error };
 };

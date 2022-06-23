@@ -4,7 +4,8 @@ const HeaderClass = () => {
   return (
     <div className="flex justify-center space-x-4">
       <NavLink
-        to="/dashboard/class"
+        to="/dashboard/my-class"
+        end
         className={({ isActive }) =>
           isActive
             ? "rounded-full text-center w-40 bg-transparent text-[#415A80] border-solid border-2 border-[#415A80]"
@@ -14,7 +15,7 @@ const HeaderClass = () => {
         All
       </NavLink>
       <NavLink
-        to="/dashboard/student"
+        to="/dashboard/my-class/student"
         className={({ isActive }) =>
           isActive
             ? "rounded-full text-center w-40  bg-transparent text-[#415A80] border-solid border-2 border-[#415A80]"
@@ -24,7 +25,7 @@ const HeaderClass = () => {
         Class Student
       </NavLink>
       <NavLink
-        to="/dashboard/teacher"
+        to="/dashboard/my-class/teacher"
         className={({ isActive }) =>
           isActive
             ? "rounded-full text-center w-40  bg-transparent text-[#415A80] border-solid border-2 border-[#415A80]"

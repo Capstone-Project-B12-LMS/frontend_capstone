@@ -1,12 +1,11 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { GET_ACTIVE_CLASS } from "../../graphql/ClassQuery";
+import { GET_CLASS_BY_U_ID } from "../../graphql/ClassQuery";
 import { useQuery } from "@apollo/client";
 
-import { areActiveClassUser } from '../../utils/dashboard';
-
-import { Card, } from "../../components";
+import { Card } from "../../components";
 import Illustration from '../../assets/img/illustration_1.png';
 
 
@@ -14,18 +13,24 @@ import Illustration from '../../assets/img/illustration_1.png';
 const Home = ({ createClass, joinClass }) => {
 
     const { dataLogin } = useSelector((state) => state.login);
-    const { loading , data } = useQuery(GET_ACTIVE_CLASS , { variables : { id: dataLogin?.id , status : "ACTIVE"}});
+    const { loading , data , refetch } = useQuery(GET_CLASS_BY_U_ID , { variables : { id: dataLogin?.id , status : "ACTIVE"}});    
+   
+    const collectionClass = () => data?.user?.findByClassByUserId.filter(room => room.createdBy !== dataLogin?.email);
+
+    useEffect(()=>{
+        refetch();
+    },[])
 
     return (
         <>
             {
-                loading ? <h2>Sabar guys loading dulu ya....</h2> :
+                loading || !data ? <h2>Sabar guys loading dulu ya....</h2> :
 
                     <>
                         {/* Banner Dashboard */}
 
                         {
-                            data?.class?.findAllWithPageable?.data.length > 0 ?
+                            collectionClass().length > 0 ?
 
                             <>
                                 <div className="w-full h-[320px] mt-6 pl-24 bg-banner-dashboard bg-cover rounded-[30px] flex flex-col justify-center overflow-hidden">
@@ -49,15 +54,17 @@ const Home = ({ createClass, joinClass }) => {
                                 <div className="w-full mt-8">
                                     <div className="flex justify-between">
                                         <h2 className="text-2xl text-black font-medium">Active Class</h2>
-                                        <Link to='/dashboard/class' className="bg-transparent text-black text-base font-medium capitalize">view all</Link>
+                                        <Link to='/dashboard/my-class' className="bg-transparent text-black text-base font-medium capitalize">view all</Link>
                                     </div>
                                     <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
                                         {
-                                            data?.class?.findAllWithPageable?.data.map(room => {
-                                                const { owner , status , users } = room;
-                                                return areActiveClassUser({id: dataLogin?.id ,email: dataLogin?.email},owner,status,users,) ? 
-                                                    <Card key={room.id} title={room.name} url={`../class/${room.id}`} /> : false
-                                            }
+                                            collectionClass().map((room , i) => i <= 3 ? 
+                                                <Card 
+                                                    key={room.id} 
+                                                    title={room.name} 
+                                                    url={`../class/${room.id}`} 
+                                                    code={room.code}
+                                                /> : false
                                             )
                                         }
                                     </div>

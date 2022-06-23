@@ -1,34 +1,38 @@
+import { useState , useEffect} from "react";
 import { useSelector } from "react-redux";
-import { Routes,Route, useParams } from "react-router-dom"
+import { Routes, Route , useParams } from "react-router-dom"
 import { useQuery } from "@apollo/client";
 
 // GraphQL
 
 import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
 
-// Utils
-
-import { splitMembers } from "../../utils/class";
 
 // Component
 
-import { Tab, Button } from "../../components";
+import { Tab, Button , PopUp } from "../../components";
 
 // Assets
 
 import Banner_Illust from '../../assets/img/illustration-class.png'
 import Description from "./Description";
+import CompleteIcon from "../../assets/icons/complete-icon.svg"
 
 
 
 const StudentClass = () => {
 
-    const params = useParams();
+    const [participants , setParticipants] = useState({
+        teacher : [],
+        student : [],
+    });
+
+    const [showCard , setShowCard] = useState(false);
+
+    const param =  useParams();
+
     const { dataLogin } = useSelector((state) => state.login);
-    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : params.id}});
-
-    const members = !loading ? splitMembers(data?.class?.findById?.users , data?.class?.findById?.createdBy) : false;
-
+    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
 
     const Tabpath = [
         { text : "description" , path: `.`},
@@ -36,24 +40,56 @@ const StudentClass = () => {
         { text : "feedback", path: './feedback'}
     ]
 
-    const doCounselling = ()=> alert('Counselling');
+    
+    // Method list
 
-    const authStudent = (id) =>{
-        if(!id) return false;
+    const getParticipant = ( ) => {
+        const members = data.class.findById.users
+        const owner = data.class.findById.createdBy
 
-        const isTeacher = members.teacher.find(teacher => teacher.id === dataLogin?.id);
-        const isStudent = members.users.find(student => student.id === dataLogin?.id);
-
-        return (isTeacher || !isStudent) || (!isTeacher && !isStudent);
+        const student = members.filter(member => member.email !== owner);
+        const teacher = members.filter(member => member.email === owner);
+        
+        return { student , teacher }
     }
+
+    const isUserAllowed = (id) => !id ? false : 
+        participants.student.find(student => student.id === dataLogin?.id)
+
+
+    const requestCounselling = ()=> {
+        setShowCard(true)
+    }
+
+
+    useEffect(()=>{
+        if(!loading && !!data?.class?.findById) setParticipants({...getParticipant()});
+    },[loading , data])
+   
 
     return (
         <>
             {
                 loading ? <h2>Loading dulu ya guys...</h2> :
 
-                    data?.class?.findById == null || authStudent(dataLogin?.id) ? <h2>Class not found...</h2> :
+                    !data?.class?.findById && !isUserAllowed(dataLogin?.id) ? <h2>Class not found...</h2> :
 
+                    <>
+                        <PopUp
+                            show={showCard}
+                            setShow={()=> setShowCard(!showCard)}
+                            styling='w-[800px] min-h-[300px] max-h-min px-[100px] py-[100px]'
+                        >
+                            <img src={CompleteIcon} alt="complete-icon" className=" max-w-[110px] w-[110px] h-[110px]"/>
+                            <h1 className="text-black text-center leading-10 text-[32px] font-bold mt-14">COUNSELING REQUEST COMPLETE!</h1>
+                            <p className="text-center text-black leading-10 text-2xl mt-6">You’ll receive a confirmation when your request has been accepted or declined.</p>
+                            <Button
+                                text={"DONE"}
+                                handleClick={()=> setShowCard(false)}
+                                styling="w-full py-4 mt-10 rounded-[15px]"
+                            />
+                        </PopUp>
+                        
                         <div className="my-6 mx-auto w-full">
 
                             <Tab list={Tabpath}/>
@@ -76,8 +112,8 @@ const StudentClass = () => {
                                             />
                                         </div>
                                         <div className="mt-4">
-                                            <h4 className="font-bold text-black text-center text-2xl">{ members.teacher[0].fullName }</h4>
-                                            <p className="text-base text-center text-[#A8A8A8] mt-1"> Teacher {data.class.findById.name}</p>
+                                            <h4 className="font-bold text-black text-center text-2xl">{ participants.teacher[0]?.fullName }</h4>
+                                            <p className="text-base text-center text-[#A8A8A8] mt-1"> Teacher { data.class.findById.name }</p>
                                         </div>
                                     </div>
 
@@ -87,7 +123,7 @@ const StudentClass = () => {
                                         <Button
                                             text='Request Counselling'
                                             styling='uppercase font-bold text-base py-2 px-6 rounded-[10px] mt-4'
-                                            handleClick={doCounselling}
+                                            handleClick={requestCounselling}
                                         />
                                     </div>
 
@@ -95,14 +131,17 @@ const StudentClass = () => {
 
                                 <div>
                                     <Routes>
-                                        <Route index element={<Description participant={members}/>}/>
+                                        <Route index element={
+                                            <Description participant={participants} class_id={param.id}/>
+                                        }/>
                                         <Route path="content" element={<h1>Content</h1>}/>
                                     </Routes>
                                 </div>
                             </div>
                         </div>
+                    </>
             }
-        </>
+        </> 
     );
 };
 
