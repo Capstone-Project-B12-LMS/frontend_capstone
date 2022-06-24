@@ -21,41 +21,8 @@ import Layout from "./components/Layout";
 import ChangeClass from "./components/Popup/ChangeClass";
 
 
-// Fetching with axios hook
-
-import useAxios from './utils/hooks/useAxios'
-
-
 
 const App = () => {
-
-
-  // Sample test registering...
-
-  const {response , error , loading} = useAxios({
-    url: "/v1/graphql",
-    method: "post",
-    data: {
-      query: `mutation Register($fullName: String!, $email: String!, $password: String!) {
-                user {
-                  register( request: { fullName: $fullName, email: $email, password: $password }) {
-                    id
-                    fullName
-                    email
-                  }
-                }
-              }`,
-      variables: {
-        fullname: "xio peng shui",
-        email: "xiaopeng@gmail.com",
-        pw: "pengpeng123..."
-      }
-    }
-  })
-
-
-  console.log(response);
-
 
   const cookies = new Cookies();
   const dispatch = useDispatch();
