@@ -13,7 +13,7 @@ import { Button } from "../components";
 import useUpdateAccount from "../graphql/UpdateAccount";
 
 const MyAccount = () => {
-  const { insertAccountData, data, loading, error } = useUpdateAccount();
+  const { insertAccountData, error } = useUpdateAccount();
   const [accountData, setAccountData] = useState({
     fullName: "",
     email: "",
@@ -39,7 +39,7 @@ const MyAccount = () => {
         icon: AccountIcon,
         text: "my account",
         type: "list",
-        path: "/account",
+        path: "/myaccount",
       },
       {
         icon: LogOutIcon,
@@ -84,7 +84,6 @@ const MyAccount = () => {
     });
   };
   if (error) return <pre>{error.message}</pre>;
-
   return (
     <>
       <Header usingToggle={true} toggleClick={handleSidebarShow}>

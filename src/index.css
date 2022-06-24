@@ -79,10 +79,10 @@
 }
 .popup-content {
   margin: auto;
-  background: rgb(255, 255, 255);
   width: 50%;
-  height: 80%;
+  height: 30%;
   padding: 5px;
+  bottom: 170px;
 }
 .popup-arrow {
   color: rgb(255, 255, 255);
@@ -98,3 +98,15 @@
 [data-popup="tooltip"].popup-overlay {
   background: transparent;
 }
+/* 
+.fade-in {
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+} */
