@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
+import { Cookies } from "react-cookie";
 
 import Login from "./Login";
 import Register from "./Register";
@@ -10,6 +11,7 @@ import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
 
 const Index = () => {
+  const cookies = new Cookies();
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
@@ -24,14 +26,17 @@ const Index = () => {
       )
       .then((res) => {
         console.log(res);
+
         window.location.reload();
+        alert("pesan anda Sudah terkirim");
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <div>
-      <body className="bg-[url('/src/assets/img/Vector.png')] bg-no-repeat bg-[length:600px_584px]">
+      <div className="bg-[url('/src/assets/img/Vector.png')] bg-no-repeat bg-[length:600px_584px]">
+        
         {/* Header Area */}
 
         <header>
@@ -39,7 +44,13 @@ const Index = () => {
             <div className="relative">
               <div className="flex w-full bg-transparent grid grid-cols-3 ">
                 <div>
-                  <div className="absolute rounded-full w-[80px] h-[80px] ml-[80px] mt-[15px] bg-[#000000]"></div>
+                  <div className="">
+                    <img
+                      src="/static/media/brand-logo.616d35e5af80b0bdfdcf810955ffd617.svg"
+                      alt="brand-logo"
+                      className="w-[300px] h-[60px] ml-[80px] mt-[15px]"
+                    />
+                  </div>
                 </div>
                 <div></div>
                 <div>
@@ -49,19 +60,23 @@ const Index = () => {
                       setOpenLoginModal={() => setOpenLoginModal(false)}
                     />
                   )}
-                  <button
-                    onClick={() => setOpenLoginModal(true)}
-                    className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
-                  >
-                    Login
-                  </button>
+                  {!cookies.get('token') &&
+                    <>
+                      <button
+                        onClick={() => setOpenLoginModal(true)}
+                        className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
+                      >
+                        Login
+                      </button>
 
-                  <button
-                    onClick={() => setOpenRegisterModal(true)}
-                    className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
-                  >
-                    Sign up
-                  </button>
+                      <button
+                        onClick={() => setOpenRegisterModal(true)}
+                        className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
+                      >
+                        Sign up
+                      </button>
+                    </>
+                  }
                   {openRegisterModal && openRegisterModal && (
                     <Register
                       openRegisterModal={openRegisterModal}
@@ -140,7 +155,7 @@ const Index = () => {
                                 width="16"
                                 height="16"
                                 fill="currentColor"
-                                class="bi bi-envelope"
+                                className="bi bi-envelope"
                                 viewBox="0 0 16 16"
                               >
                                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
@@ -167,7 +182,7 @@ const Index = () => {
                                 viewBox="0 0 16 16"
                               >
                                 <path
-                                  fill-rule="evenodd"
+                                  fillRule="evenodd"
                                   d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5z"
                                 />
                               </svg>
@@ -200,7 +215,7 @@ const Index = () => {
           </div>
         </div>
         <Footer />
-      </body>
+      </div>
     </div>
   );
 };

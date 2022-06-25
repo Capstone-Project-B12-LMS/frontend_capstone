@@ -3,11 +3,14 @@ import { HttpLink } from "@apollo/client";
 import { ApolloLink } from "@apollo/client";
 import { concat } from "@apollo/client";
 import { Cookies } from "react-cookie";
+import CONST from '../utils/constant';
+
+
 
 const cookies = new Cookies();
 
 const httpLink = new HttpLink({
-  uri: "http://ec2-34-212-169-254.us-west-2.compute.amazonaws.com/gql/v1/graphql",
+  uri: `${process.env.NODE_ENV === "production" ? "" : CONST.BASE_URL}/gql/v1/graphql`,
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
@@ -21,6 +24,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+
 const client = new ApolloClient({
   link: concat(authMiddleware, httpLink),
   cache: new InMemoryCache({
@@ -31,6 +35,9 @@ const client = new ApolloClient({
             merge: true,
           },
           user: {
+            merge: true,
+          },
+          material: {
             merge: true,
           },
         },

@@ -4,7 +4,7 @@ import Hamburger from '../../assets/icons/hamburger-icon.svg';
 
 const Header = ({ usingToggle ,toggleClick , children }) => {
     return(
-        <header className="w-full h-[120px] px-10 bg-light-blue sticky top-0 flex">
+        <header className="w-full h-[120px] px-10 bg-light-blue sticky top-0 flex z-20">
             {
                 usingToggle ? 
 

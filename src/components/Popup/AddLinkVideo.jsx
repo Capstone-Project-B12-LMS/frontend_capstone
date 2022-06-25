@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useClickOutSide } from "../../customHooks/useClickOutside";
+import { useClickOutSide } from "../../utils/hooks/useClickOutside";
 
 const AddLinkVideo = ({ func }) => {
 

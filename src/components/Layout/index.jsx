@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 // GraphQL
 
@@ -10,7 +12,7 @@ import { CREATE_CLASS, JOIN_CLASS } from "../../graphql/ClassQuery";
 
 // Component
 
-import { Header, Sidebar, Dropdown, PopUp, Button, Spinner } from '../'
+import { Header, Sidebar, Dropdown, PopUp, Button, Spinner, ErrorAlert } from '../'
 
 // Page
 
@@ -32,8 +34,6 @@ import JoinIcon from "../../assets/icons/join-icon.svg";
 
 
 
-
-
 const Layout = () => {
 
     // State
@@ -41,6 +41,7 @@ const Layout = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const [createClassShow, setCreateClassShow] = useState(false);
     const [joinClassShow, setjoinClassShow] = useState(false);
+    const [error, setError] = useState(false)
 
     const [inputs, setInputs] = useState({
         create: [
@@ -48,7 +49,7 @@ const Layout = () => {
                 placeholder: "Class Name",
                 type: "text",
                 value: "",
-                pattern: /^[A-Za-z0-9\s]+$/,
+                pattern: /^[A-Za-z0-9\s\-&]+$/,
                 form: 'create'
             },
             {
@@ -64,7 +65,7 @@ const Layout = () => {
                 placeholder: "Input Class Code",
                 type: "text",
                 value: "",
-                pattern: /^[A-Za-z0-9]*$/,
+                pattern: /^[A-Za-z0-9]{10}$/,
                 form: 'join'
             }
         ]
@@ -77,24 +78,23 @@ const Layout = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const cookies = new Cookies();
+    const MySwal = withReactContent(Swal)
 
 
     // GraphQL Fetching
 
     const [creating, { loading: creatingLoad }] = useMutation(CREATE_CLASS, {
-        onCompleted: data => navigateToClass(`teacher/class/${data?.class?.save?.id}`, setCreateClassShow),
+        onCompleted: data => navigateToClass(`class/t/${data?.class?.save?.id}`, setCreateClassShow),
         onError: () => { },
         notifyOnNetworkStatusChange: true
     });
 
 
-    const [joined, { loading: joinLoading }] = useMutation(JOIN_CLASS, {
-        onCompleted: data => navigateToClass(`class/${data?.class?.join?.id}`, setjoinClassShow),
+    const [joined, { data, loading: joinLoading }] = useMutation(JOIN_CLASS, {
+        onCompleted: data => data?.class?.join ? navigateToClass(`class/${data?.class?.join?.id}`, setjoinClassShow) : setError(true),
         onError: () => { },
         notifyOnNetworkStatusChange: true
     })
-
-
 
 
     // Event handler method
@@ -104,6 +104,8 @@ const Layout = () => {
     const showPopupJoin = (e, show = !joinClassShow) => setjoinClassShow(show);
 
     const handleInputChange = (value, index, form) => {
+        if (data?.class?.join === null) setError(false);
+
         const newInputs = [...inputs[form]]
         newInputs[index] = { ...newInputs[index], value };
         setInputs({ ...inputs, [form]: newInputs })
@@ -115,13 +117,14 @@ const Layout = () => {
         const join = inputs.join.map(input => ({ ...input, value: "" }));
 
         setInputs({ create, join });
-
         popupShow(false);
+
         return navigate(path, { replace: true })
     }
 
 
     // Request Method
+
 
     const createClass = (e) => {
 
@@ -148,8 +151,21 @@ const Layout = () => {
 
 
     const logout = () => {
-        cookies.remove('token');
-        navigate('/');
+        MySwal.fire({
+            title: 'Logout Account',
+            text: "Are you sure you want to log out?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#415A80',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Logout'
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    cookies.remove('token')
+                    navigate('/')
+                }
+            })
     };
 
 
@@ -159,7 +175,7 @@ const Layout = () => {
                 icon: AccountIcon,
                 text: 'my account',
                 type: 'list',
-                path: '/account'
+                path: '/myaccount'
             },
             {
                 icon: LogOutIcon,
@@ -197,7 +213,7 @@ const Layout = () => {
         <>
             <PopUp
                 title='Create Class'
-                styling='w-[1000px] min-h-[300px] max-h-min'
+                styling='w-[1000px] min-h-[300px] max-h-min px-[180px] py-[148px]'
                 show={createClassShow}
                 setShow={showPopupCreate}
             >
@@ -226,7 +242,7 @@ const Layout = () => {
             <PopUp
                 title='class code'
                 description='Ask the admin or mentor for the class code, then enter the code here . '
-                styling='w-[1000px] min-h-[300px] max-h-min'
+                styling='w-[1000px] min-h-[300px] max-h-min px-[180px] py-[148px]'
                 show={joinClassShow}
                 setShow={showPopupJoin}
             >
@@ -241,6 +257,9 @@ const Layout = () => {
                                 onChange={(e) => handleInputChange(e.target.value, i, input.form)}
                             />
                         ))
+                    }
+                    {error ?
+                        <ErrorAlert text="Sorry, the code you entered does not exist" /> : false
                     }
                     <Button
                         formBtn={true}
@@ -273,12 +292,12 @@ const Layout = () => {
 
             <div className="px-10 mx-auto max-w-[1600px]">
                 <Routes>
-                    <Route path='home' element={<Home joinClass={showPopupJoin} createClass={showPopupCreate} />} />
-                    <Route path='class/:id/*' element={<StudentClass />} />
-                    <Route path="class" element={<Classall />} />
-                    <Route path="student" element={<ClassStudent />} />
-                    <Route path="teacher" element={<ClassTeacher />} />
-                    <Route path="teacher/class/:id" element={<TeacherClass />} />
+                    <Route path="home" element={<Home joinClass={showPopupJoin} createClass={showPopupCreate} />} />
+                    <Route path="class/:id/*" element={<StudentClass />} />
+                    <Route path="class/t/:id/*" element={<h1>Teacher Class</h1>} />
+                    <Route path="my-class" element={<Classall />} />
+                    <Route path="my-class/student" element={<ClassStudent />} />
+                    <Route path="my-class/teacher" element={<ClassTeacher />} />
                 </Routes>
             </div>
 
@@ -287,4 +306,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default Layout

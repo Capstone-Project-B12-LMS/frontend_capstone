@@ -1,32 +1,38 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Card } from "../../components";
 
-import { Card , Button } from "../../components";
-import Illustration from '../../assets/img/illustration_1.png';
 import HeaderClass from "./headerClass";
+import useGetClass from "../../graphql/GetClass";
 
 
+const Home = () => {
+  const { data, loading, error } = useGetClass();
 
-const Home = ({ createClass,joinClass }) => {
+  if (loading) return "Loading...";
+  if (error) return "Data Error...";
 
-    const [collectionClass,setCollectionClass] = useState(0);
+  const teacher = data.user.findByClassByUserId.filter(
+    (e) => e.users[0].email === e.createdBy
+  );
 
-    return (
-
-                    <div className="w-full mt-8">
-                        <HeaderClass />
-                        <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
-                            <Card title={"Tutorial React JS 18 for Beginner"} progress={"75%"} thumbnail="https://i.ibb.co/w7vmxmH/image-2.png" url="/class"/>
-                            <Card title={"UI/UX Designer for beginner"} progress={"85%"} thumbnail="https://i.ibb.co/w7vmxmH/image-2.png" url="/class"/>
-                            
-                        </div>
-                    </div>
-
-    );
-}
+  return (
+    <div className="w-full mt-8">
+      <HeaderClass />
+      <div className="grid grid-cols-card-class auto-rows-card-class gap-12 my-8">
+        {teacher.map((data) => (
+          <Card
+            key={data.name}
+            title={data.name}
+            code={data.code}
+            thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
+            url={`../class/t/${data.id}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default Home;
-
 
 /*
 

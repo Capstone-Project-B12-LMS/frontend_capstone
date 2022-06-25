@@ -1,5 +1,5 @@
 import { useState,useRef } from "react";
-import { useClickOutSide } from "../../customHooks/useClickOutside";
+import { useClickOutSide } from "../../utils/hooks/useClickOutside";
 
 import ItemList from "../Sidebar/ItemList";
 
