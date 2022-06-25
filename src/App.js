@@ -28,11 +28,10 @@ const App = () => {
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
   const { data } = useGetUser(decode);
-
+  
   useEffect(() => {
-    if (cookies.get("token"))
-      dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
-  }, []);
+    if (cookies.get("token")) dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
+  },[]);
 
   useEffect(() => {
     dispatch(setDataLogin(data?.user.findById));
@@ -41,31 +40,26 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route
-          index
-          element={
-            cookies.get("token") ? (
-              <Navigate to="dashboard/home" />
-            ) : (
-              <Landing />
-            )
-          }
-        />
-        {!cookies.get("token") && (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="*" element={<h1>401 UNAUTHORIZED</h1>} />
-          </>
-        )}
+        <Route index element={cookies.get("token") ? <Navigate to="dashboard/home" /> : <Landing />}/>
+        { 
+          !cookies.get("token") && (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<h1>401 UNAUTHORIZED</h1>} />
+            </>
+          )
+        }
 
-        {cookies.get("token") && (
-          <>
-            <Route path="/dashboard/*" element={<Layout />} />
-            <Route path="/popup" element={<ChangeClass />} />
-            <Route path="/myaccount" element={<MyAccount />} />
-          </>
-        )}
+        {
+          cookies.get("token") && (
+            <>
+              <Route path="/dashboard/*" element={<Layout />} />
+              <Route path="/popup" element={<ChangeClass />} />
+              <Route path="/myaccount" element={<MyAccount />} />
+            </>
+          )
+        }
       </Routes>
     </div>
   );

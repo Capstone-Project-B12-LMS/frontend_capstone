@@ -7,7 +7,7 @@ import Button from "./Button";
 import Input from "./Input";
 import Footer from './Footer'
 import Tab from './Tab'
-import UserList from "./UserList";
+import List from "./List";
 import PasswordWarning from "./PasswordWarning";
 import RegisterAlert from "./RegisterAlert";
 import PopUp from "./Popup";
@@ -26,7 +26,7 @@ export {
     Input,
     Footer,
     Tab,
-    UserList,
+    List,
     PasswordWarning,
     RegisterAlert,
     PopUp,
