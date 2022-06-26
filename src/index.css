@@ -98,15 +98,11 @@
 [data-popup="tooltip"].popup-overlay {
   background: transparent;
 }
-/* 
-.fade-in {
-  animation: fadeIn 0.5s;
+
+
+/* Loading  */
+
+.loading{
+  background: conic-gradient(#0000 10%,#415a80);
+  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 14.1px),#000 0);
 }
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 100;
-  }
-} */

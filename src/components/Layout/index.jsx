@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Routes, Route } from "react-router-dom";
+import { useLocation, useNavigate, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
 import Swal from 'sweetalert2'
@@ -12,7 +12,7 @@ import { CREATE_CLASS, JOIN_CLASS } from "../../graphql/ClassQuery";
 
 // Component
 
-import { Header, Sidebar, Dropdown, PopUp, Button, Spinner ,ErrorAlert } from '../'
+import { Header, Sidebar, Dropdown, PopUp, Button, Spinner ,ErrorAlert, NoMatch } from '../'
 
 // Page
 
@@ -21,6 +21,7 @@ import StudentClass from "../../pages/StudentClass";
 import Classall from "../../pages/Dashboard/classAll";
 import ClassStudent from "../../pages/Dashboard/classStudent";
 import ClassTeacher from "../../pages/Dashboard/classTeacher";
+import MyAccount from '../../pages/MyAccount';
 
 // Icon
 
@@ -161,8 +162,8 @@ const Layout = () => {
         })
         .then((result) => {
             if (result.isConfirmed) {
-                cookies.remove('token')
-                navigate('/')
+                cookies.remove('token', {path: '/'})
+                window.location.href = "/"
             }
         })
     };
@@ -174,7 +175,7 @@ const Layout = () => {
                 icon: AccountIcon,
                 text: 'my account',
                 type: 'list',
-                path: '/myaccount'
+                path: 'account'
             },
             {
                 icon: LogOutIcon,
@@ -271,18 +272,24 @@ const Layout = () => {
 
 
         <Header usingToggle={true} toggleClick={handleSidebarShow}>
-            <div className="flex ml-auto">
-                <Dropdown list={dropdownItem.class}>
-                    <img src={AddIcon} alt="icon" className="w-[24px] h-[24px]" />
-                </Dropdown>
-                <Dropdown list={dropdownItem.user}>
-                    <div className="w-[50px] h-[50px] overflow-hidden rounded-full mr-2">
-                        <img src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="avatar" />
+            {
+                !!dataLogin ? 
+
+                    <div className="flex ml-auto">
+                        <Dropdown list={dropdownItem.class}>
+                            <img src={AddIcon} alt="icon" className="w-[24px] h-[24px]" />
+                        </Dropdown>
+                        <Dropdown list={dropdownItem.user}>
+                            <div className="w-[50px] h-[50px] overflow-hidden rounded-full mr-2">
+                                <img src={`https://i.pravatar.cc/150?u=${dataLogin?.id}`} alt="avatar" />
+                            </div>
+                            <span className="block max-w-[150px] text-2xl text-black font-medium mr-4 overflow-hidden whitespace-nowrap text-ellipsis">{dataLogin?.fullName}</span>
+                            <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]"/>
+                        </Dropdown>
                     </div>
-                    <span className="text-2xl text-black font-medium mr-4">{dataLogin?.fullName}</span>
-                    <img src={ExpandIcon} alt="icon" className="w-[15px] h-[8px]"/>
-                </Dropdown>
-            </div>
+
+                : false
+            }
         </Header>
 
         <Sidebar isOpen={showSidebar} setIsOpen={handleSidebarShow} />
@@ -297,6 +304,13 @@ const Layout = () => {
                 <Route path="my-class" element={<Classall/>} />
                 <Route path="my-class/student" element={<ClassStudent />} />
                 <Route path="my-class/teacher" element={<ClassTeacher />} />
+                <Route path="account" element={<MyAccount/>}/>
+                <Route path="*" element={ 
+                    <NoMatch 
+                        text="404 - PAGE NOT FOUND"
+                        description="The page you're looking not found . Please make sure you typed correct url."
+                    />
+                }/>
             </Routes>
         </div>
 

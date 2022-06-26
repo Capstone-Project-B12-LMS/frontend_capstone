@@ -7,7 +7,7 @@ import Button from "./Button";
 import Input from "./Input";
 import Footer from './Footer'
 import Tab from './Tab'
-import UserList from "./UserList";
+import List from "./List";
 import PasswordWarning from "./PasswordWarning";
 import RegisterAlert from "./RegisterAlert";
 import PopUp from "./Popup";
@@ -15,6 +15,9 @@ import Spinner from './Spinner';
 import ErrorAlert from "./ErrorAlert";
 import EmptyContent from "./EmptyContent";
 import Material from "./Material";
+import Loading from './Spinner/Loading'
+import MyAccountInput from './MyAccountInput'
+import NoMatch from "./NoMatch";
 
 export {
     Card,
@@ -26,12 +29,15 @@ export {
     Input,
     Footer,
     Tab,
-    UserList,
+    List,
     PasswordWarning,
     RegisterAlert,
     PopUp,
     Spinner,
     ErrorAlert,
     EmptyContent,
-    Material
+    Material,
+    Loading,
+    MyAccountInput,
+    NoMatch
 }

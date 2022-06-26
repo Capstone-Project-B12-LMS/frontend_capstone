@@ -1,30 +1,22 @@
 import { memo } from 'react'
-import { useQuery } from '@apollo/client';
 
-import { UserList , EmptyContent , Material} from '../../components';
-import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
+import { List , EmptyContent , Material} from '../../components';
 import Illustration from '../../assets/img/no-description.png'
 
 
 
 
 
-const Description = ({ participant , class_id })=>{
-
-    const {data , loading } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id }})
+const Description = ({ participant , material })=>{
 
     const membersTotal = [...participant.teacher , ...participant.student].length;
 
-    console.log(data)
 
     return(
         <>
-                {
-                    loading ? <h2>Loading Dulu nih...</h2> : 
-
                     <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-8">
                         {
-                            !data.material.findAllByClassId.length ?
+                            !material ?
 
                             <EmptyContent
                                 img={Illustration}
@@ -34,10 +26,9 @@ const Description = ({ participant , class_id })=>{
 
                             :
 
-                            <Material assets={data.material.findAllByClassId[0]}/>
+                            <Material assets={material}/>
                         }
                     </div>
-                }
 
                 {
                     membersTotal > 0 ?
@@ -61,12 +52,15 @@ const Description = ({ participant , class_id })=>{
                             <div className='mt-6 min-h-[150px] max-h-[250px] overflow-y-auto'>
                                 {
                                     participant.teacher.map(member => (
-                                        <UserList 
+                                        <List 
                                             key={member.id}
-                                            avatar="https://i.ibb.co/nwbqL4K/7ba8ec4a42b529dcbbc695ce0dd07a4a.jpg"
-                                            name={member.fullName}
-                                            role="Teacher"
-                                        />
+                                            icon={`https://i.pravatar.cc/150?u=${member.id}`}
+                                        >
+                                            <div className="flex flex-col justify-center">
+                                                <h3 className="text-xl text-bold font-bold capitalize">{member.fullName}</h3>
+                                                <span className="text-base text-[#A8A8A8] font-normal">Teacher</span>
+                                            </div>
+                                        </List>
                                     ))
                                 }
                             </div>
@@ -82,12 +76,16 @@ const Description = ({ participant , class_id })=>{
                                     !participant.student.length ? <p>No student in your class</p> :
 
                                     participant.student.map(member => (
-                                        <UserList 
+                                        <List 
                                             key={member.id}
-                                            avatar={`https://i.pravatar.cc/150?u=${member.id}`}
-                                            name={member.fullName}
-                                            role="Student"
-                                        />
+                                            icon={`https://i.pravatar.cc/150?u=${member.id}`}
+                                            
+                                        >
+                                            <div className="flex flex-col justify-center">
+                                                <h3 className="text-xl text-bold font-bold capitalize">{member.fullName}</h3>
+                                                <span className="text-base text-[#A8A8A8] font-normal">Student</span>
+                                            </div>
+                                        </List>
                                     ))
                                 }
                             </div>

@@ -3,24 +3,34 @@ import { useSelector } from "react-redux";
 import { Routes, Route , useParams } from "react-router-dom"
 import { useQuery } from "@apollo/client";
 
+
 // GraphQL
 
 import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
+import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 
 
-// Component
 
-import { Tab, Button , PopUp } from "../../components";
+// Component & Sub Pages
+
+import Description from "./Description";
+import Content from "./Content";
+import Feedback from "./Feedback";
+import { Tab, Button , PopUp , Loading, NoMatch } from "../../components";
+
+
 
 // Assets
 
 import Banner_Illust from '../../assets/img/illustration-class.png'
-import Description from "./Description";
 import CompleteIcon from "../../assets/icons/complete-icon.svg"
 
 
 
+
 const StudentClass = () => {
+
+    // Hooks
 
     const [participants , setParticipants] = useState({
         teacher : [],
@@ -32,11 +42,15 @@ const StudentClass = () => {
     const param =  useParams();
 
     const { dataLogin } = useSelector((state) => state.login);
-    const { data, loading } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
+    const { data: dataClass , loading: loadingDataClass } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
+    const { data: dataMaterial , loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id : param.id }})
+
+
+    const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
 
     const Tabpath = [
         { text : "description" , path: `.`},
-        { text : "content", path: './content'},
+        { text : `content${materialSize ? `(${materialSize})` : ""}`, path: './content'},
         { text : "feedback", path: './feedback'}
     ]
 
@@ -44,8 +58,8 @@ const StudentClass = () => {
     // Method list
 
     const getParticipant = ( ) => {
-        const members = data.class.findById.users
-        const owner = data.class.findById.createdBy
+        const members = dataClass.class.findById.users
+        const owner = dataClass.class.findById.createdBy
 
         const student = members.filter(member => member.email !== owner);
         const teacher = members.filter(member => member.email === owner);
@@ -63,16 +77,23 @@ const StudentClass = () => {
 
 
     useEffect(()=>{
-        if(!loading && !!data?.class?.findById) setParticipants({...getParticipant()});
-    },[loading , data])
+        if(!loadingDataClass && !!dataClass?.class?.findById) setParticipants({...getParticipant()});
+    },[loadingDataClass , dataClass])
    
 
     return (
         <>
             {
-                loading ? <h2>Loading dulu ya guys...</h2> :
+                loadingDataClass || loadingMaterial ? <Loading size="100"/> :
 
-                    !data?.class?.findById && !isUserAllowed(dataLogin?.id) ? <h2>Class not found...</h2> :
+                    !dataClass?.class?.findById && !isUserAllowed(dataLogin?.id) ? 
+                    
+                    <NoMatch 
+                        text="Class Not Found"
+                        description="Make sure you are a student and visit the right class, please join the class first"
+                    />
+
+                    :
 
                     <>
                         <PopUp
@@ -95,7 +116,7 @@ const StudentClass = () => {
                             <Tab list={Tabpath}/>
 
                             <div className="flex justify-between w-full h-[320px] mt-6 px-10 bg-[#79C9DB] rounded-[20px]">
-                                <p className="text-[40px] text-white font-bold mb-8 uppercase self-end max-w-[1000px]">{data.class.findById.name}</p>
+                                <p className="text-[40px] text-white font-bold mb-8 uppercase self-end max-w-[1000px]">{dataClass.class.findById.name}</p>
                                 <img src={Banner_Illust} className="w-[445px] h-[307px] object-cover" alt="illustration"/>
                             </div>
 
@@ -106,14 +127,14 @@ const StudentClass = () => {
                                     <div className="flex flex-col items-center bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-6">
                                         <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                                             <img 
-                                                src="https://i.ibb.co/nwbqL4K/7ba8ec4a42b529dcbbc695ce0dd07a4a.jpg" 
+                                                src={`https://i.pravatar.cc/150?u=${participants.teacher[0]?.id}`}
                                                 alt="teacher-class" 
                                                 className="object-cover object-center w-full h-full"
                                             />
                                         </div>
                                         <div className="mt-4">
                                             <h4 className="font-bold text-black text-center text-2xl">{ participants.teacher[0]?.fullName }</h4>
-                                            <p className="text-base text-center text-[#A8A8A8] mt-1"> Teacher { data.class.findById.name }</p>
+                                            <p className="text-base text-center text-[#A8A8A8] mt-1"> Owner at { dataClass.class.findById.name }</p>
                                         </div>
                                     </div>
 
@@ -129,14 +150,25 @@ const StudentClass = () => {
 
                                 </div>
 
+                                {/* Sub page */}
+
                                 <div>
                                     <Routes>
-                                        <Route index element={
-                                            <Description participant={participants} class_id={param.id}/>
-                                        }/>
-                                        <Route path="content" element={<h1>Content</h1>}/>
+                                        <Route index 
+                                            element={
+                                                <Description 
+                                                    participant={participants} 
+                                                    material={dataMaterial.material.findAllByClassId[0]}
+                                                />
+                                            }
+                                        />
+                                        <Route path="content" 
+                                            element={<Content materials={dataMaterial.material.findAllByClassId}/>} 
+                                        />
+                                        <Route path="feedback" element={<Feedback/>}/>
                                     </Routes>
                                 </div>
+                                                    
                             </div>
                         </div>
                     </>

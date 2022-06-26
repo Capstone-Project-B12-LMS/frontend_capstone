@@ -16,7 +16,7 @@ import useGetUser from "./graphql/GetUser";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Landing from "./pages/Index";
-import MyAccount from "./pages/MyAccount";
+import NoMatch from "./components/NoMatch";
 import Layout from "./components/Layout";
 import ChangeClass from "./components/Popup/ChangeClass";
 
@@ -46,7 +46,12 @@ const App = () => {
             <>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="*" element={<h1>401 UNAUTHORIZED</h1>} />
+              <Route path="*" element={
+                <NoMatch 
+                  text="401 - UNAUTHORIZED ACCESS"
+                  description="You are not authorized to access this page , please login before !"
+                />
+              }/>
             </>
           )
         }
@@ -56,7 +61,12 @@ const App = () => {
             <>
               <Route path="/dashboard/*" element={<Layout />} />
               <Route path="/popup" element={<ChangeClass />} />
-              <Route path="/myaccount" element={<MyAccount />} />
+              <Route path="*" element={
+                <NoMatch 
+                  text="404 - PAGE NOT FOUND"
+                  description="The page you're looking not found . Please make sure you typed correct url."
+                />
+              }/>
             </>
           )
         }
