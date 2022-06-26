@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { userQuery } from "./GetUser";
 
 const updateAccountQuery = gql`
   mutation update(
@@ -20,9 +21,14 @@ const updateAccountQuery = gql`
   }
 `;
 
-const useUpdateAccount = () => {
+const useUpdateAccount = (id) => {
   const [insertAccountData, { data, loading, error }] =
-    useMutation(updateAccountQuery);
+    useMutation(updateAccountQuery, {
+      refetchQueries: [{
+        query: userQuery,
+        variables: {id: id}
+      }]
+    });
 
   return { insertAccountData, data, loading, error };
 };
