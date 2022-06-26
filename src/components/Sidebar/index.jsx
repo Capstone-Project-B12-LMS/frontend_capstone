@@ -49,7 +49,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   ]
 
   return (
-    <div className={`fixed inset-0 w-screen height-screen bg-[rgba(0,0,0,0.5)] inset-y-0 ease-[0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)] duration-500 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+    <div className={`fixed inset-0 w-screen height-screen bg-[rgba(0,0,0,0.5)] inset-y-0 ease-[0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)] duration-500 z-30 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
       <aside ref={ref} className={`flex flex-col justify-items-center w-[320px] h-screen pb-10 bg-light-blue fixed ease-[0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940)] duration-500 delay-00 ${isOpen ? 'left-0' : 'left-[-320px]'}`} >
         <BrandLogo wrapperImgStyle='w-[200px] h-[50px]' logoClick={(e)=>setIsOpen(e,false)}/>
         <ul className="list-none w-full overflow-x-hidden mt-4">
