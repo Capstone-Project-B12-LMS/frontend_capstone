@@ -9,7 +9,7 @@ const Content = ({ materials }) => {
     return (
         <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-8">
             {
-                !materials?.length && !materials ?
+                !materials?.length || !materials ?
 
                 <EmptyContent
                     img={Illustration}

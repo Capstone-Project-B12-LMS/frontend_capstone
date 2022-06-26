@@ -54,7 +54,7 @@ const Description = ({ participant , material })=>{
                                     participant.teacher.map(member => (
                                         <List 
                                             key={member.id}
-                                            icon="https://i.ibb.co/nwbqL4K/7ba8ec4a42b529dcbbc695ce0dd07a4a.jpg"
+                                            icon={`https://i.pravatar.cc/150?u=${member.id}`}
                                         >
                                             <div className="flex flex-col justify-center">
                                                 <h3 className="text-xl text-bold font-bold capitalize">{member.fullName}</h3>

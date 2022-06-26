@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import { GET_CLASS_BY_U_ID } from "../../graphql/ClassQuery";
 import { useQuery } from "@apollo/client";
 
-import { Card } from "../../components";
+import { Card , Loading} from "../../components";
 import Illustration from '../../assets/img/illustration_1.png';
+
 
 
 
@@ -24,7 +25,7 @@ const Home = ({ createClass, joinClass }) => {
     return (
         <>
             {
-                loading || !data ? <h2>Sabar guys loading dulu ya....</h2> :
+                loading || !data ? <Loading size="100"/> :
 
                     <>
                         {/* Banner Dashboard */}

@@ -15,7 +15,8 @@ import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 
 import Description from "./Description";
 import Content from "./Content";
-import { Tab, Button , PopUp } from "../../components";
+import Feedback from "./Feedback";
+import { Tab, Button , PopUp , Loading, NoMatch } from "../../components";
 
 
 
@@ -44,9 +45,12 @@ const StudentClass = () => {
     const { data: dataClass , loading: loadingDataClass } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
     const { data: dataMaterial , loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id : param.id }})
 
+
+    const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
+
     const Tabpath = [
         { text : "description" , path: `.`},
-        { text : "content", path: './content'},
+        { text : `content${materialSize ? `(${materialSize})` : ""}`, path: './content'},
         { text : "feedback", path: './feedback'}
     ]
 
@@ -80,9 +84,16 @@ const StudentClass = () => {
     return (
         <>
             {
-                loadingDataClass || loadingMaterial ? <h2>Loading dulu ya guys...</h2> :
+                loadingDataClass || loadingMaterial ? <Loading size="100"/> :
 
-                    !dataClass?.class?.findById && !isUserAllowed(dataLogin?.id) ? <h2>Class not found...</h2> :
+                    !dataClass?.class?.findById && !isUserAllowed(dataLogin?.id) ? 
+                    
+                    <NoMatch 
+                        text="Class Not Found"
+                        description="Make sure you are a student and visit the right class, please join the class first"
+                    />
+
+                    :
 
                     <>
                         <PopUp
@@ -116,7 +127,7 @@ const StudentClass = () => {
                                     <div className="flex flex-col items-center bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-6">
                                         <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                                             <img 
-                                                src="https://i.ibb.co/nwbqL4K/7ba8ec4a42b529dcbbc695ce0dd07a4a.jpg" 
+                                                src={`https://i.pravatar.cc/150?u=${participants.teacher[0]?.id}`}
                                                 alt="teacher-class" 
                                                 className="object-cover object-center w-full h-full"
                                             />
@@ -154,6 +165,7 @@ const StudentClass = () => {
                                         <Route path="content" 
                                             element={<Content materials={dataMaterial.material.findAllByClassId}/>} 
                                         />
+                                        <Route path="feedback" element={<Feedback/>}/>
                                     </Routes>
                                 </div>
                                                     
