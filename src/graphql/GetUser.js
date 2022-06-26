@@ -20,4 +20,4 @@ const useGetUser = (userId) => {
   return { data, loading, error };
 };
 
-export default useGetUser;
+export {useGetUser, userQuery};

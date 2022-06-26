@@ -37,7 +37,7 @@ const Login = ({
 
       //setuserid
       dispatch(setDecode(jwtDecode(data.user.login.token).userId));
-      cookies.set("token", data.user.login.token, { maxAge: 3600});
+      cookies.set("token", data.user.login.token, { maxAge: 43200});
     }
   }, [data]);
 
@@ -76,12 +76,14 @@ const Login = ({
               <Input
                 icon={require("../assets/img/email.png")}
                 name="email"
+                type="email"
                 value={email}
                 setValue={(value) => dispatch(setEmail(value))}
               />
               <Input
                 icon={require("../assets/img/lock.png")}
                 name="password"
+                type="password"
                 value={password}
                 setValue={(value) => dispatch(setPassword(value))}
               />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const InputComponent = ({ name, value, setValue, icon }) => {
+const InputComponent = ({ name, value, setValue, icon, type }) => {
   const [isEyeClicked, setIsEyeClicked] = useState(false);
   const passwordType = () => {
     return isEyeClicked ? "text" : "password";
@@ -18,7 +18,8 @@ const InputComponent = ({ name, value, setValue, icon }) => {
           placeholder={name}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          type={name !== `password` ? `text` : passwordType()}
+          // type={name !== `password` ? `text` : passwordType()}
+          type={type === 'password' && passwordType() || type}
           name={name}
           required
         />

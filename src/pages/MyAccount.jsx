@@ -5,15 +5,15 @@ import useUpdateAccount from "../graphql/UpdateAccount";
 
 
 const MyAccount = () => {
- 
-  const { insertAccountData, error } = useUpdateAccount();
+  const { dataLogin } = useSelector((state) => state.login);
+  const { insertAccountData, error } = useUpdateAccount(dataLogin?.id);
   const [accountData, setAccountData] = useState({
     fullName: "",
     email: "",
     telepon: "",
   });
     
-  const { dataLogin } = useSelector((state) => state.login);
+  
 
   useEffect(() => {
     setAccountData({
@@ -43,7 +43,6 @@ const MyAccount = () => {
     });
   };
   if (error) return <pre>{error.message}</pre>;
-
 
   return (
     <>
