@@ -1,7 +1,6 @@
 import { Card } from "../../components";
 import HeaderClass from "./headerClass";
 import useGetClass from "../../graphql/GetClass";
-import useGetUser from "../../graphql/GetUser";
 import { useSelector } from "react-redux";
 
 const Home = () => {
@@ -12,7 +11,7 @@ const Home = () => {
 
   const dataEmail = dataLogin?.email
   console.log(dataEmail)
-  const loadingData = data;
+  
   const student = data.user.findByClassByUserId.filter(
     (e) => dataEmail !== e.createdBy
   );
