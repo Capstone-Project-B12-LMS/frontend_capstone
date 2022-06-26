@@ -3,9 +3,10 @@ import ReactQuill from 'react-quill';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 // Components
-import { Button, PopUp } from '../../components';
+import { Button, PopUp, Material } from '../../components';
 import AddLinkPPT from '../../components/Popup/AddLinkPPT';
 import AddLinkVideo from '../../components/Popup/AddLinkVideo';
 
@@ -14,6 +15,7 @@ import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
 import { NEW_CONTENT_CLASS } from '../../graphql/ClassMutation';
+import { useEffect } from 'react';
 // import { GET_CLASS_BYID } from '../../graphql/ClassQuery';
 
 
@@ -31,6 +33,12 @@ const InputAnnouncement = () => {
     const [description, setDescription] = useState("");
     const [linkPowerPoint, setLinkPowerPoint] = useState("");
     const [linkVideo, setLinkVideo] = useState("");
+
+    const isiMaterial = {
+        title,
+        content: description,
+        videoUrl: linkVideo
+    }
 
 
     // Event handler
@@ -69,19 +77,26 @@ const InputAnnouncement = () => {
         setDescription("");
     }
 
+    useEffect(() => {
+        console.log(isiMaterial);
+        console.log(title);
+        console.log(description);
+        console.log(linkVideo);
+    }, [])
+
 
     return (
         <>
             <div className=''>
                 <PopUp
-                    styling={"w-[500px] min-h-[300px] max-h-min"}
+                    styling={"w-[500px]  max-h-min"}
                     show={powerPoint}
                     setShow={showPopupPPT}
                 >
                     <AddLinkPPT func={getLinkPPT} />
                 </PopUp>
                 <PopUp
-                    styling={"w-[500px] min-h-[300px] max-h-min"}
+                    styling={"w-[500px] max-h-min"}
                     show={videoLink}
                     setShow={showPopupVideoLink}
                 >
@@ -102,10 +117,10 @@ const InputAnnouncement = () => {
                         onChange={setDescription}
                     />
                     <div className='flex mt-[2rem] justify-between'>
-                        <div className='w-[30%] flex justify-between'>
+                        <div className='w-[50%] flex'>
                             <Button
                                 text={"Upload PPT"}
-                                styling={"rounded-[7px] px-[1rem]"}
+                                styling={"rounded-[7px] px-[1rem] mr-[1rem]"}
                                 handleClick={setPowerPoint}
                             />
                             <Button
@@ -114,19 +129,22 @@ const InputAnnouncement = () => {
                                 handleClick={setVideoLink}
                             />
                         </div>
-                        <div className='w-[20%] flex justify-between pr-[1rem]'>
+                        <div className='w-[50%] flex justify-end'>
                             <Button
                                 styling={"rounded-[10px] px-[1rem] text-black bg-[#F5F5F5]"}
                                 text={"Cancel"}
                                 handleClick={handleCancel}
                             />
                             <Button
-                                styling={"rounded-[10px] px-[1rem]"}
+                                styling={"rounded-[10px] px-[1rem] ml-[1rem]"}
                                 text={"Posting"}
                                 handleClick={handleSubmit}
                             />
                         </div>
                     </div>
+                    {
+                        linkVideo && <Material assets={isiMaterial} />
+                    }
                 </div>
             </div>
         </>
