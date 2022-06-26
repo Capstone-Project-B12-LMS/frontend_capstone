@@ -5,8 +5,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'light-blue':'#9EC9E2',
-        'dark-blue':'#7FB0CC'
+        'light-blue': '#9EC9E2',
+        'dark-blue': '#7FB0CC',
+        'deep-azure': "#415A80"
       },
       fontFamily: {
         'poppins': ['Poppins', 'sans-serif'],

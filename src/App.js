@@ -9,7 +9,7 @@ import jwtDecode from "jwt-decode";
 // Redux , GraphQL
 
 import { setDecode, setDataLogin } from "./redux/loginSlice";
-import useGetUser from "./graphql/GetUser";
+import {useGetUser} from "./graphql/GetUser";
 
 // Pages & Component
 
@@ -28,10 +28,10 @@ const App = () => {
   const dispatch = useDispatch();
   const { decode } = useSelector((state) => state.login);
   const { data } = useGetUser(decode);
-  
+
   useEffect(() => {
     if (cookies.get("token")) dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
-  },[]);
+  }, []);
 
   useEffect(() => {
     dispatch(setDataLogin(data?.user.findById));
@@ -40,8 +40,8 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route index element={cookies.get("token") ? <Navigate to="dashboard/home" /> : <Landing />}/>
-        { 
+        <Route index element={cookies.get("token") ? <Navigate to="dashboard/home" /> : <Landing />} />
+        {
           !cookies.get("token") && (
             <>
               <Route path="/login" element={<Login />} />

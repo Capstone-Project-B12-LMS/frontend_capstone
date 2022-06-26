@@ -48,6 +48,8 @@ const GET_CLASS_BYID = gql`
       findById(id: $id) {
         name
         createdBy
+        code
+        name
         users {
           id
           fullName
