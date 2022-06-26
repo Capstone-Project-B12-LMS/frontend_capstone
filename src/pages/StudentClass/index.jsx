@@ -85,7 +85,6 @@ const StudentClass = () => {
         }
     },[loadingDataClass , dataClass , loadingMaterial , dataMaterial])
 
-    //&& !dataClass?.class?.findById
 
     return (
         <>
