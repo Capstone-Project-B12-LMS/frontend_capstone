@@ -9,6 +9,7 @@ import { Footer } from "../components";
 
 import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
+import swal from "sweetalert";
 
 const Index = () => {
   const cookies = new Cookies();
@@ -26,11 +27,15 @@ const Index = () => {
       )
       .then((res) => {
         console.log(res);
-
-        window.location.reload();
-        alert("pesan anda Sudah terkirim");
+        swal({
+          title: "Pesan anda sudah terkirim !",
+          text: "Terimakasih!",
+          icon: "success",
+          button: "Oke",
+        });
       })
       .catch((err) => console.log(err));
+      e.target.reset()
   }
 
   return (
@@ -120,7 +125,7 @@ const Index = () => {
                       />
                     </div>
                     <div className="col-span-2  rounded-r-xl shadow-[1px_2px_2px_rgba(0,0,0,1)]">
-                      <h2 className="text-center mt-4">Contact US</h2>
+                      <h2 className="text-center mt-4">Contact Us</h2>
                       <br></br>
                       <div className="grid place-items-center mx-auto px-5 ">
                         <form onSubmit={sendEmail}>

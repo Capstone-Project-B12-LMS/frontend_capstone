@@ -22,7 +22,7 @@ const Home = () => {
           <Card
             key={materi.id}
             title={materi.name}
-            progress={materi.code}
+            code={materi.code}
             thumbnail="https://i.ibb.co/k6wjmXK/thumbnail-class.png"
             url={`../class/${materi.id}`}
           />
