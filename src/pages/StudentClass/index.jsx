@@ -69,7 +69,8 @@ const StudentClass = () => {
     }
 
     const changeIndexMaterial = (index = 0) => setIndexMaterial(dataMaterial?.material?.findAllByClassId[index])
-    const isUserAllowed = (id) => !id ? false : participants.student.find(student => student.id === dataLogin?.id)
+
+    const isUserAllowed = (id) => !id ? false : !!participants.student.find(student => student.id === dataLogin?.id)
 
 
     const requestCounselling = ()=> {
@@ -83,14 +84,15 @@ const StudentClass = () => {
             changeIndexMaterial();
         }
     },[loadingDataClass , dataClass , loadingMaterial , dataMaterial])
-   
+
+    //&& !dataClass?.class?.findById
 
     return (
         <>
             {
                 loadingDataClass || loadingMaterial ? <Loading size="100"/> :
 
-                    !dataClass?.class?.findById && !isUserAllowed(dataLogin?.id) ? 
+                    !isUserAllowed(dataLogin?.id) || !dataClass?.class?.findById ? 
                     
                     <NoMatch 
                         text="Class Not Found"
