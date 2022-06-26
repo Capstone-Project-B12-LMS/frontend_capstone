@@ -104,8 +104,3 @@ const Home = ({ createClass, joinClass }) => {
 }
 
 export default Home;
-
-
-/*
-
-*/

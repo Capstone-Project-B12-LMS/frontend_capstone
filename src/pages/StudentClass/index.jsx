@@ -38,8 +38,9 @@ const StudentClass = () => {
     });
 
     const [showCard , setShowCard] = useState(false);
-
+    const [indexMaterial,setIndexMaterial] = useState(null);
     const param =  useParams();
+
 
     const { dataLogin } = useSelector((state) => state.login);
     const { data: dataClass , loading: loadingDataClass } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
@@ -67,8 +68,9 @@ const StudentClass = () => {
         return { student , teacher }
     }
 
-    const isUserAllowed = (id) => !id ? false : 
-        participants.student.find(student => student.id === dataLogin?.id)
+    const changeIndexMaterial = (index = 0) => setIndexMaterial(dataMaterial?.material?.findAllByClassId[index])
+
+    const isUserAllowed = (id) => !id ? false : !!participants.student.find(student => student.id === dataLogin?.id)
 
 
     const requestCounselling = ()=> {
@@ -77,16 +79,20 @@ const StudentClass = () => {
 
 
     useEffect(()=>{
-        if(!loadingDataClass && !!dataClass?.class?.findById) setParticipants({...getParticipant()});
-    },[loadingDataClass , dataClass])
-   
+        if(!loadingDataClass && !!dataClass?.class?.findById && !loadingMaterial && !!dataMaterial?.material?.findAllByClassId){
+            setParticipants({...getParticipant()})
+            changeIndexMaterial();
+        }
+    },[loadingDataClass , dataClass , loadingMaterial , dataMaterial])
+
+    //&& !dataClass?.class?.findById
 
     return (
         <>
             {
                 loadingDataClass || loadingMaterial ? <Loading size="100"/> :
 
-                    !dataClass?.class?.findById && !isUserAllowed(dataLogin?.id) ? 
+                    !isUserAllowed(dataLogin?.id) || !dataClass?.class?.findById ? 
                     
                     <NoMatch 
                         text="Class Not Found"
@@ -158,12 +164,16 @@ const StudentClass = () => {
                                             element={
                                                 <Description 
                                                     participant={participants} 
-                                                    material={dataMaterial.material.findAllByClassId[0]}
+                                                    material={indexMaterial}
                                                 />
                                             }
                                         />
                                         <Route path="content" 
-                                            element={<Content materials={dataMaterial.material.findAllByClassId}/>} 
+                                            element={
+                                                <Content 
+                                                    materials={dataMaterial.material.findAllByClassId} 
+                                                    handleSelectMaterial={changeIndexMaterial}
+                                            />} 
                                         />
                                         <Route path="feedback" element={<Feedback/>}/>
                                     </Routes>
