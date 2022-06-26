@@ -14,7 +14,7 @@ import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
 import { NEW_CONTENT_CLASS } from '../../graphql/ClassMutation';
-import { GET_CLASS_BYID } from '../../graphql/ClassQuery';
+// import { GET_CLASS_BYID } from '../../graphql/ClassQuery';
 
 
 
@@ -45,17 +45,20 @@ const InputAnnouncement = () => {
         setLinkVideo(linkVideo);
     }
 
-    const { data, loading } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
-    const [addData, { data: dataClass, loading: loadingClass }] = useMutation(NEW_CONTENT_CLASS, {
-        onCompleted: dataClass => console.log(dataClass, "Berhasil"),
-        onError: dataClass => console.log("Terjadi error")
+    // const { data, loading } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
+    const [addData, { data, loading, error }] = useMutation(NEW_CONTENT_CLASS, {
+        onCompleted: data => console.log(data, "Berhasil"),
+        onError: error => console.log("Terjadi error", error)
     });
     const handleSubmit = (e) => {
         e.preventDefault();
         addData({
-            classId: data?.class.findById.id,
-            title: title,
-            content: description,
+            variables: {
+                classId: params.id,
+                title: title,
+                content: description,
+                point: 100
+            }
         })
         setTitle("");
         setDescription("");
@@ -65,9 +68,6 @@ const InputAnnouncement = () => {
         setTitle("");
         setDescription("");
     }
-
-    // console.log(linkVideo);
-    console.log(data?.class.findById.id);
 
 
     return (

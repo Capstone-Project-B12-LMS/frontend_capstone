@@ -294,7 +294,7 @@ const Layout = () => {
                 <Routes>
                     <Route path="home" element={<Home joinClass={showPopupJoin} createClass={showPopupCreate} />} />
                     <Route path="class/:id/*" element={<StudentClass />} />
-                    <Route path="class/t/:id/*" element={<h1>Teacher Class</h1>} />
+                    <Route path="class/t/:id/*" element={<TeacherClass />} />
                     <Route path="my-class" element={<Classall />} />
                     <Route path="my-class/student" element={<ClassStudent />} />
                     <Route path="my-class/teacher" element={<ClassTeacher />} />

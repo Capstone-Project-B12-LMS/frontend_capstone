@@ -35,9 +35,6 @@ const TeacherClass = () => {
     }
 
 
-
-    // console.log(data?.class.findById.id);
-
     return (
         <>
 
