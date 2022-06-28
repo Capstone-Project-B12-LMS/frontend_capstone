@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const Tab = ({ list }) => {
     return(
-        <div className="flex justify-center">
+        <div className="flex justify-center bg-white py-8 sticky top-[120px]">
                 {
                     list.map( item => (
                         <NavLink 

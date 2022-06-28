@@ -1,3 +1,5 @@
+import Logo from "../../assets/img/Logo.png";
+
 const Footer = () => {
   return (
     <div className="relative">
@@ -5,7 +7,9 @@ const Footer = () => {
         <div className="box-border w-full p-4 bg-[#9EC9E2]">
           <div className="grid grid-rows-2 grid-flow-col gap-2 text-justify">
             <div className="row-span-6 ">
-              <div className="absolute rounded-full w-[130px] h-[130px] ml-[90px] mt-[15px] bg-[#000000]"></div>
+              <div className="absolute rounded-full w-[130px] h-[130px] ml-[90px] mt-[10px] ">
+                <img src={Logo} alt="" />
+              </div>
             </div>
             <div className="row-span-6">
               <div className="grid grid-rows-5 grid-flow-col gap-1 ml-[700px]">

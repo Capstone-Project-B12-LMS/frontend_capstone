@@ -81,12 +81,14 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
               <Input
                 icon={require("../assets/img/person.png")}
                 name="username"
+                type="text"
                 value={username}
                 setValue={(value) => dispatch(setUsername(value))}
               />
               <Input
                 icon={require("../assets/img/email.png")}
                 name="email"
+                type="email"
                 value={email}
                 setValue={(value) => dispatch(setEmail(value))}
               />
@@ -94,6 +96,7 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
                 <Input
                   icon={require("../assets/img/lock.png")}
                   name="password"
+                  type="password"
                   value={password}
                   setValue={(value) => dispatch(setPassword(value))}
                 />
