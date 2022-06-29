@@ -9,6 +9,7 @@ import { Footer } from "../components";
 
 import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
+import swal from "sweetalert";
 
 const Index = () => {
   const cookies = new Cookies();
@@ -26,9 +27,13 @@ const Index = () => {
       )
       .then((res) => {
         console.log(res);
-
-        window.location.reload();
-        alert("pesan anda Sudah terkirim");
+        swal({
+          title: "Pesan anda sudah terkirim !",
+          text: "Terimakasih!",
+          icon: "success",
+          button: "Oke",
+        });
+        e.target.reset();
       })
       .catch((err) => console.log(err));
   }
@@ -36,7 +41,6 @@ const Index = () => {
   return (
     <div>
       <div className="bg-[url('/src/assets/img/Vector.png')] bg-no-repeat bg-[length:600px_584px]">
-        
         {/* Header Area */}
 
         <header>
@@ -60,7 +64,7 @@ const Index = () => {
                       setOpenLoginModal={() => setOpenLoginModal(false)}
                     />
                   )}
-                  {!cookies.get('token') &&
+                  {!cookies.get("token") && (
                     <>
                       <button
                         onClick={() => setOpenLoginModal(true)}
@@ -76,7 +80,7 @@ const Index = () => {
                         Sign up
                       </button>
                     </>
-                  }
+                  )}
                   {openRegisterModal && openRegisterModal && (
                     <Register
                       openRegisterModal={openRegisterModal}
@@ -120,7 +124,7 @@ const Index = () => {
                       />
                     </div>
                     <div className="col-span-2  rounded-r-xl shadow-[1px_2px_2px_rgba(0,0,0,1)]">
-                      <h2 className="text-center mt-4">Contact US</h2>
+                      <h2 className="text-center mt-4">Contact Us</h2>
                       <br></br>
                       <div className="grid place-items-center mx-auto px-5 ">
                         <form onSubmit={sendEmail}>
@@ -144,6 +148,7 @@ const Index = () => {
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                               placeholder="Full Name"
                               name="name"
+                              required
                             />
                           </div>
                           <br></br>
@@ -162,11 +167,12 @@ const Index = () => {
                               </svg>
                             </div>
                             <input
-                              type="text"
+                              type="email"
                               id="email-address-icon"
                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                               placeholder="example@gmail.com"
                               name="email"
+                              required
                             />
                           </div>
                           <br></br>
@@ -195,6 +201,7 @@ const Index = () => {
                               rows="8"
                               cols="80"
                               name="message"
+                              required
                             />
                           </div>
                           <br></br>

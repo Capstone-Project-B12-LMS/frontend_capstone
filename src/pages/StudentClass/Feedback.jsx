@@ -4,7 +4,7 @@ import { EmptyContent } from "../../components";
 
 const Feedback = () => {
   return (
-    <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-8">
+    <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] px-10 py-12">
         <EmptyContent
             img={Illustration}
             title="Be the first to give feedback to the teacher"

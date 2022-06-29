@@ -9,7 +9,7 @@ import jwtDecode from "jwt-decode";
 // Redux , GraphQL
 
 import { setDecode, setDataLogin } from "./redux/loginSlice";
-import useGetUser from "./graphql/GetUser";
+import {useGetUser} from "./graphql/GetUser";
 
 // Pages & Component
 

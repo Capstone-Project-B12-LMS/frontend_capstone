@@ -1,13 +1,16 @@
 import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { EmptyContent, List } from "../../components"
 import Illustration from '../../assets/img/no-content.png';
 
 
-const Content = ({ materials }) => {
+const Content = ({ materials , handleSelectMaterial }) => {
+
+    const navigate = useNavigate();
 
     return (
-        <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-8">
+        <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] px-10 py-12">
             {
                 !materials?.length || !materials ?
 
@@ -24,13 +27,19 @@ const Content = ({ materials }) => {
 
                     <div className='mt-6 min-h-[150px] max-h-fit overflow-y-auto'>
                         {
-                            materials.map(material => (
+                            materials.map((material,i) => (
                                 <List 
                                     key={material.id}
                                     icon="https://i.ibb.co/hF89fyW/documents.png"
                                 >
                                     <div className="flex flex-col justify-center">
-                                        <h3 className="text-xl text-bold font-bold capitalize">{material.title}</h3>
+                                        <button 
+                                            onClick={()=>{
+                                                handleSelectMaterial(i);
+                                                navigate("..", {replace:true})}
+                                            }
+                                            className="text-xl text-bold font-bold capitalize bg-transparent text-black">{material.title}
+                                        </button>
                                     </div>
                                 </List>
                             ))
