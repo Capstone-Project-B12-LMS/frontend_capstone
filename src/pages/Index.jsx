@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import { Cookies } from "react-cookie";
-
 import Login from "./Login";
 import Register from "./Register";
 
@@ -37,6 +36,7 @@ const Index = () => {
       })
       .catch((err) => console.log(err));
   }
+
 
   return (
     <div>

@@ -9,9 +9,9 @@ mutation MaterialMutation(
   $category:String,
   $classId:ID!,
   $topicId:String,
-  $deadline:Object,
-  $video:Object,
-  $file:Object){
+  $deadline:String,
+  $video:String,
+  $file:String){
     material{
       save(request:{   
         title:$title,

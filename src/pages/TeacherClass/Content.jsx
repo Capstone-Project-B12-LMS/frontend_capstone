@@ -1,6 +1,9 @@
 import { memo } from "react";
 
-import { EmptyContent, List } from "../../components"
+import { EmptyContent, List } from "../../components";
+
+// Assets
+import iconDelete from '../../assets/icons/delete-button.svg';
 import Illustration from '../../assets/img/no-content.png';
 
 
@@ -32,6 +35,7 @@ const Content = ({ materials }) => {
                                         <div className="flex flex-col justify-center">
                                             <h3 className="text-xl text-bold font-bold capitalize">{material.title}</h3>
                                         </div>
+                                        <img src={iconDelete} alt="ini delete" className="h-[2rem] w-[2rem]" />
                                     </List>
                                 ))
                             }

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Route, Routes, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 
 // Assets
@@ -119,11 +118,11 @@ const TeacherClass = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-[320px_minmax(500px,1fr)] auto-rows-fr gap-x-6 my-8">
+                            <div className="">
                                 <div>
                                     <Routes>
                                         <Route path="content"
-                                            element={<Content materials={dataMaterial.material.findAllByClassId} />}
+                                            element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                                         />
                                         {/* <Route path="feedback" element={<Feedback />} /> */}
                                     </Routes>

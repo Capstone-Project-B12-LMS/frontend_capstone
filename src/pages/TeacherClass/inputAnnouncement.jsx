@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -15,10 +15,6 @@ import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
 import { NEW_CONTENT_CLASS } from '../../graphql/ClassMutation';
-import { FIND_CLASS_MATERIAL } from "../../graphql/MaterialQuery";
-
-// import { GET_CLASS_BYID } from '../../graphql/ClassQuery';
-
 
 
 
@@ -31,13 +27,13 @@ const InputAnnouncement = () => {
     const [videoLink, setVideoLink] = useState(false);
 
     const [title, setTitle] = useState("");
-    const [apasih, setApasih] = useState("");
+    const [description, setDescription] = useState("");
     const [linkPowerPoint, setLinkPowerPoint] = useState("");
     const [linkVideo, setLinkVideo] = useState("");
 
     const isiMaterial = {
         title,
-        content: apasih,
+        content: description,
         videoUrl: linkVideo
     }
 
@@ -54,10 +50,9 @@ const InputAnnouncement = () => {
         setLinkVideo(linkVideo);
     }
 
-    const [addData, { data, loading, error }] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData, { data, }] = useMutation(NEW_CONTENT_CLASS, {
         onCompleted: data => console.log(data, "Berhasil"),
         onError: error => console.log("Terjadi error", error),
-        refetchQueries: [{ query: (FIND_CLASS_MATERIAL, { variables: { class_id: params.id } }) }]
     });
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -65,29 +60,28 @@ const InputAnnouncement = () => {
             variables: {
                 classId: params.id,
                 title: title,
-                content: apasih,
+                content: description,
+                video: linkVideo,
+                file: linkPowerPoint,
                 point: 100
             }
         })
         setTitle("");
-        setApasih("");
+        setDescription("");
         setLinkVideo("");
         setLinkPowerPoint("");
     }
     const handleCancel = (e) => {
         e.preventDefault();
         setTitle("");
-        setApasih("");
+        setDescription("");
         setLinkVideo("");
         setLinkPowerPoint("");
     }
 
-    useEffect(() => {
-        console.log(isiMaterial);
-        console.log(title);
-        console.log(apasih);
-        console.log(linkVideo);
-    }, [])
+    // useEffect(() => {
+
+    // }, [])
 
 
     return (
@@ -120,8 +114,8 @@ const InputAnnouncement = () => {
                         theme='snow'
                         placeholder='Write your announcement here'
                         preserveWhitespace
-                        value={apasih}
-                        onChange={setApasih}
+                        value={description}
+                        onChange={setDescription}
                     />
                     <div className='flex mt-[2rem] justify-between'>
                         <div className='w-[50%] flex'>
