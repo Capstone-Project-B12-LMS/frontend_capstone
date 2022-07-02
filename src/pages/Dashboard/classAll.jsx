@@ -1,4 +1,4 @@
-import { Card, Loading } from "../../components";
+import { Card, Loading   } from "../../components";
 import HeaderClass from "./headerClass";
 import useGetClass from "../../graphql/GetClass";
 import { useSelector } from "react-redux";
