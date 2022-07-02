@@ -22,6 +22,7 @@ const Home = ({ createClass, joinClass }) => {
         refetch();
     },[])
 
+
     return (
         <>
             {

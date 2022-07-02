@@ -1,12 +1,12 @@
 import { useState , useEffect} from "react";
 import { useSelector } from "react-redux";
 import { Routes, Route , useParams } from "react-router-dom"
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
 
 // GraphQL
 
-import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
+import { GET_CLASS_BYID, REQUEST_COUNSELLING } from "../../graphql/ClassQuery";
 import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 
 
@@ -16,7 +16,7 @@ import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 import Description from "./Description";
 import Content from "./Content";
 import Feedback from "./Feedback";
-import { Tab, Button , PopUp , Loading, NoMatch } from "../../components";
+import { Tab, Button , PopUp , Loading, NoMatch, Spinner } from "../../components";
 
 
 
@@ -37,6 +37,7 @@ const StudentClass = () => {
         student : [],
     });
 
+
     const [showCard , setShowCard] = useState(false);
     const [indexMaterial,setIndexMaterial] = useState(null);
     const param =  useParams();
@@ -45,6 +46,7 @@ const StudentClass = () => {
     const { dataLogin } = useSelector((state) => state.login);
     const { data: dataClass , loading: loadingDataClass } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
     const { data: dataMaterial , loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id : param.id }})
+    const [ doCounselling , {loading : loadingCouselling }] = useMutation(REQUEST_COUNSELLING);
 
 
     const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
@@ -73,8 +75,15 @@ const StudentClass = () => {
     const isUserAllowed = (id) => !id ? false : !!participants.student.find(student => student.id === dataLogin?.id)
 
 
-    const requestCounselling = ()=> {
-        setShowCard(true)
+    const requestCounselling = async ()=> {
+        await doCounselling({ 
+            variables: { guidance : { 
+                userId:dataLogin?.id , 
+                classId: dataClass.class.findById.id ,
+                content: "Request Counselling"
+            }}
+        })
+        return setShowCard(true)
     }
 
 
@@ -116,7 +125,7 @@ const StudentClass = () => {
                             />
                         </PopUp>
                         
-                        <div className="my-6 mx-auto w-full">
+                        <div className="mb-6 mx-auto w-full">
 
                             <Tab list={Tabpath}/>
 
@@ -148,8 +157,9 @@ const StudentClass = () => {
                                         <h1 className="text-bold text-black text-2xl">Any Questions ?</h1>
                                         <Button
                                             text='Request Counselling'
-                                            styling='uppercase font-bold text-base py-2 px-6 rounded-[10px] mt-4'
+                                            styling='uppercase font-bold text-base py-3 px-6 rounded-[10px] mt-4 flex'
                                             handleClick={requestCounselling}
+                                            icon={loadingCouselling ? <Spinner styling='ml-2' /> : false}
                                         />
                                     </div>
 

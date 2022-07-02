@@ -5,19 +5,17 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 const Material = ({ assets }) => {
 
-    const { title, content, videoUrl, fileUrl, point, deadline, createdBy } = assets
+    const { title, content, videoUrl, fileUrl, deadline } = assets
 
     return (
         <>
             { title && <h1 className="text-3xl font-bold text-black">{title}</h1> }
             
             {
-                (point || deadline || createdBy) &&  
+                deadline &&  
 
                 <div className='mt-6'>
-                    { !!point && <p className='text-xl leading-10'>Point : { point } </p> }
-                    { deadline && <p className='text-xl leading-10'>Deadline : {deadline}</p> }
-                    { createdBy && <p className='text-xl leading-10'>Created By : {createdBy}</p> }
+                    <p className='text-xl leading-10'>Deadline : {deadline}</p>
                 </div>
             }
             

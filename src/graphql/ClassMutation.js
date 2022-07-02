@@ -3,32 +3,36 @@ import { gql } from "@apollo/client";
 
 const NEW_CONTENT_CLASS = gql`
 mutation MaterialMutation(
-    $title:String!,
-    $content:String!,
-    $point:Int!,
-    $category:String,
-    $classId:ID!,
-    $topicId:String,
-    $deadline:Object,){
+  $title:String!,
+  $content:String!,
+  $point:Int!,
+  $category:String,
+  $classId:ID!,
+  $topicId:String,
+  $deadline:String,
+  $video:String,
+  $file:String){
     material{
-        save(request:{   
-          title:$title,
-          content: $content,
-          point:$point,
-          category:$category,
-          classId:$classId, 
-          topicId:$topicId,
-          deadline:$deadline
-        }) {
-        id
-        title
-        content
-        videoUrl
-        fileUrl
-        deadline
-        point
-        }
-    }
+      save(request:{   
+        title:$title,
+        content: $content,
+        point:$point,
+        category:$category,
+        classId:$classId, 
+        topicId:$topicId,
+        deadline:$deadline
+        video:$video,
+        file:$file
+      }) {
+      id
+      title
+      content
+      videoUrl
+      fileUrl
+      deadline
+      point
+      }
+  }
 }
 `
 

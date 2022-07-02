@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import ReactQuill from 'react-quill';
-import { useQuery, useMutation } from '@apollo/client';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 
 // Components
 import { Button, PopUp, Material } from '../../components';
@@ -15,9 +15,6 @@ import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
 import { NEW_CONTENT_CLASS } from '../../graphql/ClassMutation';
-import { useEffect } from 'react';
-// import { GET_CLASS_BYID } from '../../graphql/ClassQuery';
-
 
 
 
@@ -53,10 +50,9 @@ const InputAnnouncement = () => {
         setLinkVideo(linkVideo);
     }
 
-    // const { data, loading } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
-    const [addData, { data, loading, error }] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData, { data, }] = useMutation(NEW_CONTENT_CLASS, {
         onCompleted: data => console.log(data, "Berhasil"),
-        onError: error => console.log("Terjadi error", error)
+        onError: error => console.log("Terjadi error", error),
     });
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -65,24 +61,27 @@ const InputAnnouncement = () => {
                 classId: params.id,
                 title: title,
                 content: description,
+                video: linkVideo,
+                file: linkPowerPoint,
                 point: 100
             }
         })
         setTitle("");
         setDescription("");
+        setLinkVideo("");
+        setLinkPowerPoint("");
     }
     const handleCancel = (e) => {
         e.preventDefault();
         setTitle("");
         setDescription("");
+        setLinkVideo("");
+        setLinkPowerPoint("");
     }
 
-    useEffect(() => {
-        console.log(isiMaterial);
-        console.log(title);
-        console.log(description);
-        console.log(linkVideo);
-    }, [])
+    // useEffect(() => {
+
+    // }, [])
 
 
     return (
@@ -112,8 +111,10 @@ const InputAnnouncement = () => {
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <ReactQuill
+                        theme='snow'
+                        placeholder='Write your announcement here'
+                        preserveWhitespace
                         value={description}
-                        placeholder={"Write your announcement here"}
                         onChange={setDescription}
                     />
                     <div className='flex mt-[2rem] justify-between'>

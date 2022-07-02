@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Routes, Route, Navigate } from "react-router-dom";
+import { useLocation, useNavigate, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
 import Swal from 'sweetalert2'
@@ -12,7 +12,7 @@ import { CREATE_CLASS, JOIN_CLASS } from "../../graphql/ClassQuery";
 
 // Component
 
-import { Header, Sidebar, Dropdown, PopUp, Button, Spinner, ErrorAlert, NoMatch } from '../'
+import { Header, Sidebar, Dropdown, PopUp, Button, Spinner, AlertText, NoMatch } from '../'
 
 // Page
 
@@ -230,6 +230,7 @@ const Layout = () => {
                             />
                         ))
                     }
+                    <AlertText text="Letters and numbers , allowed symbols : & -" color="#747d8c"/>
                     <Button
                         formBtn={true}
                         styling={"rounded-[15px] w-full mt-8 h-[62px] text-[20px] font-bold flex justify-center items-center"}
@@ -259,8 +260,9 @@ const Layout = () => {
                             />
                         ))
                     }
-                    {error ?
-                        <ErrorAlert text="Sorry, the code you entered does not exist" /> : false
+                    {
+                        error ? <AlertText text="Sorry, the code you entered does not exist" color="#C9161D" /> : 
+                        <AlertText text="Only letter and number | Max 10 characters" color="#747d8c"/>
                     }
                     <Button
                         formBtn={true}
