@@ -46,6 +46,7 @@ const GET_CLASS_BYID = gql`
   query GET_CLASS_BYID($id: ID!) {
     class {
       findById(id: $id) {
+        id
         name
         createdBy
         code
@@ -60,9 +61,20 @@ const GET_CLASS_BYID = gql`
   }
 `;
 
+const REQUEST_COUNSELLING = gql`
+  mutation REQUEST_COUSELLING($guidance: GuidanceNew!) {
+    guidance {
+      save(request: $guidance) {
+        id
+      }
+    }
+  }
+`;
+
 export {
   CREATE_CLASS,
   JOIN_CLASS,
   GET_CLASS_BY_U_ID,
   GET_CLASS_BYID,
+  REQUEST_COUNSELLING,
 };

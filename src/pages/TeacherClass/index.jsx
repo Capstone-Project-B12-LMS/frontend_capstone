@@ -1,32 +1,49 @@
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Route, Routes, useParams } from "react-router-dom";
 
+
+// Assets
 import Banner_Illust from '../../assets/img/illustration-class.png'
 import Kebab from "../../assets/icons/kebab-menu.svg"
 import Repeat from "../../assets/icons/repeat.svg"
 import Illustration from '../../assets/img/no-description.png'
 
-import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
-import { Tab } from "../../components";
 
+// Graphql
+import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
+import { FIND_CLASS_MATERIAL } from "../../graphql/MaterialQuery";
+
+
+// Components
+import { Tab } from "../../components";
 import InputAnnouncement from "./inputAnnouncement";
+import Content from "./Content";
+import { useEffect } from "react";
+
 
 const TeacherClass = () => {
 
     const params = useParams();
 
-    const { data, loading } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
-    const { dataLogin } = useSelector((state) => state.login);
+
+    // Graphql
+    const { data, loading, } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
+    const { data: dataMaterial, loading: loadingMaterial, refetch } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: params.id } })
+
+    const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
 
     const Tabpath = [
         { text: "description", path: `.` },
-        { text: "content", path: './content' },
+        { text: `content${materialSize ? `(${materialSize})` : ""}`, path: "./content" },
         { text: "feedback", path: './feedback' }
     ]
 
+
     const [announcement, setAnnouncement] = useState(false);
+
+
+    // Handler
     const handleClick = () => {
         setAnnouncement(true);
     }
@@ -34,12 +51,16 @@ const TeacherClass = () => {
         setAnnouncement(false);
     }
 
+    useEffect(() => {
+        refetch();
+    }, [])
+
+
+    // console.log(dataMaterial);
 
     return (
         <>
-
             {
-
                 loading ?
                     <h2>Loading dulu ya guys...</h2>
                     :
@@ -58,6 +79,7 @@ const TeacherClass = () => {
                                         <h4 className="text-[1.25rem]">Class code</h4>
                                         <img src={Kebab} alt="Three dots" className="w-[1.5rem] h-[1.5rem]" />
                                     </div>
+
                                     {
                                         loading ?
                                             <div className="">
@@ -68,7 +90,6 @@ const TeacherClass = () => {
                                                 <h4 className="text-deep-azure text-[2rem]">{data.class.findById.code}</h4>
                                             </div>
                                     }
-
                                 </div>
 
                                 <div className="w-[80%] mx-[0.5rem]">
@@ -95,6 +116,16 @@ const TeacherClass = () => {
                                             <p className="text-xl text-black mt-4">Use the forums to share announcements, post assignments, and answer student questions</p>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div className="">
+                                <div>
+                                    <Routes>
+                                        <Route path="content"
+                                            element={<Content materials={dataMaterial?.material.findAllByClassId} />}
+                                        />
+                                        {/* <Route path="feedback" element={<Feedback />} /> */}
+                                    </Routes>
                                 </div>
                             </div>
                         </div>
