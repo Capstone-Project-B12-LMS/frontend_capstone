@@ -29,6 +29,7 @@ const App = () => {
   const { decode } = useSelector((state) => state.login);
   const { data } = useGetUser(decode);
 
+
   useEffect(() => {
     if (cookies.get("token")) dispatch(setDecode(jwtDecode(cookies.get("token")).userId));
   }, []);
