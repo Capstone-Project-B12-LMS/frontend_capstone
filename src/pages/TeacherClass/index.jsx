@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { Route, Routes, useParams } from "react-router-dom";
 
@@ -19,7 +19,7 @@ import { FIND_CLASS_MATERIAL } from "../../graphql/MaterialQuery";
 import { Tab } from "../../components";
 import InputAnnouncement from "./inputAnnouncement";
 import Content from "./Content";
-import { useEffect } from "react";
+import Feedback from "./Feedback";
 
 
 const TeacherClass = () => {
@@ -116,16 +116,18 @@ const TeacherClass = () => {
                                             <p className="text-xl text-black mt-4">Use the forums to share announcements, post assignments, and answer student questions</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="">
-                                <div>
-                                    <Routes>
-                                        <Route path="content"
-                                            element={<Content materials={dataMaterial?.material.findAllByClassId} />}
-                                        />
-                                        {/* <Route path="feedback" element={<Feedback />} /> */}
-                                    </Routes>
+
+                                    <div className="">
+                                        <div>
+                                            <Routes>
+                                                <Route path="content"
+                                                    element={<Content materials={dataMaterial?.material.findAllByClassId} />}
+                                                />
+                                                <Route path="feedback" element={<Feedback />} />
+                                            </Routes>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
