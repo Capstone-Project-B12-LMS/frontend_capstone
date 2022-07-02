@@ -184,7 +184,7 @@ const StudentClass = () => {
                                                     handleSelectMaterial={changeIndexMaterial}
                                             />} 
                                         />
-                                        <Route path="feedback" element={<Feedback/>}/>
+                                        <Route path="feedback" element={<Feedback user_id={dataLogin?.id} class_id={dataClass.class.findById.id}/>}/>
                                     </Routes>
                                 </div>
                                                     

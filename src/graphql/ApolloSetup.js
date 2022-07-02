@@ -18,7 +18,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   const token = cookies.get('token');
   operation.setContext({
     headers: {
-      Authorization: token ? `Bearer ${token}` : "",
+      "Authorization": token ? `Bearer ${token}` : "",
+      "Access-Control-Allow-Origin": '*'
     },
   });
   return forward(operation);
