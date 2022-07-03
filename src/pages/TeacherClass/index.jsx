@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Route, Routes, useParams } from "react-router-dom";
 
@@ -6,8 +6,7 @@ import { Route, Routes, useParams } from "react-router-dom";
 // Assets
 import Banner_Illust from '../../assets/img/illustration-class.png'
 import Kebab from "../../assets/icons/kebab-menu.svg"
-import Repeat from "../../assets/icons/repeat.svg"
-import Illustration from '../../assets/img/no-description.png'
+
 
 
 // Graphql
@@ -16,10 +15,10 @@ import { FIND_CLASS_MATERIAL } from "../../graphql/MaterialQuery";
 
 
 // Components
-import { Tab } from "../../components";
-import InputAnnouncement from "./inputAnnouncement";
+import { Tab, Loading } from "../../components";
 import Content from "./Content";
 import Feedback from "./Feedback";
+import Description from "./Description";
 
 
 const TeacherClass = () => {
@@ -29,9 +28,9 @@ const TeacherClass = () => {
 
     // Graphql
     const { data, loading, } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
-    const { data: dataMaterial, loading: loadingMaterial, refetch } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: params.id } })
+    const { data: dataMaterial, loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: params.id } })
 
-    const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
+    const materialSize = !loadingMaterial && dataMaterial?.material.findAllByClassId.length ? dataMaterial?.material.findAllByClassId.length : false
 
     const Tabpath = [
         { text: "description", path: `.` },
@@ -39,30 +38,13 @@ const TeacherClass = () => {
         { text: "feedback", path: './feedback' }
     ]
 
-
-    const [announcement, setAnnouncement] = useState(false);
-
-
-    // Handler
-    const handleClick = () => {
-        setAnnouncement(true);
-    }
-    const handleClickBack = () => {
-        setAnnouncement(false);
-    }
-
-    useEffect(() => {
-        refetch();
-    }, [])
-
-
-    // console.log(dataMaterial);
+    console.log(params.id);
 
     return (
         <>
             {
                 loading ?
-                    <h2>Loading dulu ya guys...</h2>
+                    <Loading size="100" />
                     :
                     data?.class?.findById == null ? <h2>Class not found...</h2> :
                         <div id="parent" className="my-6 mx-auto w-full">
@@ -74,12 +56,11 @@ const TeacherClass = () => {
                             </div>
 
                             <div className="flex my-[2rem]">
-                                <div className="w-[20%] h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
+                                <div className="w-[25%] h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
                                     <div className="flex justify-between m-1">
                                         <h4 className="text-[1.25rem]">Class code</h4>
                                         <img src={Kebab} alt="Three dots" className="w-[1.5rem] h-[1.5rem]" />
                                     </div>
-
                                     {
                                         loading ?
                                             <div className="">
@@ -92,42 +73,16 @@ const TeacherClass = () => {
                                     }
                                 </div>
 
-                                <div className="w-[80%] mx-[0.5rem]">
-                                    {
-                                        announcement ?
-                                            <InputAnnouncement />
-                                            :
-                                            <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
-                                                <img className="w-[50px]" src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="icon" />
-                                                <input
-                                                    onClick={handleClick}
-                                                    className="w-[80%]"
-                                                    type="text"
-                                                    placeholder="Annonce something to your class" />
-                                                <img className="w-[32px] " src={Repeat} alt="repeat" />
-                                            </div>
-                                    }
-                                    <div className="mt-[2rem] border-[1px] p-[0.5rem] rounded-[10px] flex" onClick={handleClickBack}>
-                                        <div className="w-[30%] flex justify-center">
-                                            <img src={Illustration} className="w-[350px] h-[250px] object-cover" alt="illustration" />
-                                        </div>
-                                        <div className="w-[70%] p-[2rem]">
-                                            <h3 className="text-[32px] text-black font-medium">This is where you can talk to your class</h3>
-                                            <p className="text-xl text-black mt-4">Use the forums to share announcements, post assignments, and answer student questions</p>
-                                        </div>
+                                <div className="w-[75%]">
+                                    <div>
+                                        <Routes>
+                                            <Route index element={<Description />} />
+                                            <Route path="content"
+                                                element={<Content materials={dataMaterial?.material.findAllByClassId} />}
+                                            />
+                                            <Route path="feedback" element={<Feedback />} />
+                                        </Routes>
                                     </div>
-
-                                    <div className="">
-                                        <div>
-                                            <Routes>
-                                                <Route path="content"
-                                                    element={<Content materials={dataMaterial?.material.findAllByClassId} />}
-                                                />
-                                                <Route path="feedback" element={<Feedback />} />
-                                            </Routes>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>

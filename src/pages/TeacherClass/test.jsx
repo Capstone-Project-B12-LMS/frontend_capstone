@@ -1,180 +1,133 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Routes, Route, useParams } from "react-router-dom"
 import { useQuery } from "@apollo/client";
-
-
-// GraphQL
-
-import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
-import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
-
-
-
-// Component & Sub Pages
-
-import Description from "./Description";
-import Content from "./Content";
-import Feedback from "./Feedback";
-import { Tab, Button, PopUp, Loading, NoMatch } from "../../components";
-
+import { Route, Routes, useParams } from "react-router-dom";
 
 
 // Assets
-
 import Banner_Illust from '../../assets/img/illustration-class.png'
-import CompleteIcon from "../../assets/icons/complete-icon.svg"
+import Kebab from "../../assets/icons/kebab-menu.svg"
+import Repeat from "../../assets/icons/repeat.svg"
+import Illustration from '../../assets/img/no-description.png'
 
 
+// Graphql
+import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
+import { FIND_CLASS_MATERIAL } from "../../graphql/MaterialQuery";
 
 
-const StudentClass = () => {
+// Components
+import { Tab, Loading } from "../../components";
+import InputAnnouncement from "./inputAnnouncement";
+import Content from "./Content";
+import Feedback from "./Feedback";
 
-    // Hooks
 
-    const [participants, setParticipants] = useState({
-        teacher: [],
-        student: [],
-    });
+const TeacherClass = () => {
 
-    const [showCard, setShowCard] = useState(false);
+    const params = useParams();
 
-    const param = useParams();
 
-    const { dataLogin } = useSelector((state) => state.login);
-    const { data: dataClass, loading: loadingDataClass } = useQuery(GET_CLASS_BYID, { variables: { id: param.id } });
-    const { data: dataMaterial, loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: param.id } })
-
+    // Graphql
+    const { data, loading, } = useQuery(GET_CLASS_BYID, { variables: { id: params.id } });
+    const { data: dataMaterial, loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: params.id } })
 
     const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
 
     const Tabpath = [
         { text: "description", path: `.` },
-        { text: `content${materialSize ? `(${materialSize})` : ""}`, path: './content' },
+        { text: `content${materialSize ? `(${materialSize})` : ""}`, path: "./content" },
         { text: "feedback", path: './feedback' }
     ]
 
 
-    // Method list
-
-    const getParticipant = () => {
-        const members = dataClass.class.findById.users
-        const owner = dataClass.class.findById.createdBy
-
-        const student = members.filter(member => member.email !== owner);
-        const teacher = members.filter(member => member.email === owner);
-
-        return { student, teacher }
+    // Handler
+    const handleClick = () => {
+        setAnnouncement(true);
     }
-
-    const isUserAllowed = (id) => !id ? false :
-        participants.student.find(student => student.id === dataLogin?.id)
-
-
-    const requestCounselling = () => {
-        setShowCard(true)
+    const handleClickBack = () => {
+        setAnnouncement(false);
     }
 
 
-    useEffect(() => {
-        if (!loadingDataClass && !!dataClass?.class?.findById) setParticipants({ ...getParticipant() });
-    }, [loadingDataClass, dataClass])
-
+    console.log(params.id);
 
     return (
         <>
             {
-                loadingDataClass || loadingMaterial ? <Loading size="100" /> :
+                loading ?
+                    <Loading size="100" />
+                    :
+                    data?.class?.findById == null ? <h2>Class not found...</h2> :
+                        <div id="parent" className="my-6 mx-auto w-full">
+                            < Tab list={Tabpath} />
 
-                    !dataClass?.class?.findById && !isUserAllowed(dataLogin?.id) ?
+                            <div className="flex justify-between w-full h-[320px] mt-6 px-10 bg-[#79C9DB] rounded-[20px]">
+                                <p className="text-[2.5rem] text-white font-bold mb-8 uppercase self-end max-w-[1000px]">{data.class.findById.name}</p>
+                                <img src={Banner_Illust} className="w-[445px] h-[307px] object-cover" alt="illustration" />
+                            </div>
 
-                        <NoMatch
-                            text="Class Not Found"
-                            description="Make sure you are a student and visit the right class, please join the class first"
-                        />
-
-                        :
-
-                        <>
-                            <PopUp
-                                show={showCard}
-                                setShow={() => setShowCard(!showCard)}
-                                styling='w-[800px] min-h-[300px] max-h-min px-[100px] py-[100px]'
-                            >
-                                <img src={CompleteIcon} alt="complete-icon" className=" max-w-[110px] w-[110px] h-[110px]" />
-                                <h1 className="text-black text-center leading-10 text-[32px] font-bold mt-14">COUNSELING REQUEST COMPLETE!</h1>
-                                <p className="text-center text-black leading-10 text-2xl mt-6">You’ll receive a confirmation when your request has been accepted or declined.</p>
-                                <Button
-                                    text={"DONE"}
-                                    handleClick={() => setShowCard(false)}
-                                    styling="w-full py-4 mt-10 rounded-[15px]"
-                                />
-                            </PopUp>
-
-                            <div className="my-6 mx-auto w-full">
-
-                                <Tab list={Tabpath} />
-
-                                <div className="flex justify-between w-full h-[320px] mt-6 px-10 bg-[#79C9DB] rounded-[20px]">
-                                    <p className="text-[40px] text-white font-bold mb-8 uppercase self-end max-w-[1000px]">{dataClass.class.findById.name}</p>
-                                    <img src={Banner_Illust} className="w-[445px] h-[307px] object-cover" alt="illustration" />
-                                </div>
-
-                                <div className="grid grid-cols-[320px_minmax(500px,1fr)] auto-rows-fr gap-x-6 my-8">
-
-                                    <div>
-
-                                        <div className="flex flex-col items-center bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-6">
-                                            <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
-                                                <img
-                                                    src={`https://i.pravatar.cc/150?u=${participants.teacher[0]?.id}`}
-                                                    alt="teacher-class"
-                                                    className="object-cover object-center w-full h-full"
-                                                />
-                                            </div>
-                                            <div className="mt-4">
-                                                <h4 className="font-bold text-black text-center text-2xl">{participants.teacher[0]?.fullName}</h4>
-                                                <p className="text-base text-center text-[#A8A8A8] mt-1"> Owner at {dataClass.class.findById.name}</p>
-                                            </div>
-                                        </div>
-
-
-                                        <div className="flex flex-col items-center bg-white border border-solid border-[#A8A8A8] rounded-[20px] p-6 mt-6">
-                                            <h1 className="text-bold text-black text-2xl">Any Questions ?</h1>
-                                            <Button
-                                                text='Request Counselling'
-                                                styling='uppercase font-bold text-base py-2 px-6 rounded-[10px] mt-4'
-                                                handleClick={requestCounselling}
-                                            />
-                                        </div>
-
+                            <div className="flex my-[2rem]">
+                                <div className="w-[20%] h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
+                                    <div className="flex justify-between m-1">
+                                        <h4 className="text-[1.25rem]">Class code</h4>
+                                        <img src={Kebab} alt="Three dots" className="w-[1.5rem] h-[1.5rem]" />
                                     </div>
 
-                                    {/* Sub page */}
+                                    {
+                                        loading ?
+                                            <div className="">
+                                                <h4 className="text-deep-azure text-[2rem]">Loading class code</h4>
+                                            </div>
+                                            :
+                                            <div className="">
+                                                <h4 className="text-deep-azure text-[2rem]">{data.class.findById.code}</h4>
+                                            </div>
+                                    }
+                                </div>
 
-                                    <div>
-                                        <Routes>
-                                            <Route index
-                                                element={
-                                                    <Description
-                                                        participant={participants}
-                                                        material={dataMaterial.material.findAllByClassId[0]}
-                                                    />
-                                                }
-                                            />
-                                            <Route path="content"
-                                                element={<Content materials={dataMaterial.material.findAllByClassId} />}
-                                            />
-                                            <Route path="feedback" element={<Feedback />} />
-                                        </Routes>
+                                <div className="w-[80%] mx-[0.5rem]">
+                                    {
+                                        announcement ?
+                                            <InputAnnouncement />
+                                            :
+                                            <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
+                                                <img className="w-[50px]" src="https://i.ibb.co/y0XWBqF/Ellipse-18.png" alt="icon" />
+                                                <input
+                                                    onClick={handleClick}
+                                                    className="w-[80%]"
+                                                    type="text"
+                                                    placeholder="Annonce something to your class" />
+                                                <img className="w-[32px] " src={Repeat} alt="repeat" />
+                                            </div>
+                                    }
+                                    <div className="mt-[2rem] border-[1px] p-[0.5rem] rounded-[10px] flex" onClick={handleClickBack}>
+                                        <div className="w-[30%] flex justify-center">
+                                            <img src={Illustration} className="w-[350px] h-[250px] object-cover" alt="illustration" />
+                                        </div>
+                                        <div className="w-[70%] p-[2rem]">
+                                            <h3 className="text-[32px] text-black font-medium">This is where you can talk to your class</h3>
+                                            <p className="text-xl text-black mt-4">Use the forums to share announcements, post assignments, and answer student questions</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="">
+                                        <div>
+                                            <Routes>
+                                                {/* <Route element={<InputAnnouncement />} /> */}
+                                                <Route path="content"
+                                                    element={<Content materials={dataMaterial?.material.findAllByClassId} />}
+                                                />
+                                                <Route path="feedback" element={<Feedback />} />
+                                            </Routes>
+                                        </div>
                                     </div>
 
                                 </div>
                             </div>
-                        </>
+                        </div>
             }
         </>
     );
-};
+}
 
-export default StudentClass;
+export default TeacherClass;

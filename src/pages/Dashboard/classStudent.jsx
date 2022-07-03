@@ -10,8 +10,8 @@ const Home = () => {
   if (error) return "Data Error...";
 
   const dataEmail = dataLogin?.email
-  console.log(dataEmail)
-  
+  // console.log(dataEmail)
+
   const student = data.user.findByClassByUserId.filter(
     (e) => dataEmail !== e.createdBy
   );
