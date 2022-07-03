@@ -13,7 +13,7 @@ import Modal from "./Modal";
 import { Button, Input, PasswordWarning, RegisterAlert } from "../components";
 import useRegisterMutation from "../graphql/RegisterMutation";
 
-const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
+const Register = ({ openRegisterModal, setOpenRegisterModal, setOpenLoginModal }) => {
   const { insertRegisterData, data, loading, error } = useRegisterMutation();
 
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
       dispatch(setPassword(""));
       dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
+      setOpenLoginModal(true)
       return;
     }
     dispatch(setIsValid(false));
@@ -111,7 +112,10 @@ const Register = ({ openRegisterModal, setOpenRegisterModal }) => {
               <p className="text-2xl leading-9 text-[#ADADAD]">
                 Already have an account?
                 <button
-                  onClick={() => setOpenRegisterModal(false)}
+                  onClick={() => {
+                    setOpenRegisterModal(false)
+                    setOpenLoginModal(true)
+                  }}
                   className="text-[#000] font-semibold hover:underline bg-transparent"
                 >
                   Login

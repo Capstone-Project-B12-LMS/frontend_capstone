@@ -94,6 +94,10 @@ const StudentClass = () => {
         }
     },[loadingDataClass , dataClass , loadingMaterial , dataMaterial])
 
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    })
+    
 
     return (
         <>
@@ -184,7 +188,7 @@ const StudentClass = () => {
                                                     handleSelectMaterial={changeIndexMaterial}
                                             />} 
                                         />
-                                        <Route path="feedback" element={<Feedback/>}/>
+                                        <Route path="feedback" element={<Feedback user_id={dataLogin?.id} class_id={dataClass.class.findById.id}/>}/>
                                     </Routes>
                                 </div>
                                                     

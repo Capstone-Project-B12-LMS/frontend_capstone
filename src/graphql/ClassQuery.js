@@ -71,10 +71,38 @@ const REQUEST_COUNSELLING = gql`
   }
 `;
 
+const SAVE_FEEDBACK = gql`
+  mutation SAVE_FEEDBACK($feedback:FeedbackNew!){
+    feedback{
+      save(request:$feedback){
+        id
+      }
+    }
+  }
+`
+
+const GET_FEEDBACK = gql`
+  query GET_FEEDBACK($class_id:ID!){
+    feedback{
+      findByClassId(classId:$class_id){
+        id
+        content
+        user{
+          id
+          fullName
+        }
+      }
+    }
+  }
+`
+
+
 export {
   CREATE_CLASS,
   JOIN_CLASS,
   GET_CLASS_BY_U_ID,
   GET_CLASS_BYID,
   REQUEST_COUNSELLING,
+  GET_FEEDBACK,
+  SAVE_FEEDBACK
 };
