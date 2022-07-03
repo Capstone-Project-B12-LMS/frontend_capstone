@@ -88,8 +88,8 @@ const TeacherClass = () => {
           </div>
 
           <div className="flex my-[2rem]">
-            <div className="">
-              <div className="w-fit h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
+            <div className="flex flex-col items-center">
+              <div className="w-full h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
                 <div className="flex justify-between m-1">
                   <h4 className="text-[1.25rem]">Class code</h4>
                   <img
