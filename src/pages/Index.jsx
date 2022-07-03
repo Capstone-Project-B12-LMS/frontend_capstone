@@ -60,6 +60,7 @@ const Index = () => {
                 <div>
                   {openLoginModal && openLoginModal && (
                     <Login
+                      setOpenRegisterModal = {setOpenRegisterModal}
                       openLoginModal={openLoginModal}
                       setOpenLoginModal={() => setOpenLoginModal(false)}
                     />
@@ -83,6 +84,7 @@ const Index = () => {
                   )}
                   {openRegisterModal && openRegisterModal && (
                     <Register
+                      setOpenLoginModal = {setOpenLoginModal}
                       openRegisterModal={openRegisterModal}
                       setOpenRegisterModal={() => setOpenRegisterModal(false)}
                     />

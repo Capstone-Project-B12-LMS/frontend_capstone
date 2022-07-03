@@ -8,7 +8,7 @@ const Counseling = ({ userName }) => {
     <>
       {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked}/>}
       <div
-        className="flex justify-between border-b-[1px] cursor-pointer pb-2"
+        className="flex justify-between border-b-[1px] cursor-pointer py-2"
         onClick={() => setIsClicked(true)}
       >
         <img src={avatar} alt="/" className="mr-1" />
