@@ -38,7 +38,7 @@ const Material = ({ assets }) => {
 
                 <div className='mt-10'>
                     <p className='text-2xl font-bold'>File : </p>
-                    <a href={fileUrl} rel="noreferrer" target="_blank"className='block text-xl mt-5 leading-10 text-[#3B2AFD]'>{ fileUrl }</a>
+                    <a href={fileUrl} rel="noreferrer" target="_blank" className='block text-xl mt-5 leading-10 text-[#3B2AFD] overflow-hidden whitespace-nowrap text-ellipsis'>{ fileUrl }</a>
                 </div>
             }
         </>
