@@ -94,6 +94,10 @@ const StudentClass = () => {
         }
     },[loadingDataClass , dataClass , loadingMaterial , dataMaterial])
 
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    })
+    
 
     return (
         <>
