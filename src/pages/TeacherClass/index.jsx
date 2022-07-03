@@ -115,10 +115,10 @@ const TeacherClass = () => {
               </div>
 
               <div className="border-[1px] rounded-[10px] p-2 max-w-[250px] mt-5">
-                <div className="flex justify-between mb-4">
+                <div className="flex justify-between items-center mb-4">
                   <h4>Notification</h4>
                   <p
-                    className="cursor-pointer"
+                    className="cursor-pointer text-[#415A80]"
                     onClick={() => setIsViewClicked(true)}
                   >
                     View all

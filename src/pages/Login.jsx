@@ -96,7 +96,10 @@ const Login = ({
             <p className="text-2xl leading-9 text-[#ADADAD]">
               Don't have an account?{" "}
               <button
-                onClick={() => setOpenLoginModal(false)}
+                onClick={() => {
+                  setOpenLoginModal(false)
+                  setOpenRegisterModal(true)
+                }}
                 className="text-[#000] font-semibold hover:underline bg-transparent"
               >
                 Register
