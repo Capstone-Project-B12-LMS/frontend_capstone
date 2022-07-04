@@ -12,7 +12,7 @@ const AddLinkVideo = ({ func }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newLink = linkVideo.split("").slice(-11).join("");
-    console.log(newLink);
+    // console.log(newLink);
     func(newLink);
   }
 
