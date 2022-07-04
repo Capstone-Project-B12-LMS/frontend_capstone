@@ -15,6 +15,7 @@ import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
 import { NEW_CONTENT_CLASS } from '../../graphql/ClassMutation';
+import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 
 
 
@@ -50,10 +51,12 @@ const InputAnnouncement = () => {
         setLinkVideo(linkVideo);
     }
 
-    const [addData, { data, }] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData,] = useMutation(NEW_CONTENT_CLASS, {
+        refetchQueries: [FIND_CLASS_MATERIAL],
         onCompleted: data => console.log(data, "Berhasil"),
         onError: error => console.log("Terjadi error", error),
     });
+
     const handleSubmit = (e) => {
         e.preventDefault();
         addData({
@@ -79,9 +82,6 @@ const InputAnnouncement = () => {
         setLinkPowerPoint("");
     }
 
-    // useEffect(() => {
-
-    // }, [])
 
 
     return (
