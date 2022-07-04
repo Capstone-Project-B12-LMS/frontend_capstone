@@ -1,9 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 
 const counselingQuery = gql`
-  query counsReq {
+  query counsReq($classId: ID!) {
     guidance {
-      findByClassId(classId: "bd506c6c-9777-423d-b3d6-d95a9d73a5c8") {
+      findByClassId(classId: $classId) {
         user {
           fullName
         }
@@ -12,8 +12,10 @@ const counselingQuery = gql`
   }
 `;
 
-const useGetCounseling = () => {
-    const {data, loading, error} = useQuery(counselingQuery);
+const useGetCounseling = (classId) => {
+    const {data, loading, error} = useQuery(counselingQuery, {
+      variables: { classId: classId },
+    });
     return {data, loading, error}
 }
 
