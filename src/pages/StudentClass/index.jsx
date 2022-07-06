@@ -1,12 +1,14 @@
 import { useState , useEffect} from "react";
 import { useSelector } from "react-redux";
-import { Routes, Route , useParams } from "react-router-dom"
+import { Routes, Route , useParams, useLocation, useNavigate } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/client";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 // GraphQL
 
-import { GET_CLASS_BYID, REQUEST_COUNSELLING } from "../../graphql/ClassQuery";
+import { GET_CLASS_BYID, REQUEST_COUNSELLING, LEAVE_CLASS } from "../../graphql/ClassQuery";
 import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 
 
@@ -41,13 +43,18 @@ const StudentClass = () => {
 
     const [showCard , setShowCard] = useState(false);
     const [indexMaterial,setIndexMaterial] = useState(null);
+
     const param =  useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const MySwal = withReactContent(Swal)
 
 
     const { dataLogin } = useSelector((state) => state.login);
-    const { data: dataClass , loading: loadingDataClass } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
+    const { data: dataClass , loading: loadingDataClass , refetch } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
     const { data: dataMaterial , loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id : param.id }})
     const [ doCounselling , {loading : loadingCouselling }] = useMutation(REQUEST_COUNSELLING);
+    const [leavingClass] = useMutation(LEAVE_CLASS);
 
 
     const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
@@ -89,7 +96,43 @@ const StudentClass = () => {
     }
 
 
+    const leaveClass = () =>{
+
+        MySwal.fire({
+            title: 'Leave Class',
+            text: "Are you sure you want to leave this class?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#415A80',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Leave'
+        })
+        .then((result) => {
+            if (result.isConfirmed) {
+
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Please wait',
+                    html: 'Redirecting you to dashboard home...',
+                    allowOutsideClick:false,
+                    showConfirmButton:false,
+                    didOpen: async () => {
+                        await leavingClass({variables : {
+                            class_id: dataClass.class.findById.id,
+                            user_id: dataLogin?.id
+                        }})
+
+                        MySwal.close()
+                        return navigate('/dashboard' , {replace:true})
+                    }
+                })
+            }
+        })
+    }
+
+
     useEffect(()=>{
+        refetch()
         if(!loadingDataClass && !!dataClass?.class?.findById && !loadingMaterial && !!dataMaterial?.material?.findAllByClassId){
             setParticipants({...getParticipant()})
             changeIndexMaterial();
@@ -98,7 +141,7 @@ const StudentClass = () => {
 
     useEffect(()=>{
         window.scrollTo(0,0)
-    })
+    },[location.pathname])
     
 
     return (
@@ -191,7 +234,14 @@ const StudentClass = () => {
                                             />} 
                                         />
                                         <Route path="feedback" element={<Feedback user_id={dataLogin?.id} class_id={dataClass.class.findById.id}/>}/>
-                                        <Route path="settings" element={<Settings/>}/>
+                                        <Route path="settings" element={
+                                            <Settings 
+                                                materialSize={dataMaterial.material.findAllByClassId.length}
+                                                studentTotal={participants.student.length}
+                                                leaveButtonClick={leaveClass}
+                                            />
+                                            
+                                        }/>
                                     </Routes>
                                 </div>
                                                     

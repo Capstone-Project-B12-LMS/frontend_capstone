@@ -22,10 +22,16 @@ const Register = ({ openRegisterModal, setOpenRegisterModal, setOpenLoginModal }
   const { password } = useSelector((state) => state.register);
   const { isValid } = useSelector((state) => state.register);
   const { isSuccess } = useSelector((state) => state.register);
+
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(setIsSuccess(false));
-    }, 4000);
+   
+    if(isSuccess === true){
+      setTimeout(() => {
+        dispatch(setIsSuccess(false));
+        setOpenRegisterModal(false);
+        setOpenLoginModal(true);
+      }, 3000);
+    }
   }, [isSuccess]);
 
   const handleRegister = (e) => {
@@ -47,7 +53,6 @@ const Register = ({ openRegisterModal, setOpenRegisterModal, setOpenLoginModal }
       dispatch(setPassword(""));
       dispatch(setIsSuccess(true));
       dispatch(setIsValid(true));
-      setOpenLoginModal(true)
       return;
     }
     dispatch(setIsValid(false));

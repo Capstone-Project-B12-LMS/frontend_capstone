@@ -26,21 +26,24 @@ const TeacherClass = () => {
 
   const params = useParams();
 
- // Graphql
-
-  const { data: dataCounseling, loading: loadingCounseling } = useGetCounseling(params.id);
-
+  // Graphql
+  const { data: dataCounseling, loading: loadingCounseling } =
+    useGetCounseling(params.id);
+    
   const { data, loading } = useQuery(GET_CLASS_BYID, {
   variables: { id: params.id },
   });
-
+  
   const {
     data: dataMaterial,
     loading: loadingMaterial,
     refetch,
   } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: params.id } });
 
-  const materialSize = !loadingMaterial && dataMaterial?.material.findAllByClassId.length ? dataMaterial?.material.findAllByClassId.length : false
+  const materialSize =
+    !loadingMaterial && dataMaterial.material.findAllByClassId.length
+      ? dataMaterial.material.findAllByClassId.length
+      : false;
 
   const Tabpath = [
     { text: "description", path: `.` },
@@ -50,6 +53,7 @@ const TeacherClass = () => {
 
   const [isViewClicked, setIsViewClicked] = useState(false);
 
+  console.log(dataCounseling);
 
   return (
     <>
@@ -119,8 +123,6 @@ const TeacherClass = () => {
                   </div>
                 </div>
               </div>
-
-
             </div>
       }
     </>
