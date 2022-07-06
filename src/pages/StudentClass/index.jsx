@@ -16,6 +16,7 @@ import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 import Description from "./Description";
 import Content from "./Content";
 import Feedback from "./Feedback";
+import Settings from "./Settings";
 import { Tab, Button , PopUp , Loading, NoMatch, Spinner } from "../../components";
 
 
@@ -54,7 +55,8 @@ const StudentClass = () => {
     const Tabpath = [
         { text : "description" , path: `.`},
         { text : `content${materialSize ? `(${materialSize})` : ""}`, path: './content'},
-        { text : "feedback", path: './feedback'}
+        { text : "feedback", path: './feedback'},
+        { text : "settings", path: './settings'}
     ]
 
     
@@ -189,6 +191,7 @@ const StudentClass = () => {
                                             />} 
                                         />
                                         <Route path="feedback" element={<Feedback user_id={dataLogin?.id} class_id={dataClass.class.findById.id}/>}/>
+                                        <Route path="settings" element={<Settings/>}/>
                                     </Routes>
                                 </div>
                                                     
