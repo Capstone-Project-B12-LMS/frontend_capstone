@@ -3,16 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setEmail,
   setPassword,
-  setIsLoggedIn,
   setDecode,
-  setDataLogin,
 } from "../redux/loginSlice";
 import useLoginMutation from "../graphql/LoginMutation";
-import useGetUser from "../graphql/GetUser";
 import jwtDecode from "jwt-decode";
 import Modal from "./Modal";
 import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 
 // Component
 import { Button, Input, Loading } from "../components";
@@ -62,7 +58,6 @@ const Login = ({
     });
   };
   
-  if (error) return <pre>{error.message}</pre>;
   return (
     <div>
       <Modal open={[openLoginModal, openRegisterModal]}>
@@ -73,13 +68,15 @@ const Login = ({
             </button>
           </h2>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+      
           {loading ? (
             <Loading size="100" />
           ) : (
             <div className="max-w-[1000px] w-4/5 max-h-[800px] h-4/5 flex flex-col items-center justify-center bg-[#fff] rounded-[30px]">
               <h2 className="text-[32px] leading-[48px] mb-[7px]">Login</h2>
               <h4 className="text-2xl font-medium mb-10">Please login here</h4>
+              {error && <pre>{error.message}</pre>}
               <form
                 className="max-w-[640px] w-4/5 flex flex-col items-center"
                 onSubmit={handleLoginSubmit}

@@ -8,6 +8,7 @@ import { Footer } from "../components";
 
 import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
+import logo from "../assets/icons/brand-logo.svg";
 import swal from "sweetalert";
 
 const Index = () => {
@@ -50,7 +51,7 @@ const Index = () => {
                 <div>
                   <div className="">
                     <img
-                      src="/static/media/brand-logo.616d35e5af80b0bdfdcf810955ffd617.svg"
+                      src={logo}
                       alt="brand-logo"
                       className="w-[300px] h-[60px] ml-[80px] mt-[15px]"
                     />
