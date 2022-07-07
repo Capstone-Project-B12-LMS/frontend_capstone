@@ -20,6 +20,7 @@ import ViewPopUp from "../../components/Counseling/ViewPopUp";
 import Content from "./Content";
 import Feedback from "./Feedback";
 import Description from "./Description";
+import Setting from "./Setting";
 
 
 const TeacherClass = () => {
@@ -46,7 +47,8 @@ const TeacherClass = () => {
   const Tabpath = [
     { text: "description", path: `.` },
     { text: `content${materialSize ? `(${materialSize})` : ""}`, path: "./content" },
-    { text: "feedback", path: './feedback' }
+    { text: "feedback", path: './feedback' },
+    { text: "setting", path: './setting' }
   ]
 
   const [isViewClicked, setIsViewClicked] = useState(false);
@@ -117,6 +119,7 @@ const TeacherClass = () => {
                         element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                       />
                       <Route path="feedback" element={<Feedback />} />
+                      <Route path="setting/*" element={<Setting />} />
                     </Routes>
                   </div>
                 </div>
