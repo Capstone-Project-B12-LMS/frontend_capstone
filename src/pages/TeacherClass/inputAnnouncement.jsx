@@ -14,8 +14,9 @@ import AddLinkVideo from '../../components/Popup/AddLinkVideo';
 import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
-import { NEW_CONTENT_CLASS } from '../../graphql/ClassMutation';
+import { NEW_CONTENT_CLASS, UPDATE_CONTENT_CLASS } from '../../graphql/ClassMutation';
 import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
+import { data } from 'autoprefixer';
 
 
 
@@ -29,8 +30,8 @@ const InputAnnouncement = () => {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [linkPowerPoint, setLinkPowerPoint] = useState("");
-    const [linkVideo, setLinkVideo] = useState("");
+    const [linkPowerPoint, setLinkPowerPoint] = useState(null);
+    const [linkVideo, setLinkVideo] = useState(null);
 
     const isiMaterial = {
         title,
@@ -56,6 +57,11 @@ const InputAnnouncement = () => {
         onCompleted: data => console.log(data, "Berhasil"),
         onError: error => console.log("Terjadi error", error),
     });
+    const [updateData] = useMutation(UPDATE_CONTENT_CLASS, {
+        refetchQueries: [FIND_CLASS_MATERIAL],
+        onCompleted: data => console.log("Berhasil update data", data),
+        onError: error => console.log("Terjadi error", error)
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -71,15 +77,29 @@ const InputAnnouncement = () => {
         })
         setTitle("");
         setDescription("");
-        setLinkVideo("");
-        setLinkPowerPoint("");
+        setLinkVideo(null);
+        setLinkPowerPoint(null);
+    }
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        updateData({
+            variables: {
+                id: "",
+                classId: params.id,
+                title: title,
+                content: description,
+                point: 100,
+                video: linkVideo,
+                file: linkPowerPoint
+            }
+        })
     }
     const handleCancel = (e) => {
         e.preventDefault();
         setTitle("");
-        setDescription("");
-        setLinkVideo("");
-        setLinkPowerPoint("");
+        setDescription(null);
+        setLinkVideo(null);
+        setLinkPowerPoint(null);
     }
 
 
