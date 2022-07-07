@@ -33,13 +33,13 @@ const Login = ({
   const { password } = useSelector((state) => state.login);
 
   useEffect(() => {
-    if (data?.user.login.token) {
+    if (data?.user?.login?.token) {
       dispatch(setEmail(""));
       dispatch(setPassword(""));
       //setuserid
       dispatch(setDecode(jwtDecode(data.user.login.token).userId));
       cookies.set("token", data.user.login.token, { maxAge: 43200 });
-    } else if (data?.user.login.error) {
+    } else if (data?.user?.login?.error) {
       MySwal.fire({
         title: "Login Error",
         icon: "error",
