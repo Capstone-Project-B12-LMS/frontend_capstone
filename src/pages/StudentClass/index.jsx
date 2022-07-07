@@ -218,7 +218,8 @@ const StudentClass = () => {
 
                                 <div>
                                     <Routes>
-                                        <Route index 
+                                        <Route 
+                                            index 
                                             element={
                                                 <Description 
                                                     participant={participants} 

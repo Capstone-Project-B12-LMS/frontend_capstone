@@ -38,7 +38,6 @@ const Feedback = ({class_id , user_id}) => {
     return refetch();
   }
 
-  console.log(feedbackData)
 
   if(loadFeedback) return <Loading size="100"/>
 

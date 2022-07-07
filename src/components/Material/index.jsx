@@ -1,5 +1,6 @@
 import parse from 'html-react-parser';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+import ReactGoogleSlides from "react-google-slides";
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 
 
@@ -18,6 +19,21 @@ const Material = ({ assets }) => {
                     <p className='text-xl leading-10'>Deadline : {deadline}</p>
                 </div>
             }
+
+            {
+                fileUrl && fileUrl.includes("https://docs.google.com") ?
+
+                <div className='mt-10 w-full h-[500px] bg-[#dfe4ea]'>
+                    <ReactGoogleSlides
+                        width={"100%"}
+                        height={"100%"}
+                        slidesLink={fileUrl}
+                        showControls
+                    />
+                </div>
+
+                : false
+            }
             
             {
                 videoUrl &&
@@ -32,15 +48,6 @@ const Material = ({ assets }) => {
             }
 
             <div className="text-black text-xl font-normal mt-6 leading-10">{ parse(content) }</div>
-            
-            {
-                fileUrl && 
-
-                <div className='mt-10'>
-                    <p className='text-2xl font-bold'>File : </p>
-                    <a href={fileUrl} rel="noreferrer" target="_blank" className='block text-xl mt-5 leading-10 text-[#3B2AFD] overflow-hidden whitespace-nowrap text-ellipsis'>{ fileUrl }</a>
-                </div>
-            }
         </>
     )
 }
