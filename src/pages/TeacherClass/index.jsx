@@ -29,9 +29,11 @@ const TeacherClass = () => {
   // Graphql
   const { data: dataCounseling, loading: loadingCounseling } =
     useGetCounseling(params.id);
+    
   const { data, loading } = useQuery(GET_CLASS_BYID, {
-    variables: { id: params.id },
+  variables: { id: params.id },
   });
+  
   const {
     data: dataMaterial,
     loading: loadingMaterial,
