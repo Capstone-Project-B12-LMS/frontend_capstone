@@ -38,6 +38,7 @@ const Index = () => {
       .catch((err) => console.log(err));
   }
 
+  // console.log(process.env.REACT_APP_BASE_URL)
 
   return (
     <div>
@@ -61,7 +62,7 @@ const Index = () => {
                 <div>
                   {openLoginModal && openLoginModal && (
                     <Login
-                      setOpenRegisterModal = {setOpenRegisterModal}
+                      setOpenRegisterModal={setOpenRegisterModal}
                       openLoginModal={openLoginModal}
                       setOpenLoginModal={() => setOpenLoginModal(false)}
                     />
@@ -85,7 +86,7 @@ const Index = () => {
                   )}
                   {openRegisterModal && openRegisterModal && (
                     <Register
-                      setOpenLoginModal = {setOpenLoginModal}
+                      setOpenLoginModal={setOpenLoginModal}
                       openRegisterModal={openRegisterModal}
                       setOpenRegisterModal={() => setOpenRegisterModal(false)}
                     />
