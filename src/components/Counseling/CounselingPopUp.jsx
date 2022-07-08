@@ -16,6 +16,7 @@ const CounselingPopUp = ({ avatar, setIsClicked, userName }) => {
             <Button
               text="Confirm"
               styling={`rounded-[20px] px-[30px] py-[5px] text-xl font-bold mr-5`}
+              handleClick={() => setIsClicked(false)}
             />
             <Button
               text="Decline"
