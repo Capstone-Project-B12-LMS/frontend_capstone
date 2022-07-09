@@ -35,16 +35,7 @@ const MyAccount = () => {
         cancelButtonColor: "#d33",
       });
     }
-    if (data?.user?.updateById?.id) {
-      MySwal.fire({
-        title: "Update Success",
-        icon: "success",
-        showCancelButton: true,
-        showConfirmButton: false,
-        cancelButtonColor: "#d33",
-      });
-    }
-  }, [error, data]);
+  }, [error]);
   const handleChange = (type, value) => {
     const tempObj = {};
     tempObj[type] = value;
@@ -54,13 +45,32 @@ const MyAccount = () => {
 
   const submitAccountChange = (e) => {
     e.preventDefault();
-    insertAccountData({
-      variables: {
-        id: dataLogin.id,
-        fullName: accountData.fullName,
-        telepon: accountData.telepon,
-        email: accountData.email,
-      },
+    MySwal.fire({
+      title: "Class Data Changes",
+      text: "Are you sure you want to change the data?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#415A80",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await insertAccountData({
+          variables: {
+            id: dataLogin.id,
+            fullName: accountData.fullName,
+            telepon: accountData.telepon,
+            email: accountData.email,
+          },
+        });
+        MySwal.fire({
+          title: "Update Success",
+          icon: "success",
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: "#d33",
+        });
+      }
     });
   };
   if (error) return <pre>{error.message}</pre>;
