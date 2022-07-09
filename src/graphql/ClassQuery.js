@@ -51,6 +51,7 @@ const GET_CLASS_BYID = gql`
         createdBy
         code
         name
+        room
         users {
           id
           fullName
@@ -96,6 +97,16 @@ const GET_FEEDBACK = gql`
   }
 `
 
+const LEAVE_CLASS = gql`
+  mutation LEAVE_CLASS($class_id:ID!, $user_id:ID!){
+    class{
+      deleteUserById(classId:$class_id, userId: $user_id){
+        isDeleted
+      }
+    }
+  }
+`
+
 
 export {
   CREATE_CLASS,
@@ -104,5 +115,6 @@ export {
   GET_CLASS_BYID,
   REQUEST_COUNSELLING,
   GET_FEEDBACK,
-  SAVE_FEEDBACK
+  SAVE_FEEDBACK,
+  LEAVE_CLASS
 };

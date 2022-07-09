@@ -39,13 +39,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         type: 'list',
         text:'history',
         path:'/dashboard/history',
-    },
-    {
-        icon:SettingsIcon,
-        type: 'list',
-        text:'settings',
-        path:'/dashboard/settings',
-    },
+    }
   ]
 
   return (

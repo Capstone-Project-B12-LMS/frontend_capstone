@@ -30,9 +30,11 @@ const TeacherClass = () => {
   // Graphql
   const { data: dataCounseling, loading: loadingCounseling } =
     useGetCounseling(params.id);
+    
   const { data, loading } = useQuery(GET_CLASS_BYID, {
-    variables: { id: params.id },
+  variables: { id: params.id },
   });
+  
   const {
     data: dataMaterial,
     loading: loadingMaterial,
@@ -119,7 +121,7 @@ const TeacherClass = () => {
                         element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                       />
                       <Route path="feedback" element={<Feedback />} />
-                      <Route path="setting/*" element={<Setting />} />
+                      <Route path="setting/*" element={<Setting dataClass={data}/>} />
                     </Routes>
                   </div>
                 </div>
