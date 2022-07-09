@@ -33,7 +33,7 @@ const Login = () => {
   const { email } = useSelector((state) => state.login);
   const { password } = useSelector((state) => state.login);
 
-  const { insertLoginData, data, loading, error } = useLoginMutation();
+  const { insertLoginData , loading, error } = useLoginMutation();
 
   const cookies = new Cookies();
   const dispatch = useDispatch();
