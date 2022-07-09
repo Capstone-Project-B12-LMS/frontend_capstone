@@ -51,6 +51,7 @@ const GET_CLASS_BYID = gql`
         createdBy
         code
         name
+        room
         users {
           id
           fullName

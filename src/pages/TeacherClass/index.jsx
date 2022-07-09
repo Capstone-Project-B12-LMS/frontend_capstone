@@ -121,7 +121,7 @@ const TeacherClass = () => {
                         element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                       />
                       <Route path="feedback" element={<Feedback />} />
-                      <Route path="setting/*" element={<Setting />} />
+                      <Route path="setting/*" element={<Setting dataClass={data}/>} />
                     </Routes>
                   </div>
                 </div>
