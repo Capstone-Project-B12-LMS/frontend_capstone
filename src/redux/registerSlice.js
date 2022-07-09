@@ -18,13 +18,7 @@ export const registerSlice = createSlice({
     },
     setPassword: (state, action) => {
       state.password = action.payload;
-    },
-    setIsValid: (state, action) => {
-      state.isValid = action.payload;
-    },
-    setIsSuccess: (state, action) => {
-      state.isSuccess = action.payload;
-    },
+    }
   },
 });
 
@@ -33,8 +27,6 @@ export const {
   setUsername,
   setPassword,
   setEmail,
-  setIsValid,
-  setIsSuccess,
 } = registerSlice.actions;
 
 export default registerSlice.reducer;
