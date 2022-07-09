@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import emailjs from "emailjs-com";
 import { Cookies } from "react-cookie";
 import Login from "./Login";
@@ -8,12 +9,15 @@ import { Footer } from "../components";
 
 import home from "../assets/img/home.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
+import logo from "../assets/icons/brand-logo.svg";
 import swal from "sweetalert";
 
 const Index = () => {
   const cookies = new Cookies();
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
+
+  const navigate = useNavigate()
 
   function sendEmail(e) {
     e.preventDefault();
@@ -37,6 +41,7 @@ const Index = () => {
       .catch((err) => console.log(err));
   }
 
+  // console.log(process.env.REACT_APP_BASE_URL)
 
   return (
     <div>
@@ -50,7 +55,7 @@ const Index = () => {
                 <div>
                   <div className="">
                     <img
-                      src="/static/media/brand-logo.616d35e5af80b0bdfdcf810955ffd617.svg"
+                      src={logo}
                       alt="brand-logo"
                       className="w-[300px] h-[60px] ml-[80px] mt-[15px]"
                     />
@@ -60,7 +65,7 @@ const Index = () => {
                 <div>
                   {openLoginModal && openLoginModal && (
                     <Login
-                      setOpenRegisterModal = {setOpenRegisterModal}
+                      setOpenRegisterModal={setOpenRegisterModal}
                       openLoginModal={openLoginModal}
                       setOpenLoginModal={() => setOpenLoginModal(false)}
                     />
@@ -68,14 +73,14 @@ const Index = () => {
                   {!cookies.get("token") && (
                     <>
                       <button
-                        onClick={() => setOpenLoginModal(true)}
+                        onClick={() => navigate('/login')}
                         className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
                       >
                         Login
                       </button>
 
                       <button
-                        onClick={() => setOpenRegisterModal(true)}
+                        onClick={() => navigate('/register')}
                         className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
                       >
                         Sign up
@@ -84,7 +89,7 @@ const Index = () => {
                   )}
                   {openRegisterModal && openRegisterModal && (
                     <Register
-                      setOpenLoginModal = {setOpenLoginModal}
+                      setOpenLoginModal={setOpenLoginModal}
                       openRegisterModal={openRegisterModal}
                       setOpenRegisterModal={() => setOpenRegisterModal(false)}
                     />

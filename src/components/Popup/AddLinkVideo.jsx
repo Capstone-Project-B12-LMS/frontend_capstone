@@ -3,7 +3,7 @@ import { useClickOutSide } from "../../utils/hooks/useClickOutside";
 
 const AddLinkVideo = ({ func }) => {
 
-  const [linkVideo, setLinkVideo] = useState("");
+  const [linkVideo, setLinkVideo] = useState(null);
   // const regex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/
   const handleChange = (e) => {
     setLinkVideo(e.target.value)
