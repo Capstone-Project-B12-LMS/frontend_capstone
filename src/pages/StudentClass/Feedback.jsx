@@ -28,7 +28,6 @@ const Feedback = ({class_id , user_id}) => {
     await addFeedback({
       variables:{ 
         feedback:{ 
-          userId: user_id , 
           classId: class_id,
           content: comment
         } 
