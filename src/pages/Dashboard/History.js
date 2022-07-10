@@ -1,5 +1,18 @@
+import { useSelector } from "react-redux";
+import { Loading } from "../../components";
+import HistoryTable from "../../components/Table/HistoryTable";
+import useGetHistory from "../../graphql/GetHistory";
+
 
 const History = () =>{
+    const {dataLogin} = useSelector((state) => state.login);
+    const {data, loading, error} = useGetHistory();
+    if(loading) return <Loading size="100"/>;
+    if(error) return "Data Error..";
+
+    const dataHistory = data.activityHistory.findByUserId
+    console.log(dataHistory)
+
     return(
         <>
         <div className="container mx-auto px-24 mt-6">
@@ -14,43 +27,11 @@ const History = () =>{
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                <strong>Class UI/UX
-</strong>              </th>
-              <td className="px-6 py-4">
-                one Minutes ago
-              </td>
+            {dataHistory.map((data)=> (
+                <HistoryTable content={data.content} />
             
-              <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                <strong>Class UI/UX
-</strong>              </th>
-              <td className="px-6 py-4">
-                one Minutes ago
-              </td>
+            ))}
             
-              <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                <strong>Class UI/UX
-</strong>              </th>
-              <td className="px-6 py-4">
-                one Minutes ago
-              </td>
-            
-              <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-         
           </tbody>
         </table>
       </div>
@@ -67,43 +48,9 @@ const History = () =>{
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                <strong>Class UI/UX
-</strong>              </th>
-              <td className="px-6 py-4">
-                Yesterday
-              </td>
-            
-              <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                <strong>Class UI/UX
-</strong>              </th>
-              <td className="px-6 py-4">
-                Yesterday
-              </td>
-            
-              <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                <strong>Class UI/UX
-</strong>              </th>
-              <td className="px-6 py-4">
-                Yesterday
-              </td>
-            
-              <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
-            </tr>
-         
+          <HistoryTable />
+
+          <HistoryTable />
           </tbody>
         </table>
       </div>
