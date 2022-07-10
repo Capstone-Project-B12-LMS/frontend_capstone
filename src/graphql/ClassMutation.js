@@ -6,7 +6,6 @@ const NEW_CONTENT_CLASS = gql`
     $content:String!,
     $point:Int!,
     $classId:ID!,
-    $topicId:String,
     $deadline:String,
     $video:String,
     $file:String){
@@ -16,7 +15,6 @@ const NEW_CONTENT_CLASS = gql`
           content: $content,
           point:$point,
           classId:$classId, 
-          topicId:$topicId,
           deadline:$deadline
           video:$video,
           file:$file
@@ -35,34 +33,30 @@ const NEW_CONTENT_CLASS = gql`
 
 const UPDATE_CONTENT_CLASS = gql`
   mutation Materialupdate(
-    $ID:ID!,
+    $id:ID!,
+    $classId:ID!
     $title:String!,
     $content:String!,
     $point:Int!,
-    $classId:ID!,
-    $topicId:String,
-    $deadline:String,
     $video:String,
-    $file:String){
+    $file:String) {
       material{
         update(
-          id:$ID,
-          request:{   
-          title:$title,
-          content: $content,
-          point:$point,
-          classId:$classId, 
-          topicId:$topicId,
-          deadline:$deadline
-          video:$video,
-          file:$file
-        }) {
+          id:$id
+          request:{
+            classId: $classId,
+            title:$title,
+            content: $content,
+            point:$point,
+            video:$video,
+            file:$file
+        }) 
+        {
         id
         title
         content
         videoUrl
         fileUrl
-        deadline
         point
         }
     }

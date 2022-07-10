@@ -12,7 +12,7 @@ const Feedback = ({class_id , user_id}) => {
 
   const [comment,setComment] = useState("")
   const {data: feedbackData, loading: loadFeedback , refetch} = useQuery(GET_FEEDBACK, {
-    variables:{ class_id },
+    variables: { class_id },
     notifyOnNetworkStatusChange: true
   });
   const [addFeedback , {loading : loadSaveFeedback}] = useMutation(SAVE_FEEDBACK);
@@ -28,7 +28,6 @@ const Feedback = ({class_id , user_id}) => {
     await addFeedback({
       variables:{ 
         feedback:{ 
-          userId: user_id , 
           classId: class_id,
           content: comment
         } 
@@ -37,8 +36,6 @@ const Feedback = ({class_id , user_id}) => {
     setComment("")
     return refetch();
   }
-
-
 
 
   if(loadFeedback) return <Loading size="100"/>

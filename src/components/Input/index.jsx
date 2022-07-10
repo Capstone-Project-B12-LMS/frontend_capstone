@@ -7,8 +7,8 @@ const InputComponent = ({ name, value, setValue, icon, type }) => {
   };
 
   return (
-    <div className={name !== `password` ? `w-full mb-8` : `w-full mb-10`}>
-      <label htmlFor={name} className="text-2xl leading-9 mb-2 capitalize">
+    <div className="w-full mb-4">
+      <label htmlFor={name} className="block text-xl mb-4 capitalize">
         {name}
       </label>
       <div className="flex items-center relative">

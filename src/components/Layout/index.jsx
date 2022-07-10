@@ -207,6 +207,7 @@ const Layout = () => {
 
     useEffect(() => {
         if (location.pathname === '/dashboard') navigate('home', { replace: true })
+        if(!cookies.get("token")) window.location.href = ""
     }, [location.pathname])
 
 
