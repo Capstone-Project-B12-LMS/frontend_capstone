@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -15,19 +15,19 @@ import UploadIcon from "../../assets/icons/upload.svg"
 
 // Graphql
 import { NEW_CONTENT_CLASS, UPDATE_CONTENT_CLASS } from '../../graphql/ClassMutation';
-import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
-import { data } from 'autoprefixer';
+import { FIND_CLASS_MATERIAL, FIND_MATERIAL_BY_ID } from '../../graphql/MaterialQuery';
 
 
-
-const InputAnnouncement = () => {
+const InputAnnouncement = ({ materialId }) => {
 
     const params = useParams();
 
     // State
     const [powerPoint, setPowerPoint] = useState(false);
     const [videoLink, setVideoLink] = useState(false);
+    const [mode, setMode] = useState(false);
 
+    const [idUpdate, setIdUpdate] = useState(materialId)
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [linkPowerPoint, setLinkPowerPoint] = useState(null);
@@ -51,6 +51,18 @@ const InputAnnouncement = () => {
     const getLinkVideo = (linkVideo) => {
         setLinkVideo(linkVideo);
     }
+
+
+    //Graphql
+    const { data: dataUpdate, loading: loadingUpdate } = useQuery(FIND_MATERIAL_BY_ID, {
+        variables: { id: idUpdate },
+        onCompleted: (dataUpdate) => {
+            setTitle(dataUpdate.material?.findById.title)
+            // setDescription(dataUpdate.material?.findById.description)
+            setLinkPowerPoint(dataUpdate.material?.findById.fileUrl)
+            setLinkVideo(dataUpdate.material?.findById.videoUrl)
+        }
+    })
 
     const [addData,] = useMutation(NEW_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
@@ -84,25 +96,32 @@ const InputAnnouncement = () => {
         e.preventDefault();
         updateData({
             variables: {
-                id: "",
+                id: idUpdate,
                 classId: params.id,
                 title: title,
                 content: description,
-                point: 100,
                 video: linkVideo,
-                file: linkPowerPoint
+                file: linkPowerPoint,
+                point: 100
             }
         })
+        setTitle("");
+        setDescription("");
+        setLinkVideo(null);
+        setLinkPowerPoint(null);
+        setIdUpdate(null);
     }
     const handleCancel = (e) => {
         e.preventDefault();
         setTitle("");
-        setDescription(null);
+        setDescription("");
         setLinkVideo(null);
         setLinkPowerPoint(null);
     }
 
 
+    // console.log(dataUpdate)
+    console.log(idUpdate);
 
     return (
         <>
@@ -156,16 +175,28 @@ const InputAnnouncement = () => {
                                 text={"Cancel"}
                                 handleClick={handleCancel}
                             />
-                            <Button
-                                styling={"rounded-[10px] px-[1rem] ml-[1rem]"}
-                                text={"Posting"}
-                                handleClick={handleSubmit}
-                            />
+                            {
+                                dataUpdate ?
+
+                                    <Button
+                                        styling={"rounded-[10px] px-[1rem] ml-[1rem]"}
+                                        text={"Update"}
+                                        handleClick={handleUpdate}
+                                    />
+                                    :
+                                    <Button
+                                        styling={"rounded-[10px] px-[1rem] ml-[1rem]"}
+                                        text={"Posting"}
+                                        handleClick={handleSubmit}
+                                    />
+                            }
                         </div>
                     </div>
-                    {
-                        linkVideo && <Material assets={isiMaterial} />
-                    }
+                    <div className='mt-[4rem]'>
+                        {
+                            linkVideo && <Material assets={isiMaterial} />
+                        }
+                    </div>
                 </div>
             </div>
         </>

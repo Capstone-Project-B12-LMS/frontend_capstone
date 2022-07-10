@@ -8,13 +8,24 @@ import iconUpload from '../../assets/icons/button-update.svg';
 import Illustration from '../../assets/img/no-content.png';
 
 
-const Content = ({ materials }) => {
+const Content = ({ materials, func }) => {
 
     const [indexMaterial, setIndexMaterial] = useState(0);
-    const changeIndexMaterial = (id) => {
-        setIndexMaterial(id)
+    const [materialUpdateId, setMaterialUpdateId] = useState(null)
+    const changeIndexMaterial = (idx) => {
+        setIndexMaterial(idx)
     }
-    console.log(indexMaterial);
+
+    const handleButtonUpdate = (materiId) => {
+        const materialId = materiId
+        func(materialId)
+    }
+
+
+
+
+    // console.log();
+    // console.log(materials[indexMaterial].id)
 
     return (
         <>
@@ -49,7 +60,7 @@ const Content = ({ materials }) => {
                                                         <button className="bg-white h-[2rem] w-[2rem] mr-[1.5rem]" >
                                                             <img src={iconDelete} alt="ini delete" />
                                                         </button>
-                                                        <button className="bg-white h-[2rem] w-[2rem]">
+                                                        <button className="bg-white h-[2rem] w-[2rem]" onClick={() => { handleButtonUpdate(material.id) }}>
                                                             <img src={iconUpload} alt="ini update" />
                                                         </button>
                                                     </div>

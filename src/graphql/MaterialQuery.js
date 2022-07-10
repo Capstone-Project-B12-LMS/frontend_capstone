@@ -17,6 +17,24 @@ const FIND_CLASS_MATERIAL = gql`
     }
 `
 
+const FIND_MATERIAL_BY_ID = gql`
+    query FIND_MATERIAL($id : ID!){
+        material{
+            findById(id:$id){
+                id,
+                title,
+                content,
+                videoUrl,
+                fileUrl,
+                deadline,
+                point,
+                createdBy
+            }
+        }
+    }
+`
+
 export {
-    FIND_CLASS_MATERIAL
+    FIND_CLASS_MATERIAL,
+    FIND_MATERIAL_BY_ID
 }
