@@ -20,7 +20,7 @@ const HeaderClass = () => {
             className="w-[400px] h-[400px]"
           />
           <p className="text-black font-normal text-2xl">
-            Anda Belum Memiliki Kelas
+            Sorry, your class is not found
           </p>
         </div>
       ) : (

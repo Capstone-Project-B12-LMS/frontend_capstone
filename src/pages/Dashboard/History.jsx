@@ -22,7 +22,7 @@ const History = () => {
             className="w-[400px] h-[400px]"
           />
           <p className="text-black font-normal text-2xl">
-            Anda tidak memiliki history
+            Sorry, your history is not found
           </p>
         </div>
       ) : (
