@@ -121,7 +121,7 @@ const InputAnnouncement = ({ materialId }) => {
 
 
     // console.log(dataUpdate)
-    console.log(idUpdate);
+    // console.log(idUpdate);
 
     return (
         <>

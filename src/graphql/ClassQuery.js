@@ -51,6 +51,8 @@ const GET_CLASS_BYID = gql`
         createdBy
         code
         name
+        room
+        status
         users {
           id
           fullName
@@ -72,40 +74,78 @@ const REQUEST_COUNSELLING = gql`
 `;
 
 const SAVE_FEEDBACK = gql`
-  mutation SAVE_FEEDBACK($feedback:FeedbackNew!){
-    feedback{
-      save(request:$feedback){
+  mutation SAVE_FEEDBACK($feedback: FeedbackNew!) {
+    feedback {
+      save(request: $feedback) {
         id
       }
     }
   }
-`
+`;
 
 const GET_FEEDBACK = gql`
-  query GET_FEEDBACK($class_id:ID!){
-    feedback{
-      findByClassId(classId:$class_id){
+  query GET_FEEDBACK($class_id: ID!) {
+    feedback {
+      findByClassId(classId: $class_id) {
         id
         content
-        user{
+        user {
           id
           fullName
         }
       }
     }
   }
-`
+`;
 
 const LEAVE_CLASS = gql`
-  mutation LEAVE_CLASS($class_id:ID!, $user_id:ID!){
-    class{
-      deleteUserById(classId:$class_id, userId: $user_id){
+  mutation LEAVE_CLASS($class_id: ID!, $user_id: ID!) {
+    class {
+      deleteUserById(classId: $class_id, userId: $user_id) {
         isDeleted
       }
     }
   }
-`
+`;
+const UPDATE_CLASS = gql`
+  mutation UPDATE_CLASS(
+    $id: ID!
+    $name: String!
+    $room: String
+    $status: ClassStatus!
+    $reportUrl: String
+  ) {
+    class {
+      updateById(
+        id: $id
+        request: {
+          name: $name
+          room: $room
+          status: $status
+          reportUrl: $reportUrl
+        }
+      ) {
+        id
+        name
+        status
+      }
+    }
+  }
+`;
 
+const DELETE_CLASS = gql`
+  mutation DELETE_CLASS($id: ID!) {
+    class {
+      deleteById(id: $id) {
+        deleted{
+          name
+        }
+        status
+        error
+      }
+    }
+  }
+`;
 
 export {
   CREATE_CLASS,
@@ -115,5 +155,7 @@ export {
   REQUEST_COUNSELLING,
   GET_FEEDBACK,
   SAVE_FEEDBACK,
-  LEAVE_CLASS
+  LEAVE_CLASS,
+  UPDATE_CLASS,
+  DELETE_CLASS
 };

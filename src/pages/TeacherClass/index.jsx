@@ -56,7 +56,8 @@ const TeacherClass = () => {
   const [isViewClicked, setIsViewClicked] = useState(false);
   const [materialId, setMaterialId] = useState(null);
 
-  // const [dataMaterialUpdate, setDataMaterialUpdate] = useState(dataMaterial?.material.findAllByClassId)
+
+  // console.log(data?.class.findById.id)
 
   return (
     <>
@@ -108,8 +109,10 @@ const TeacherClass = () => {
                     </div>
 
                     {!loadingCounseling &&
-                      dataCounseling.guidance.findByClassId.map((counsel) => (
-                        <Counseling userName={counsel.user.fullName} />
+                      dataCounseling.guidance.findByClassId.map((counsel, idx) => (
+                        <div key={idx}>
+                          <Counseling userName={counsel.user.fullName} />
+                        </div>
                       ))}
                     {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
                   </div>
@@ -121,8 +124,8 @@ const TeacherClass = () => {
                       <Route path="content"
                         element={<Content materials={dataMaterial?.material.findAllByClassId} func={setMaterialId} />}
                       />
-                      <Route path="feedback" element={<Feedback />} />
-                      <Route path="setting/*" element={<Setting />} />
+                      <Route path="feedback" element={<Feedback id_class={data?.class.findById.id} />} />
+                      <Route path="setting/*" element={<Setting dataClass={data} />} />
                     </Routes>
                   </div>
                 </div>

@@ -22,11 +22,6 @@ const Content = ({ materials, func }) => {
     }
 
 
-
-
-    // console.log();
-    // console.log(materials[indexMaterial].id)
-
     return (
         <>
             <div className="bg-white px-4">
