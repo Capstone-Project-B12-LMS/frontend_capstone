@@ -1,11 +1,9 @@
-import { useSelector } from "react-redux";
 import { Loading } from "../../components";
 import HistoryTable from "../../components/Table/HistoryTable";
 import useGetHistory from "../../graphql/GetHistory";
 import Illustration from "../../assets/img/illustration_1.png";
 
 const History = () => {
-  const { dataLogin } = useSelector((state) => state.login);
   const { data, loading, error } = useGetHistory();
   if (loading) return <Loading size="100" />;
   if (error) return "Data Error..";
