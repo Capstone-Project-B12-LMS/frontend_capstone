@@ -17,7 +17,7 @@ const Index = () => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function sendEmail(e) {
     e.preventDefault();
@@ -73,14 +73,14 @@ const Index = () => {
                   {!cookies.get("token") && (
                     <>
                       <button
-                        onClick={() => navigate('/login')}
+                        onClick={() => navigate("/login")}
                         className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
                       >
                         Login
                       </button>
 
                       <button
-                        onClick={() => navigate('/register')}
+                        onClick={() => navigate("/register")}
                         className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
                       >
                         Sign up
@@ -152,7 +152,7 @@ const Index = () => {
                             <input
                               type="text"
                               id="name-address-icon"
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                               placeholder="Full Name"
                               name="name"
                               required
@@ -176,7 +176,7 @@ const Index = () => {
                             <input
                               type="email"
                               id="email-address-icon"
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                               placeholder="example@gmail.com"
                               name="email"
                               required
@@ -203,7 +203,7 @@ const Index = () => {
                             <textarea
                               type="text"
                               id="message-address-icon"
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                               placeholder="Message"
                               rows="8"
                               cols="80"
