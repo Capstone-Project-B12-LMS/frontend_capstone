@@ -53,6 +53,7 @@ const GET_CLASS_BYID = gql`
         name
         room
         status
+        reportUrl
         users {
           id
           fullName

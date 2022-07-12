@@ -9,7 +9,7 @@ const ChangeClass = ({
 }) => {
   return (
     <>
-      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+      <tr className="bg-white border-b   hover:bg-gray-50 ">
         <td className="p-2 whitespace-nowrap">
           <div className="flex justify-center">
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
