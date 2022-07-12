@@ -30,11 +30,11 @@ const TeacherClass = () => {
   // Graphql
   const { data: dataCounseling, loading: loadingCounseling } =
     useGetCounseling(params.id);
-    
+
   const { data, loading } = useQuery(GET_CLASS_BYID, {
-  variables: { id: params.id },
+    variables: { id: params.id },
   });
-  
+
   const {
     data: dataMaterial,
     loading: loadingMaterial,
@@ -54,8 +54,10 @@ const TeacherClass = () => {
   ]
 
   const [isViewClicked, setIsViewClicked] = useState(false);
+  const [materialId, setMaterialId] = useState(null);
 
-  console.log(dataCounseling);
+
+  // console.log(data?.class.findById.id)
 
   return (
     <>
@@ -107,8 +109,10 @@ const TeacherClass = () => {
                     </div>
 
                     {!loadingCounseling &&
-                      dataCounseling.guidance.findByClassId.map((counsel) => (
-                        <Counseling userName={counsel.user.fullName} />
+                      dataCounseling.guidance.findByClassId.map((counsel, idx) => (
+                        <div key={idx}>
+                          <Counseling userName={counsel.user.fullName} />
+                        </div>
                       ))}
                     {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
                   </div>
@@ -116,12 +120,12 @@ const TeacherClass = () => {
                 <div className="w-[75%]">
                   <div>
                     <Routes>
-                      <Route index element={<Description />} />
+                      <Route index element={<Description materialId={materialId} />} />
                       <Route path="content"
-                        element={<Content materials={dataMaterial?.material.findAllByClassId} />}
+                        element={<Content materials={dataMaterial?.material.findAllByClassId} func={setMaterialId} />}
                       />
-                      <Route path="feedback" element={<Feedback />} />
-                      <Route path="setting/*" element={<Setting dataClass={data}/>} />
+                      <Route path="feedback" element={<Feedback id_class={data?.class.findById.id} />} />
+                      <Route path="setting/*" element={<Setting dataClass={data} />} />
                     </Routes>
                   </div>
                 </div>

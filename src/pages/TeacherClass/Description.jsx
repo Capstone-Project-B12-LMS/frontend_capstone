@@ -7,7 +7,7 @@ import ChangeClassTeacher from "./ChangeClassTeacher";
 
 import InputAnnouncement from "./inputAnnouncement";
 
-const Description = () => {
+const Description = ({ materialId }) => {
   const [announcement, setAnnouncement] = useState(false);
   const [openChangeClass, setOpenChangeClass] = useState(false);
 
@@ -22,7 +22,7 @@ const Description = () => {
   return (
     <div className="mx-[0.5rem]">
       {announcement ? (
-        <InputAnnouncement />
+        <InputAnnouncement materialId={materialId} />
       ) : (
         <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
           <img

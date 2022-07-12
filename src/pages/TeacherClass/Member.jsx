@@ -5,7 +5,7 @@ import MemberComponent from "../../components/MemberComponent";
 const Member = ({ students, classId }) => {
   let newStudents = [...students]
   newStudents.shift()
- 
+
   return (
     <div className="border-2 py-4 rounded-[20px]" >
       <h3 className="pl-4 text-2xl font-semibold">Class Members</h3>
@@ -15,7 +15,7 @@ const Member = ({ students, classId }) => {
       </div>
       <p className="pl-4 text-2xl text-[#415A80] mt-10">Students</p>
       {newStudents?.map((student) => (
-        <MemberComponent key={student.id} student={student} classId={classId}/>
+        <MemberComponent key={student.id} student={student} classId={classId} />
       ))}
     </div>
   );
