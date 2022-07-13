@@ -1,4 +1,5 @@
 import { memo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { EmptyContent, List, Material } from "../../components";
 
@@ -10,16 +11,19 @@ import Illustration from '../../assets/img/no-content.png';
 
 const Content = ({ materials, func }) => {
 
+    const navigate = useNavigate();
+
     const [indexMaterial, setIndexMaterial] = useState(0);
-    const [materialUpdateId, setMaterialUpdateId] = useState(null)
     const changeIndexMaterial = (idx) => {
         setIndexMaterial(idx)
     }
 
-    const handleButtonUpdate = (materiId) => {
-        const materialId = materiId
-        func(materialId)
-    }
+    // const handleButtonUpdate = (materiId) => {
+    //     const materialId = materiId
+    //     func(materialId)
+    //     console.log(materialId)
+    //     navigate("..", { replace: true })
+    // }
 
 
     return (
@@ -51,14 +55,14 @@ const Content = ({ materials, func }) => {
                                                         className="bg-transparent text-black text-xl text-bold font-bold capitalize"
                                                         onClick={() => { changeIndexMaterial(materialIdx) }}
                                                     >{material.title}</button>
-                                                    <div>
+                                                    {/* <div>
                                                         <button className="bg-white h-[2rem] w-[2rem] mr-[1.5rem]" >
                                                             <img src={iconDelete} alt="ini delete" />
                                                         </button>
                                                         <button className="bg-white h-[2rem] w-[2rem]" onClick={() => { handleButtonUpdate(material.id) }}>
                                                             <img src={iconUpload} alt="ini update" />
                                                         </button>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </List>
                                         ))

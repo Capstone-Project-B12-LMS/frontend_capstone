@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 // Components
-import { Button, PopUp, Material } from '../../components';
+import { Button, PopUp, Material, Loading } from '../../components';
 import AddLinkPPT from '../../components/Popup/AddLinkPPT';
 import AddLinkVideo from '../../components/Popup/AddLinkVideo';
 
@@ -18,26 +18,22 @@ import { NEW_CONTENT_CLASS, UPDATE_CONTENT_CLASS } from '../../graphql/ClassMuta
 import { FIND_CLASS_MATERIAL, FIND_MATERIAL_BY_ID } from '../../graphql/MaterialQuery';
 
 
-const InputAnnouncement = ({ materialId }) => {
+const InputAnnouncement = ({ targetMaterial }) => {
 
     const params = useParams();
 
     // State
     const [powerPoint, setPowerPoint] = useState(false);
     const [videoLink, setVideoLink] = useState(false);
-    const [mode, setMode] = useState(false);
 
-    const [idUpdate, setIdUpdate] = useState(materialId)
+    const [materiUpdate, setMateriUpdate] = useState(targetMaterial)
     const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+    const [description, setDescription] = useState(null);
     const [linkPowerPoint, setLinkPowerPoint] = useState(null);
     const [linkVideo, setLinkVideo] = useState(null);
 
-    const isiMaterial = {
-        title,
-        content: description,
-        videoUrl: linkVideo
-    }
+
+    const baseYt = "https://youtu.be/"
 
 
     // Event handler
@@ -53,23 +49,25 @@ const InputAnnouncement = ({ materialId }) => {
     }
 
 
-    //Graphql
-    const { data: dataUpdate, loading: loadingUpdate } = useQuery(FIND_MATERIAL_BY_ID, {
-        variables: { id: idUpdate },
-        onCompleted: (dataUpdate) => {
-            setTitle(dataUpdate.material?.findById.title)
-            // setDescription(dataUpdate.material?.findById.description)
-            setLinkPowerPoint(dataUpdate.material?.findById.fileUrl)
-            setLinkVideo(dataUpdate.material?.findById.videoUrl)
-        }
-    })
 
+
+    useEffect(() => {
+        if (targetMaterial.length !== 0) {
+            setTitle(materiUpdate[0]?.title)
+            setDescription(materiUpdate[0]?.content)
+            setLinkVideo(materiUpdate[0]?.videoUrl)
+            setLinkPowerPoint(materiUpdate[0]?.fileUrl)
+        }
+    }, [])
+
+
+    //Graphql
     const [addData,] = useMutation(NEW_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
         onCompleted: data => console.log(data, "Berhasil"),
         onError: error => console.log("Terjadi error", error),
     });
-    const [updateData] = useMutation(UPDATE_CONTENT_CLASS, {
+    const [updateData, { dataUpdate, loadingUpdate }] = useMutation(UPDATE_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
         onCompleted: data => console.log("Berhasil update data", data),
         onError: error => console.log("Terjadi error", error)
@@ -96,7 +94,7 @@ const InputAnnouncement = ({ materialId }) => {
         e.preventDefault();
         updateData({
             variables: {
-                id: idUpdate,
+                id: materiUpdate[0]?.id,
                 classId: params.id,
                 title: title,
                 content: description,
@@ -109,7 +107,7 @@ const InputAnnouncement = ({ materialId }) => {
         setDescription("");
         setLinkVideo(null);
         setLinkPowerPoint(null);
-        setIdUpdate(null);
+        setMateriUpdate(null);
     }
     const handleCancel = (e) => {
         e.preventDefault();
@@ -117,11 +115,20 @@ const InputAnnouncement = ({ materialId }) => {
         setDescription("");
         setLinkVideo(null);
         setLinkPowerPoint(null);
+        setMateriUpdate(null);
+    }
+
+    const isiMaterial = {
+        title,
+        content: description,
+        videoUrl: linkVideo,
+        fileUrl: linkPowerPoint
     }
 
 
-    // console.log(dataUpdate)
-    // console.log(idUpdate);
+
+    // console.log("ini dari input", materiUpdate[0]?.content)
+    console.log(targetMaterial)
 
     return (
         <>
@@ -148,6 +155,7 @@ const InputAnnouncement = ({ materialId }) => {
                         className='w-[100%] p-[1rem]'
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        required
                     />
                     <ReactQuill
                         theme='snow'
@@ -176,7 +184,7 @@ const InputAnnouncement = ({ materialId }) => {
                                 handleClick={handleCancel}
                             />
                             {
-                                dataUpdate ?
+                                materiUpdate ?
 
                                     <Button
                                         styling={"rounded-[10px] px-[1rem] ml-[1rem]"}

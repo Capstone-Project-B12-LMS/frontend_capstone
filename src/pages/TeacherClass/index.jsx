@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Route, Routes, useParams } from "react-router-dom";
 
@@ -56,8 +56,10 @@ const TeacherClass = () => {
   const [isViewClicked, setIsViewClicked] = useState(false);
   const [materialId, setMaterialId] = useState(null);
 
+  const targetMaterial = dataMaterial?.material.findAllByClassId.filter((iniUpdate) => iniUpdate.id === materialId)
 
-  // console.log(data?.class.findById.id)
+  // console.log(dataMaterial?.material.findAllByClassId[materialIdx])
+
 
   return (
     <>
@@ -120,7 +122,7 @@ const TeacherClass = () => {
                 <div className="w-[75%]">
                   <div>
                     <Routes>
-                      <Route index element={<Description materialId={materialId} />} />
+                      <Route index element={<Description materialId={dataMaterial?.material.findAllByClassId[materialId]} targetMaterial={targetMaterial} />} />
                       <Route path="content"
                         element={<Content materials={dataMaterial?.material.findAllByClassId} func={setMaterialId} />}
                       />

@@ -7,7 +7,7 @@ import useUpdateMaterial from "../../graphql/UpdateMaterial";
 
 
 
-const MaterialComponent = ({ item, classId }) => {
+const MaterialComponent = ({ item, classId, func }) => {
 
   const navigate = useNavigate();
 
@@ -17,9 +17,13 @@ const MaterialComponent = ({ item, classId }) => {
     isDotClicked && SetIsDotClicked(false);
   };
   const handleUpdateMaterial = (materialId) => {
-    navigate({ replace: true })
+    const targetId = materialId
+    // func(targetId)
+    console.log(targetId)
+    navigate("../..", { replace: true })
   }
 
+  // console.log(materialId)
 
   return (
     <div
@@ -42,9 +46,6 @@ const MaterialComponent = ({ item, classId }) => {
           >
             Update Material
           </p>
-          {/* <p className="text-sm absolute right-[60px] p-3 rounded-[10px] shadow-md cursor-pointer font-medium">
-            Delete Material
-          </p> */}
         </>
       )}
     </div>

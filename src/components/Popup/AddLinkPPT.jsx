@@ -2,9 +2,9 @@ import { useState } from "react";
 
 
 
-const AddLinkPPT = ({ func }) => {
+const AddLinkPPT = ({ func, linkPowerP }) => {
 
-  const [linkPPT, setLinkPPT] = useState(null);
+  const [linkPPT, setLinkPPT] = useState(linkPowerP);
 
   const handleChange = (e) => {
     setLinkPPT(e.target.value)
