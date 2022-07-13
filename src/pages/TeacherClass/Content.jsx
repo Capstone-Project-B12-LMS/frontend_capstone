@@ -28,7 +28,7 @@ const Content = ({ materials, func }) => {
 
     return (
         <>
-            <div className="bg-white px-4">
+            <div className="bg-white px-8">
                 {
                     !materials?.length || !materials ?
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../Button";
 
-const CounselingPopUp = ({ avatar, setIsClicked, userName }) => {
+const CounselingPopUp = ({ avatar, setIsClicked, userName, topic }) => {
 
   return (
     <div
@@ -9,9 +9,9 @@ const CounselingPopUp = ({ avatar, setIsClicked, userName }) => {
     >
       <div className="flex items-center justify-center h-screen">
         <div className="bg-white w-4/5 md:w-1/2 max-w-[640px] flex flex-col items-center gap-2 py-20 rounded-[30px]">
-          <p className="text-xl font-bold">{userName}</p>
-          <p className="text-xl font-medium">Has asked for counseling</p>
-          <img src={avatar} alt="/" className="md:w-[200px] my-5" />
+          <p className="text-xl font-bold">{userName} Request to you</p>
+          <p className="text-xl font-medium">"{topic}"</p>
+          <img src={avatar} alt="/" className="md:w-[200px] my-7 rounded-full" />
           <div>
             <Button
               text="Confirm"

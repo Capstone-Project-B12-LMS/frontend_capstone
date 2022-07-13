@@ -4,7 +4,12 @@ const counselingQuery = gql`
   query counsReq($classId: ID!) {
     guidance {
       findByClassId(classId: $classId) {
+        id
+        topic
+        content
+        createdAt
         user {
+          id
           fullName
         }
       }
