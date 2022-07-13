@@ -21,6 +21,7 @@ import Content from "./Content";
 import Feedback from "./Feedback";
 import Description from "./Description";
 import Setting from "./Setting";
+import { useEffect } from "react";
 
 
 const TeacherClass = () => {
@@ -53,13 +54,35 @@ const TeacherClass = () => {
     { text: "settings", path: './setting' }
   ]
 
+
+  // State Material
+
+  const [material, setMaterial] = useState({
+    title: "",
+    description: "",
+    linkVideo: null,
+    linkPowerPoint: null
+  })
+  const [updateMode, setUpdateMode] = useState(false);
   const [isViewClicked, setIsViewClicked] = useState(false);
   const [materialId, setMaterialId] = useState(null);
-
   const targetMaterial = dataMaterial?.material.findAllByClassId.filter((iniUpdate) => iniUpdate.id === materialId)
 
-  // console.log(dataMaterial?.material.findAllByClassId[materialIdx])
-  console.log(materialId);
+
+
+  useEffect(() => {
+    if (!!materialId) {
+      const filterMaterial = dataMaterial?.material.findAllByClassId.filter((iniUpdate) => iniUpdate.id === materialId)
+      setMaterial({
+        title: filterMaterial[0].title,
+        description: filterMaterial[0].content,
+        linkVideo: filterMaterial[0].videoUrl ? `https://youtu.be/${filterMaterial[0].videoUrl}` : null,
+        linkPowerPoint: filterMaterial[0].videoUrl ? filterMaterial[0].fileUrl : null,
+      })
+      setUpdateMode(true)
+      // console.log("Ini useeffect", filterMaterial)
+    }
+  }, [materialId])
 
   return (
     <>
@@ -130,7 +153,14 @@ const TeacherClass = () => {
                 <div className="w-[75%]">
                   <div>
                     <Routes>
-                      <Route index element={<Description materialId={dataMaterial?.material.findAllByClassId[materialId]} targetMaterial={targetMaterial} />} />
+                      <Route index element={<Description
+                        updateMode={updateMode}
+                        setUpdateMode={setUpdateMode}
+                        material={material}
+                        setMaterial={setMaterial}
+                        materialId={materialId}
+                        targetMaterial={targetMaterial} />}
+                      />
                       <Route path="content"
                         element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                       />

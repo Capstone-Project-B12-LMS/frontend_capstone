@@ -19,7 +19,6 @@ const MaterialComponent = ({ item, classId, func }) => {
   const handleUpdateMaterial = (materialId) => {
     const targetId = materialId
     func(targetId)
-    console.log(targetId)
     navigate("../..", { replace: true })
   }
 
@@ -41,10 +40,16 @@ const MaterialComponent = ({ item, classId, func }) => {
       {isDotClicked && (
         <>
           <p
-            className="text-sm absolute right-[60px] p-3 rounded-[10px] shadow-md cursor-pointer font-medium"
+            className="text-sm absolute right-[60px] p-2.5 rounded-[10px] shadow-md cursor-pointer font-medium mb-[2.5rem]"
             onClick={() => handleUpdateMaterial(item.id)}
           >
             Update Material
+          </p>
+          <p
+            className="text-sm absolute right-[60px] p-2.5 rounded-[10px] shadow-md cursor-pointer font-medium mt-[2.5rem]"
+
+          >
+            Delete Material
           </p>
         </>
       )}
