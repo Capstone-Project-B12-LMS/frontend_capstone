@@ -20,7 +20,7 @@ const Description = ({ materialId }) => {
   };
 
   return (
-    <div className="mx-[0.5rem]">
+    <div className="mx-[0.5rem] px-8">
       {announcement ? (
         <InputAnnouncement materialId={materialId} />
       ) : (

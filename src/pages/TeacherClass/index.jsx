@@ -50,14 +50,13 @@ const TeacherClass = () => {
     { text: "description", path: `.` },
     { text: `content${materialSize ? `(${materialSize})` : ""}`, path: "./content" },
     { text: "feedback", path: './feedback' },
-    { text: "setting", path: './setting' }
+    { text: "settings", path: './setting' }
   ]
 
   const [isViewClicked, setIsViewClicked] = useState(false);
   const [materialId, setMaterialId] = useState(null);
 
 
-  // console.log(data?.class.findById.id)
 
   return (
     <>
@@ -76,10 +75,9 @@ const TeacherClass = () => {
 
               <div className="flex my-[2rem]">
                 <div className="w-[25%]" >
-                  <div className="h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem] mb-[1rem]">
+                  <div className="border-[1px] rounded-[10px] p-6 mx-[0.5rem] mb-[1rem]">
                     <div className="flex justify-between m-1">
                       <h4 className="text-[1.25rem]">Class code</h4>
-                      <img src={Kebab} alt="Three dots" className="w-[1.5rem] h-[1.5rem]" />
                     </div>
                     {
                       loading ?
@@ -97,25 +95,34 @@ const TeacherClass = () => {
                     }
                   </div>
 
-                  <div className="border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
-                    <div className="flex justify-between items-center mb-4">
-                      <h4>Notification</h4>
-                      <p
-                        className="cursor-pointer text-[#415A80]"
-                        onClick={() => setIsViewClicked(true)}
-                      >
-                        View all
-                      </p>
-                    </div>
 
-                    {!loadingCounseling &&
-                      dataCounseling.guidance.findByClassId.map((counsel, idx) => (
-                        <div key={idx}>
-                          <Counseling userName={counsel.user.fullName} />
-                        </div>
-                      ))}
-                    {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
-                  </div>
+                  {/* Counselling List */}
+                  
+
+                  {
+                    !!dataCounseling?.guidance?.findByClassId?.length ?
+
+                    <div className="border-[1px] rounded-[10px] p-6 mx-[0.5rem]">
+                      <div className="flex justify-between items-center mb-6">
+                        <h4>Notification</h4>
+                        <p className="cursor-pointer text-[#415A80]" onClick={() => setIsViewClicked(true)}>
+                          View all
+                        </p>
+                      </div>
+
+                      {
+                        !loadingCounseling && dataCounseling.guidance.findByClassId.map(counselling => (
+                          <div key={counselling.id}>
+                            <Counseling data={counselling} />
+                          </div>
+                        ))
+                      }
+                      {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
+                    </div>
+                    : 
+                    false
+                  }
+                  
                 </div>
                 <div className="w-[75%]">
                   <div>

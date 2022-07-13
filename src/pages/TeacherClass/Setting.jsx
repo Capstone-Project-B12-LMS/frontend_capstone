@@ -17,9 +17,9 @@ const Setting = ({dataClass}) => {
     { text: "profile", path: "./profile" },
   ];
   return (
-    <div>
+    <div className="px-8">
       <Tab list={Tabpath} />
-      <div className="w-full">
+      <div className="w-full ">
           <Routes>
               <Route index element={<Member students={dataClass?.class?.findById?.users} classId={dataClass?.class?.findById?.id}/>} />
               <Route path="material" element={<Material dataMaterial={dataMaterial} loadingMaterial={loadingMaterial} classId={param.id}/>} />

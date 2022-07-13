@@ -7,7 +7,7 @@ const Member = ({ students, classId }) => {
   newStudents.shift()
 
   return (
-    <div className="border-2 py-4 rounded-[20px]" >
+    <div className="border-2 p-8 rounded-[20px]" >
       <h3 className="pl-4 text-2xl font-semibold">Class Members</h3>
       <p className="pl-4 text-2xl text-[#415A80] mt-8">Teacher</p>
       <div className="py-4 w-full border-b-2 rounded-[8px] shadow-sm">
