@@ -1,8 +1,18 @@
 import React from "react";
+import useDeleteCounseling from "../../graphql/DeleteCounseling";
 import Button from "../Button";
 
-const CounselingPopUp = ({ avatar, setIsClicked, userName }) => {
-
+const CounselingPopUp = ({ avatar, setIsClicked, userName, id }) => {
+  console.log(id)
+  const { insertCounselingID, data, loading, error } = useDeleteCounseling()
+  const handleDeletedCounseling = async() =>{
+    await insertCounselingID({
+      variables: {
+        id: id
+      }
+    })
+    setIsClicked(false);
+  }
   return (
     <div
       className={`fixed inset-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] inset-y-0 z-30 opacity-100 visible`}
@@ -21,7 +31,7 @@ const CounselingPopUp = ({ avatar, setIsClicked, userName }) => {
             <Button
               text="Decline"
               styling={`text-[#415A80] bg-white border-[1px] border-[#415A80] rounded-[20px] px-[30px] py-[5px] text-xl font-bold`}
-              handleClick={() => setIsClicked(false)}
+              handleClick={handleDeletedCounseling}
             />
           </div>
         </div>

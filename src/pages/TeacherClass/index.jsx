@@ -55,7 +55,7 @@ const TeacherClass = () => {
 
   const [isViewClicked, setIsViewClicked] = useState(false);
 
-  console.log(dataCounseling);
+  console.log(data);
 
   return (
     <>
@@ -108,7 +108,7 @@ const TeacherClass = () => {
 
                     {!loadingCounseling &&
                       dataCounseling.guidance.findByClassId.map((counsel) => (
-                        <Counseling userName={counsel.user.fullName} />
+                        <Counseling userName={counsel.user.fullName} id={counsel.id}/>
                       ))}
                     {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
                   </div>

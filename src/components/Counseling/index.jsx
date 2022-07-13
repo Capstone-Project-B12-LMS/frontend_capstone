@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import avatar from "../../assets/icons/notif-icon.svg";
 import CounselingPopUp from "./CounselingPopUp";
 
-const Counseling = ({ userName }) => {
+const Counseling = ({ userName, id }) => {
   const [isClicked, setIsClicked] = useState(false);
   return (
     <>
-      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked}/>}
+      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id}/>}
       <div
         className="flex justify-between border-b-[1px] cursor-pointer py-2"
         onClick={() => setIsClicked(true)}
