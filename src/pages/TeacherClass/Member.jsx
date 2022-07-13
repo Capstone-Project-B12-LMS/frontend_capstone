@@ -8,6 +8,7 @@ const Member = ({ students, classId }) => {
     (student) => student.email !== dataLogin.email
   );
 
+  console.log(newStudents)
   return (
     <div className="border-2 py-4 rounded-[20px]">
       <h3 className="pl-4 text-2xl font-semibold">Class Members</h3>

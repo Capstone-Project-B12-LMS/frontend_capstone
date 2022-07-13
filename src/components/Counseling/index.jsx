@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import avatar from "../../assets/icons/notif-icon.svg";
 import CounselingPopUp from "./CounselingPopUp";
 
-const Counseling = ({ userName, id }) => {
+const Counseling = ({ userName, id, userId}) => {
   const [isClicked, setIsClicked] = useState(false);
+  console.log(userId)
   return (
     <>
-      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id}/>}
+      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id} userId={userId}/>}
       <div
-        className="flex justify-between border-b-[1px] cursor-pointer py-2"
+        className="flex justify-between items-center border-b-[1px] cursor-pointer py-2"
         onClick={() => setIsClicked(true)}
       >
-        <img src={avatar} alt="/" className="mr-1" />
+        <img src={`https://i.pravatar.cc/50?u=${userId}`} alt="/" className="mr-1 rounded-full" />
         <div className="w-full">
           <p className="font-[16px] font-semibold">
             {userName} Ask For Counseling

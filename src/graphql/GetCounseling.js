@@ -6,6 +6,7 @@ const counselingQuery = gql`
       findByClassId(classId: $classId) {
         id
         user {
+          id
           fullName
         }
       }

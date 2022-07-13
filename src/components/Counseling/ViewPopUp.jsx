@@ -2,7 +2,7 @@ import React from "react";
 import avatar from "../../assets/icons/notif-icon.svg";
 import close from "../../assets/icons/close-icon.svg";
 
-const ViewPopUp = ({ dataCounseling, setIsViewClicked }) => {
+const ViewPopUp = ({ dataCounseling, setIsViewClicked}) => {
   console.log(dataCounseling);
   return (
     <div
@@ -16,7 +16,7 @@ const ViewPopUp = ({ dataCounseling, setIsViewClicked }) => {
           </div>
           {dataCounseling.map((user) => (
             <div className="w-full flex items-center border-b-[1px] shadow-md px-10 py-3 rounded-[8px]">
-              <img src={avatar} alt="/" className="mr-5" />
+              <img src={`https://i.pravatar.cc/50?u=${user.user.id}`} alt="/" className="mr-5 rounded-full" />
               <div>
                 <p className="text-xl font-semibold mb-1">
                   {user.user.fullName} has asked for counseling{" "}
