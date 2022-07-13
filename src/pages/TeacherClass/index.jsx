@@ -55,7 +55,7 @@ const TeacherClass = () => {
 
   const [isViewClicked, setIsViewClicked] = useState(false);
 
-  console.log(dataCounseling);
+  console.log(data);
 
   return (
     <>

@@ -16,6 +16,7 @@ const Setting = ({dataClass}) => {
     { text: "material", path: "./material" },
     { text: "profile", path: "./profile" },
   ];
+  console.log(dataClass)
   return (
     <div>
       <Tab list={Tabpath} />
