@@ -9,7 +9,7 @@ import iconUpload from '../../assets/icons/button-update.svg';
 import Illustration from '../../assets/img/no-content.png';
 
 
-const Content = ({ materials, func }) => {
+const Content = ({ materials, }) => {
 
     const navigate = useNavigate();
 

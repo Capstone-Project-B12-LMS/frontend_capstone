@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
-
+import swal from 'sweetalert';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -74,21 +74,30 @@ const InputAnnouncement = ({ targetMaterial }) => {
     })
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        addData({
-            variables: {
-                classId: params.id,
-                title: title,
-                content: description,
-                video: linkVideo,
-                file: linkPowerPoint,
-                point: 100
-            }
-        })
-        setTitle("");
-        setDescription("");
-        setLinkVideo(null);
-        setLinkPowerPoint(null);
+        if (title == "" && description == "") {
+            swal("Mohon isi title dan deskripsi")
+        }
+        else if (title == "") {
+            swal("Mohon isi title")
+        } else if (description == "") {
+            swal("Mohon isi deksripsi")
+        } else {
+            e.preventDefault();
+            addData({
+                variables: {
+                    classId: params.id,
+                    title: title,
+                    content: description,
+                    video: linkVideo,
+                    file: linkPowerPoint,
+                    point: 100
+                }
+            })
+            setTitle("");
+            setDescription("");
+            setLinkVideo(null);
+            setLinkPowerPoint(null);
+        }
     }
     const handleUpdate = (e) => {
         e.preventDefault();
@@ -128,7 +137,7 @@ const InputAnnouncement = ({ targetMaterial }) => {
 
 
     // console.log("ini dari input", materiUpdate[0]?.content)
-    console.log(targetMaterial)
+    // console.log(targetMaterial)
 
     return (
         <>

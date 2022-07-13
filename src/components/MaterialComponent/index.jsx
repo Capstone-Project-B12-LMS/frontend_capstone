@@ -18,7 +18,7 @@ const MaterialComponent = ({ item, classId, func }) => {
   };
   const handleUpdateMaterial = (materialId) => {
     const targetId = materialId
-    // func(targetId)
+    func(targetId)
     console.log(targetId)
     navigate("../..", { replace: true })
   }

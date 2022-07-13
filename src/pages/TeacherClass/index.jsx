@@ -59,7 +59,7 @@ const TeacherClass = () => {
   const targetMaterial = dataMaterial?.material.findAllByClassId.filter((iniUpdate) => iniUpdate.id === materialId)
 
   // console.log(dataMaterial?.material.findAllByClassId[materialIdx])
-
+  console.log(materialId);
 
   return (
     <>
@@ -100,42 +100,42 @@ const TeacherClass = () => {
 
 
                   {/* Counselling List */}
-                  
+
 
                   {
                     !!dataCounseling?.guidance?.findByClassId?.length ?
 
-                    <div className="border-[1px] rounded-[10px] p-6 mx-[0.5rem]">
-                      <div className="flex justify-between items-center mb-6">
-                        <h4>Notification</h4>
-                        <p className="cursor-pointer text-[#415A80]" onClick={() => setIsViewClicked(true)}>
-                          View all
-                        </p>
-                      </div>
+                      <div className="border-[1px] rounded-[10px] p-6 mx-[0.5rem]">
+                        <div className="flex justify-between items-center mb-6">
+                          <h4>Notification</h4>
+                          <p className="cursor-pointer text-[#415A80]" onClick={() => setIsViewClicked(true)}>
+                            View all
+                          </p>
+                        </div>
 
-                      {
-                        !loadingCounseling && dataCounseling.guidance.findByClassId.map(counselling => (
-                          <div key={counselling.id}>
-                            <Counseling data={counselling} />
-                          </div>
-                        ))
-                      }
-                      {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
-                    </div>
-                    : 
-                    false
+                        {
+                          !loadingCounseling && dataCounseling.guidance.findByClassId.map(counselling => (
+                            <div key={counselling.id}>
+                              <Counseling data={counselling} />
+                            </div>
+                          ))
+                        }
+                        {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
+                      </div>
+                      :
+                      false
                   }
-                  
+
                 </div>
                 <div className="w-[75%]">
                   <div>
                     <Routes>
                       <Route index element={<Description materialId={dataMaterial?.material.findAllByClassId[materialId]} targetMaterial={targetMaterial} />} />
                       <Route path="content"
-                        element={<Content materials={dataMaterial?.material.findAllByClassId} func={setMaterialId} />}
+                        element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                       />
                       <Route path="feedback" element={<Feedback id_class={data?.class.findById.id} />} />
-                      <Route path="setting/*" element={<Setting dataClass={data} />} />
+                      <Route path="setting/*" element={<Setting dataClass={data} func={setMaterialId} />} />
                     </Routes>
                   </div>
                 </div>
