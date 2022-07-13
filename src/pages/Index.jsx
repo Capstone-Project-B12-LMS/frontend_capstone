@@ -5,12 +5,14 @@ import { Cookies } from "react-cookie";
 import Login from "./Login";
 import Register from "./Register";
 
-import { Footer } from "../components";
+import { Footer, Faq } from "../components";
 
 import home from "../assets/img/home.png";
+import faq from "../assets/img/FAQ.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
 import logo from "../assets/icons/brand-logo.svg";
 import swal from "sweetalert";
+import ractangel from "../assets/img/Rectangle.png";
 
 const Index = () => {
   const cookies = new Cookies();
@@ -42,6 +44,29 @@ const Index = () => {
   }
 
   // console.log(process.env.REACT_APP_BASE_URL)
+  const accordionData = [
+    {
+      title: "What is the Study Learning Management System ? ",
+      content: `Is an online learning room where users can create classes or join to start online classes. 
+      Here users can see what class they are taking and see the course or assignments given by the teacher`,
+    },
+    {
+      title: "Why can't i access the class via the link ?",
+      content: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia veniam
+      reprehenderit nam assumenda voluptatem ut. Ipsum eius dicta, officiis
+      quaerat iure quos dolorum accusantium ducimus in illum vero commodi
+      pariatur? Impedit autem esse nostrum quasi, fugiat a aut error cumque
+      quidem maiores doloremque est numquam praesentium eos voluptatem amet!
+      Repudiandae, mollitia id reprehenderit a ab odit!`,
+    },
+    {
+      title:
+        "Why do i have to wait a long time in requesting counseling guidance ?",
+      content: `Sapiente expedita hic obcaecati, laboriosam similique omnis architecto ducimus magnam accusantium corrupti
+      quam sint dolore pariatur perspiciatis, necessitatibus rem vel dignissimos
+      dolor ut sequi minus iste? Quas?`,
+    },
+  ];
 
   return (
     <div>
@@ -118,6 +143,7 @@ const Index = () => {
               <img src={home} alt="" />
             </div>
           </div>
+
           <div className="container mx-auto mt-12">
             <div className="">
               <div className="">
@@ -224,6 +250,24 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="flex">
+              <div className="mt-[10px] ml-[20px]">
+                <img src={faq} alt="" />
+              </div>
+              <div
+                id="accordion-collapse"
+                className="mt-[150px] w-[580px]"
+                data-accordion="collapse"
+              >
+                <h2 className="ml-4">FAQ</h2>
+                <img src={ractangel} alt="" className="mb-6 ml-4" />
+                {accordionData.map(({ title, content }) => (
+                  <Faq title={title} content={content} />
+                ))}
               </div>
             </div>
           </div>
