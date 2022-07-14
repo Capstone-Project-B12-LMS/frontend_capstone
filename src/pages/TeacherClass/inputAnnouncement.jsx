@@ -1,7 +1,7 @@
 import { useState, } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -28,46 +28,58 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
     // const [updateMode, setUpdateMode] = useState(false);
 
 
-
     // Event handler
 
     const showPopupPPT = (e, show = !powerPoint) => setPowerPoint(show);
     const showPopupVideoLink = (e, show = !videoLink) => setVideoLink(show);
 
+    const showLoading = () => {
+        Swal.fire({
+            title: "Please wait ....",
+            html: "Process",
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading()
+            }
+        })
+    }
 
     //Graphql
-    const [addData,] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData, { loading: loadingData }] = useMutation(NEW_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
-        onCompleted: data => console.log(data, "Berhasil"),
-        onError: error => console.log("Terjadi error", error),
+        onCompleted: data => Swal.fire("Materi telah terinput"),
+        onError: error => Swal.fire("Terjadi error"),
     });
+
     const [updateData,] = useMutation(UPDATE_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
-        onCompleted: data => console.log("Berhasil update data", data),
-        onError: error => console.log("Terjadi error", error)
+        onCompleted: data => Swal.fire("Materi telah terupdate"),
+        onError: error => Swal.fire("Terjadi error saat update materi")
     })
 
     const handleSubmit = async (e) => {
         if (material.title === "" && material.description === "") {
-            swal("Mohon isi title dan deskripsi")
+            Swal.fire("Mohon isi title dan deskripsi")
         }
         else if (material.title === "") {
-            swal("Mohon isi title")
+            Swal.fire("Mohon isi title")
         } else if (material.description === "") {
-            swal("Mohon isi deksripsi")
+            Swal.fire("Mohon isi deksripsi")
         } else {
             e.preventDefault();
             await
-                addData({
-                    variables: {
-                        classId: params.id,
-                        title: material.title,
-                        content: material.description,
-                        video: material.linkVideo,
-                        file: material.linkPowerPoint,
-                        point: 100
-                    }
-                })
+                showLoading();
+            addData({
+                variables: {
+                    classId: params.id,
+                    title: material.title,
+                    content: material.description,
+                    video: material.linkVideo,
+                    file: material.linkPowerPoint,
+                    point: 100
+                }
+            })
             setMaterial({
                 title: "",
                 description: "",
@@ -79,26 +91,27 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
 
     const handleUpdate = async (e) => {
         if (material.title === "" && material.description === "") {
-            swal("Mohon isi title dan deskripsi")
+            Swal.fire("Mohon isi title dan deskripsi")
         }
         else if (material.title === "") {
-            swal("Mohon isi title")
+            Swal.fire("Mohon isi title")
         } else if (material.description === "") {
-            swal("Mohon isi deksripsi")
+            Swal.fire("Mohon isi deksripsi")
         } else {
             e.preventDefault();
             await
-                updateData({
-                    variables: {
-                        id: materialId,
-                        classId: params.id,
-                        title: material.title,
-                        content: material.description,
-                        video: material.linkVideo,
-                        file: material.linkPowerPoint,
-                        point: 100
-                    }
-                })
+                showLoading();
+            updateData({
+                variables: {
+                    id: materialId,
+                    classId: params.id,
+                    title: material.title,
+                    content: material.description,
+                    video: material.linkVideo,
+                    file: material.linkPowerPoint,
+                    point: 100
+                }
+            })
             setUpdateMode(false);
             setMaterial({
                 title: "",

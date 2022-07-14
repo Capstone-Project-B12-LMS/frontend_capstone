@@ -1,31 +1,19 @@
 import { memo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { EmptyContent, List, Material } from "../../components";
 
 // Assets
-import iconDelete from '../../assets/icons/button-delete.svg';
-import iconUpload from '../../assets/icons/button-update.svg';
 import Illustration from '../../assets/img/no-content.png';
 
 
 const Content = ({ materials, }) => {
-
-    const navigate = useNavigate();
 
     const [indexMaterial, setIndexMaterial] = useState(0);
     const changeIndexMaterial = (idx) => {
         setIndexMaterial(idx)
     }
 
-    // const handleButtonUpdate = (materiId) => {
-    //     const materialId = materiId
-    //     func(materialId)
-    //     console.log(materialId)
-    //     navigate("..", { replace: true })
-    // }
-
-
+    console.log(materials)
     return (
         <>
             <div className="bg-white px-8">
@@ -55,14 +43,6 @@ const Content = ({ materials, }) => {
                                                         className="bg-transparent text-black text-xl text-bold font-bold capitalize"
                                                         onClick={() => { changeIndexMaterial(materialIdx) }}
                                                     >{material.title}</button>
-                                                    {/* <div>
-                                                        <button className="bg-white h-[2rem] w-[2rem] mr-[1.5rem]" >
-                                                            <img src={iconDelete} alt="ini delete" />
-                                                        </button>
-                                                        <button className="bg-white h-[2rem] w-[2rem]" onClick={() => { handleButtonUpdate(material.id) }}>
-                                                            <img src={iconUpload} alt="ini update" />
-                                                        </button>
-                                                    </div> */}
                                                 </div>
                                             </List>
                                         ))
