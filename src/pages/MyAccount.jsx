@@ -74,7 +74,6 @@ const MyAccount = () => {
     });
   };
   if (error) return <pre>{error.message}</pre>;
-
   return (
     <div className="flex justify-center my-10">
       {loading ? (
@@ -106,7 +105,7 @@ const MyAccount = () => {
             />
           </form>
           <div className="w-1/2 flex justify-center items-center">
-            <img src={require("../assets/img/myaccount.png")} alt="avatar" />
+            <img src={`https://i.pravatar.cc/300?u=${dataLogin.id}`} alt="avatar" className="rounded-full"/>
           </div>
         </div>
       )}

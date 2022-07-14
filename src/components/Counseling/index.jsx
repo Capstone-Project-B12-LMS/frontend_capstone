@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import avatar from "../../assets/icons/notif-icon.svg";
 import CounselingPopUp from "./CounselingPopUp";
 
+<<<<<<< HEAD
 const Counseling = ({ data }) => {
 
   const [isClicked, setIsClicked] = useState(false);
@@ -25,6 +26,19 @@ const Counseling = ({ data }) => {
           alt="avatar" 
           className="mr-5 w-[50px] h-[50px] rounded-full" 
         />
+=======
+const Counseling = ({ userName, id, userId}) => {
+  const [isClicked, setIsClicked] = useState(false);
+  console.log(userId)
+  return (
+    <>
+      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id} userId={userId}/>}
+      <div
+        className="flex justify-between items-center border-b-[1px] cursor-pointer py-2"
+        onClick={() => setIsClicked(true)}
+      >
+        <img src={`https://i.pravatar.cc/50?u=${userId}`} alt="/" className="mr-1 rounded-full" />
+>>>>>>> 1c9a816e9af20a9bb5d82862704b1f2c122c6e9c
         <div className="w-full">
           <p className="font-[16px] font-semibold">
             {data.user.fullName}

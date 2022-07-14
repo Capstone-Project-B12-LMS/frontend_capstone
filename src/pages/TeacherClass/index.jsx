@@ -120,35 +120,11 @@ const TeacherClass = () => {
                         )
                     }
                   </div>
-
-
-                  {/* Counselling List */}
-
-
-                  {
-                    !!dataCounseling?.guidance?.findByClassId?.length ?
-
-                      <div className="border-[1px] rounded-[10px] p-6 mx-[0.5rem]">
-                        <div className="flex justify-between items-center mb-6">
-                          <h4>Notification</h4>
-                          <p className="cursor-pointer text-[#415A80]" onClick={() => setIsViewClicked(true)}>
-                            View all
-                          </p>
-                        </div>
-
-                        {
-                          !loadingCounseling && dataCounseling.guidance.findByClassId.map(counselling => (
-                            <div key={counselling.id}>
-                              <Counseling data={counselling} />
-                            </div>
-                          ))
-                        }
-                        {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
-                      </div>
-                      :
-                      false
-                  }
-
+                  {!loadingCounseling &&
+                    dataCounseling.guidance.findByClassId.map((counsel) => (
+                      <Counseling userName={counsel.user.fullName} id={counsel.id} userId={counsel.user.id} />
+                    ))}
+                  {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
                 </div>
                 <div className="w-[75%]">
                   <div>
