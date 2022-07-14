@@ -22,7 +22,7 @@ const CounselingPopUp = ({ avatar, setIsClicked, userName, id, userId }) => {
         <div className="bg-white w-4/5 md:w-1/2 max-w-[640px] flex flex-col items-center gap-2 py-20 rounded-[30px]">
           {loading ? (
             <div className="max-h-[350px] flex items-center justify-center">
-              <Loading size={100}/>
+              <Loading size={100} />
             </div>
           ) : (
             <>

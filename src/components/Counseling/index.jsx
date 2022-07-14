@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import avatar from "../../assets/icons/notif-icon.svg";
 import CounselingPopUp from "./CounselingPopUp";
 
-const Counseling = ({ userName, id, userId}) => {
+const Counseling = ({ userName, id, userId }) => {
   const [isClicked, setIsClicked] = useState(false);
   console.log(userId)
   return (
     <>
-      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id} userId={userId}/>}
+      {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id} userId={userId} />}
       <div
         className="flex justify-between items-center border-b-[1px] cursor-pointer py-2"
         onClick={() => setIsClicked(true)}
@@ -21,7 +21,6 @@ const Counseling = ({ userName, id, userId}) => {
         </div>
       </div>
     </>
-      
   );
 };
 

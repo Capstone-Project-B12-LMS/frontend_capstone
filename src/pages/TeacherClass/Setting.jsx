@@ -8,23 +8,23 @@ import Member from "./Member";
 import Profile from "./Profile";
 
 
-const Setting = ({dataClass}) => {
+const Setting = ({ dataClass, func }) => {
   const param = useParams();
-  const { data: dataMaterial , loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id : param.id }})
+  const { data: dataMaterial, loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: param.id } })
   const Tabpath = [
     { text: "member", path: `.` },
     { text: "material", path: "./material" },
     { text: "profile", path: "./profile" },
   ];
   return (
-    <div>
+    <div className="px-8">
       <Tab list={Tabpath} />
-      <div className="w-full">
-          <Routes>
-              <Route index element={<Member students={dataClass?.class?.findById?.users} classId={dataClass?.class?.findById?.id}/>} />
-              <Route path="material" element={<Material dataMaterial={dataMaterial} loadingMaterial={loadingMaterial} classId={param.id}/>} />
-              <Route path="profile" element={<Profile dataClass={dataClass} materials={dataMaterial?.material?.findAllByClassId} />} />
-          </Routes>
+      <div className="w-full ">
+        <Routes>
+          <Route index element={<Member students={dataClass?.class?.findById?.users} classId={dataClass?.class?.findById?.id} />} />
+          <Route path="material" element={<Material dataMaterial={dataMaterial} loadingMaterial={loadingMaterial} classId={param.id} func={func} />} />
+          <Route path="profile" element={<Profile dataClass={dataClass} materials={dataMaterial?.material?.findAllByClassId} />} />
+        </Routes>
       </div>
     </div>
   );
