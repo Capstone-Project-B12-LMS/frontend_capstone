@@ -46,7 +46,7 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
     }
 
     //Graphql
-    const [addData, { loading: loadingData }] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData,] = useMutation(NEW_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
         onCompleted: data => Swal.fire("Materi telah terinput"),
         onError: error => Swal.fire("Terjadi error"),
@@ -54,8 +54,8 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
 
     const [updateData,] = useMutation(UPDATE_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
-        onCompleted: data => Swal.fire("Materi telah terupdate"),
-        onError: error => Swal.fire("Terjadi error saat update materi")
+        onCompleted: data => Swal.fire("Materi telah terinput"),
+        onError: error => Swal.fire("Terjadi error")
     })
 
     const handleSubmit = async (e) => {
