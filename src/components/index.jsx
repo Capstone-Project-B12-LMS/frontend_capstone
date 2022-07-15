@@ -16,6 +16,7 @@ import Material from "./Material";
 import Loading from "./Spinner/Loading";
 import MyAccountInput from "./MyAccountInput";
 import NoMatch from "./NoMatch";
+import Faq from "./Faq";
 
 export {
   Card,
@@ -26,6 +27,7 @@ export {
   Button,
   Input,
   Footer,
+  Faq,
   Tab,
   List,
   PopUp,

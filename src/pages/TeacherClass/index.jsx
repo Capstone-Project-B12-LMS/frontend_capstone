@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { Route, Routes, useParams } from "react-router-dom";
 
@@ -21,6 +21,7 @@ import Content from "./Content";
 import Feedback from "./Feedback";
 import Description from "./Description";
 import Setting from "./Setting";
+import { useEffect } from "react";
 
 
 const TeacherClass = () => {
@@ -50,14 +51,38 @@ const TeacherClass = () => {
     { text: "description", path: `.` },
     { text: `content${materialSize ? `(${materialSize})` : ""}`, path: "./content" },
     { text: "feedback", path: './feedback' },
-    { text: "setting", path: './setting' }
+    { text: "settings", path: './setting' }
   ]
 
+
+  // State Material
+
+  const [material, setMaterial] = useState({
+    title: "",
+    description: "",
+    linkVideo: null,
+    linkPowerPoint: null
+  })
+  const [updateMode, setUpdateMode] = useState(false);
   const [isViewClicked, setIsViewClicked] = useState(false);
   const [materialId, setMaterialId] = useState(null);
+  const targetMaterial = dataMaterial?.material.findAllByClassId.filter((iniUpdate) => iniUpdate.id === materialId)
 
 
-  // console.log(data?.class.findById.id)
+
+  useEffect(() => {
+    if (!!materialId) {
+      const filterMaterial = dataMaterial?.material.findAllByClassId.filter((iniUpdate) => iniUpdate.id === materialId)
+      setMaterial({
+        title: filterMaterial[0].title,
+        description: filterMaterial[0].content,
+        linkVideo: filterMaterial[0].videoUrl ? `https://youtu.be/${filterMaterial[0].videoUrl}` : null,
+        linkPowerPoint: filterMaterial[0].videoUrl ? filterMaterial[0].fileUrl : null,
+      })
+      setUpdateMode(true)
+      // console.log("Ini useeffect", filterMaterial)
+    }
+  }, [materialId])
 
   return (
     <>
@@ -76,10 +101,9 @@ const TeacherClass = () => {
 
               <div className="flex my-[2rem]">
                 <div className="w-[25%]" >
-                  <div className="h-[120px] border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem] mb-[1rem]">
+                  <div className="border-[1px] rounded-[10px] p-6 mx-[0.5rem] mb-[1rem]">
                     <div className="flex justify-between m-1">
                       <h4 className="text-[1.25rem]">Class code</h4>
-                      <img src={Kebab} alt="Three dots" className="w-[1.5rem] h-[1.5rem]" />
                     </div>
                     {
                       loading ?
@@ -96,36 +120,28 @@ const TeacherClass = () => {
                         )
                     }
                   </div>
-
-                  <div className="border-[1px] rounded-[10px] p-[0.5rem] mx-[0.5rem]">
-                    <div className="flex justify-between items-center mb-4">
-                      <h4>Notification</h4>
-                      <p
-                        className="cursor-pointer text-[#415A80]"
-                        onClick={() => setIsViewClicked(true)}
-                      >
-                        View all
-                      </p>
-                    </div>
-
-                    {!loadingCounseling &&
-                      dataCounseling.guidance.findByClassId.map((counsel, idx) => (
-                        <div key={idx}>
-                          <Counseling userName={counsel.user.fullName} />
-                        </div>
-                      ))}
-                    {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
-                  </div>
+                  {!loadingCounseling &&
+                    dataCounseling.guidance.findByClassId.map((counsel) => (
+                      <Counseling userName={counsel.user.fullName} id={counsel.id} userId={counsel.user.id} />
+                    ))}
+                  {!loadingCounseling && isViewClicked && <ViewPopUp setIsViewClicked={setIsViewClicked} dataCounseling={dataCounseling.guidance.findByClassId} />}
                 </div>
                 <div className="w-[75%]">
                   <div>
                     <Routes>
-                      <Route index element={<Description materialId={materialId} />} />
+                      <Route index element={<Description
+                        updateMode={updateMode}
+                        setUpdateMode={setUpdateMode}
+                        material={material}
+                        setMaterial={setMaterial}
+                        materialId={materialId}
+                        targetMaterial={targetMaterial} />}
+                      />
                       <Route path="content"
-                        element={<Content materials={dataMaterial?.material.findAllByClassId} func={setMaterialId} />}
+                        element={<Content materials={dataMaterial?.material.findAllByClassId} />}
                       />
                       <Route path="feedback" element={<Feedback id_class={data?.class.findById.id} />} />
-                      <Route path="setting/*" element={<Setting dataClass={data} />} />
+                      <Route path="setting/*" element={<Setting dataClass={data} func={setMaterialId} />} />
                     </Routes>
                   </div>
                 </div>

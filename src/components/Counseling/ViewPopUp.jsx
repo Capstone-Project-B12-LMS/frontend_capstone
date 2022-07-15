@@ -14,11 +14,11 @@ const ViewPopUp = ({ dataCounseling, setIsViewClicked }) => {
             <h3 className="text-2xl">Notification</h3>
             <img src={close} alt="/" className="w-8 cursor-pointer" onClick={() => setIsViewClicked(false)} />
           </div>
-          {dataCounseling.map((user, idx) => (
+          {dataCounseling.map((user) => (
             <div className="w-full flex items-center border-b-[1px] shadow-md px-10 py-3 rounded-[8px]">
-              <img src={avatar} alt="/" className="mr-5" />
+              <img src={`https://i.pravatar.cc/50?u=${user.user.id}`} alt="/" className="mr-5 rounded-full" />
               <div>
-                <p className="text-xl font-semibold mb-1" key={idx}>
+                <p className="text-xl font-semibold mb-1">
                   {user.user.fullName} has asked for counseling{" "}
                 </p>
                 <span className="text-[#A8A8A8]">1 days ago</span>
