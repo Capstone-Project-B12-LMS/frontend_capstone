@@ -2,11 +2,13 @@ import { Card } from "../../components";
 import HeaderClass from "./headerClass";
 import useGetClass from "../../graphql/GetClass";
 import { useSelector } from "react-redux";
+import { Loading } from "../../components";
+
 
 const Home = () => {
   const { dataLogin } = useSelector((state) => state.login);
   const { data, loading, error } = useGetClass();
-  if (loading) return "Loading...";
+  if (loading) return <Loading size={100} />
   if (error) return "Data Error...";
 
   const dataEmail = dataLogin?.email
