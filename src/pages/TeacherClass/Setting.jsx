@@ -9,22 +9,29 @@ import Profile from "./Profile";
 
 
 const Setting = ({ dataClass, func }) => {
+
   const param = useParams();
-  const { data: dataMaterial, loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: param.id } })
+  const { data: dataMaterial, loading: loadingMaterial , refetch } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: param.id } })
+  
   const Tabpath = [
     { text: "member", path: `.` },
     { text: "material", path: "./material" },
     { text: "profile", path: "./profile" },
   ];
+
+  const refetching = ()=> refetch()
+
   return (
-    <div className="px-8">
-      <Tab list={Tabpath} />
-      <div className="w-full ">
-        <Routes>
-          <Route index element={<Member students={dataClass?.class?.findById?.users} classId={dataClass?.class?.findById?.id} />} />
-          <Route path="material" element={<Material dataMaterial={dataMaterial} loadingMaterial={loadingMaterial} classId={param.id} func={func} />} />
-          <Route path="profile" element={<Profile dataClass={dataClass} materials={dataMaterial?.material?.findAllByClassId} />} />
-        </Routes>
+    <div className="px-8 relative z-0">
+      <div className="border border-solid rounded-[20px] px-12 pb-10">
+        <Tab list={Tabpath} />
+        <div className="w-full">
+          <Routes>
+            <Route index element={<Member students={dataClass?.class?.findById?.users} classId={dataClass?.class?.findById?.id} />} />
+            <Route path="material" element={<Material refetching={refetching} dataMaterial={dataMaterial} loadingMaterial={loadingMaterial} classId={param.id} func={func} />} />
+            <Route path="profile" element={<Profile dataClass={dataClass} materials={dataMaterial?.material?.findAllByClassId} />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

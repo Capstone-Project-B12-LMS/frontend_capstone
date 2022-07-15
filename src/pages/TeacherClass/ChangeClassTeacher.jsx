@@ -11,17 +11,16 @@ const ChangeClassTeacher = ({ openChangeClass, setOpenChangeClass }) => {
   if (error) return "Data Error...";
 
   const dataEmail = dataLogin?.email;
-  // console.log(dataEmail);
 
   const teacher = data.user.findByClassByUserId.filter(
     (e) => dataEmail === e.createdBy
   );
-  console.log(teacher);
+
   return (
     <>
       <Modal open={[openChangeClass]}>
         <div>
-          <div>
+          <div className="p-6">
             <h2 className="flex justify-end">
               <button onClick={() => setOpenChangeClass(false)}>x</button>
             </h2>

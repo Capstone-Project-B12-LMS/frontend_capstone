@@ -1,32 +1,52 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import dot from "../../assets/img/3dot.png";
 import material from "../../assets/img/material.png";
-import useUpdateMaterial from "../../graphql/UpdateMaterial";
+
+import { useMutation } from "@apollo/client";
+import { DELETE_MATERIAL } from "../../graphql/UpdateMaterial";
+
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
 
 
 
-const MaterialComponent = ({ item, classId, func }) => {
+const MaterialComponent = ({ item , refetching , func }) => {
 
+  const [deleteMaterial] = useMutation(DELETE_MATERIAL)
   const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
 
-  const { insertNewMaterial, data, loading, error } = useUpdateMaterial();
   const [isDotClicked, SetIsDotClicked] = useState(false);
   const handleClickedOutside = () => {
     isDotClicked && SetIsDotClicked(false);
   };
+
   const handleUpdateMaterial = (materialId) => {
     const targetId = materialId
     func(targetId)
     navigate("../..", { replace: true })
   }
 
-  // console.log(materialId)
+  const handleDeleteMaterial = async (id) => {
+    try{
+      await deleteMaterial({variables : { id }})
+      return refetching()
+    }
+    catch (error){
+      MySwal.fire({
+        title: "Failed !",
+        text: "Delete Materil Failed , Please try again.",
+        icon: "error",
+      })
+      return false
+    }
+  }
 
   return (
     <div
-      className="py-4 w-full border-b-2 flex items-center rounded-[10px] shadow-sm relative"
+      className="py-4 w-full border border-solid flex items-center relative"
       onClick={handleClickedOutside}
     >
       <img src={material} alt="/" className="mr-5 pl-5" />
@@ -46,6 +66,7 @@ const MaterialComponent = ({ item, classId, func }) => {
             Update Material
           </p>
           <p
+            onClick={()=> handleDeleteMaterial(item.id)}
             className="text-sm absolute right-[60px] p-2.5 rounded-[10px] shadow-md cursor-pointer font-medium mt-[2.5rem]"
 
           >

@@ -13,7 +13,6 @@ const Content = ({ materials, }) => {
         setIndexMaterial(idx)
     }
 
-    console.log(materials)
     return (
         <>
             <div className="bg-white px-8">
@@ -29,7 +28,7 @@ const Content = ({ materials, }) => {
                         :
 
                         <>
-                            <div className="border border-solid border-[#A8A8A8] rounded-[20px] p-8">
+                            <div className="border border-solid rounded-[20px] p-8">
                                 <h1 className="text-2xl font-bold text-black">Materials</h1>
                                 <div className='mt-6 min-h-[150px] max-h-fit overflow-y-auto'>
                                     {
@@ -50,7 +49,7 @@ const Content = ({ materials, }) => {
                                 </div>
                             </div>
 
-                            <div className="p-8 mt-8 border border-solid border-[#A8A8A8] rounded-[20px]">
+                            <div className="p-8 mt-8 border border-solid rounded-[20px]">
                                 <Material assets={materials[indexMaterial]} />
                             </div>
                         </>
