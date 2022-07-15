@@ -7,6 +7,7 @@ import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 const Material = ({ assets }) => {
 
     const { title, content, videoUrl, fileUrl, deadline } = assets
+    const yt  = !!videoUrl && videoUrl.includes("https://") ? videoUrl.split("").slice(-11).join("") : videoUrl
 
     return (
         <>
@@ -36,12 +37,12 @@ const Material = ({ assets }) => {
             }
             
             {
-                videoUrl &&
+                yt &&
 
                 <div className="w-full mt-8 rounded-[15px] overflow-hidden">
 
                     <LiteYouTubeEmbed
-                        id={videoUrl}
+                        id={yt}
                         title='yt-embed'
                     />
                 </div>

@@ -14,7 +14,7 @@ const Home = () => {
 
 
   const dataEmail = dataLogin?.email
-  // console.log(dataEmail)
+  
   const teacher = data.user.findByClassByUserId.filter(
     (e) => dataEmail === e.createdBy
   );

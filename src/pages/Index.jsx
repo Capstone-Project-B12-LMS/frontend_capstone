@@ -31,7 +31,6 @@ const Index = () => {
         "rAAkn0OTCciFiL6cn"
       )
       .then((res) => {
-        console.log(res);
         swal({
           title: "Pesan anda sudah terkirim !",
           text: "Terimakasih!",
@@ -43,7 +42,6 @@ const Index = () => {
       .catch((err) => console.log(err));
   }
 
-  // console.log(process.env.REACT_APP_BASE_URL)
   const accordionData = [
     {
       title: "What is the Study Learning Management System ? ",

@@ -22,11 +22,9 @@ const MaterialComponent = ({ item, classId, func }) => {
     navigate("../..", { replace: true })
   }
 
-  // console.log(materialId)
-
   return (
     <div
-      className="py-4 w-full border-b-2 flex items-center rounded-[10px] shadow-sm relative"
+      className="py-4 w-full border border-solid flex items-center relative"
       onClick={handleClickedOutside}
     >
       <img src={material} alt="/" className="mr-5 pl-5" />

@@ -172,6 +172,15 @@ const StudentClass = () => {
     },[location.pathname])
     
 
+    if(dataClass?.class?.findById?.status === "INACTIVE"){
+        return (
+            <NoMatch 
+                text="The Class is Disabled"
+                description="Ask to your teacher to enable this class back"
+            />
+        )
+    }
+
 
     return (
         <>

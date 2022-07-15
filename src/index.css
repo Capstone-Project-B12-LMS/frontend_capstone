@@ -106,3 +106,7 @@
   background: conic-gradient(#0000 10%,#415a80);
   -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 14.1px),#000 0);
 }
+
+.ql-editor{
+  min-height:200px;
+}
