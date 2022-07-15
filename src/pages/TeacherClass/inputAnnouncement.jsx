@@ -57,14 +57,10 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
     })
 
     const handleSubmit = async (e) => {
-        if (material.title === "" && material.description === "") {
-            Swal.fire("Mohon isi title dan deskripsi")
-        }
-        else if (material.title === "") {
-            Swal.fire("Mohon isi title")
-        } else if (material.description === "") {
-            Swal.fire("Mohon isi deksripsi")
-        } else {
+        if (material.title === "" || material.description.replace(/(<([^>]+)>)/gi, "") === "") {
+            Swal.fire("Post Material Failed","At least fill title & description form","warning")
+        } 
+        else {
             e.preventDefault();
             await
             addData({
@@ -87,14 +83,10 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
     }
 
     const handleUpdate = async (e) => {
-        if (material.title === "" && material.description === "") {
-            Swal.fire("Mohon isi title dan deskripsi")
-        }
-        else if (material.title === "") {
-            Swal.fire("Mohon isi title")
-        } else if (material.description === "") {
-            Swal.fire("Mohon isi deksripsi")
-        } else {
+        if (material.title === "" || material.description.replace(/(<([^>]+)>)/gi, "") === "") {
+            Swal.fire("Post Material Failed","At least fill title & description form","warning")
+        } 
+        else {
             e.preventDefault();
             await
             updateData({
