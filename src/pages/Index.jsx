@@ -39,7 +39,14 @@ const Index = () => {
         });
         e.target.reset();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        swal({
+          title: "Terjadi error",
+          text: err,
+          icon: "error",
+          button: "Oke"
+        })
+      });
   }
 
   const accordionData = [
