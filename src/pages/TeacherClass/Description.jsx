@@ -1,11 +1,5 @@
-import { useState, useEffect } from "react";
-
-// Assets
-import Repeat from "../../assets/icons/repeat.svg";
-import Illustration from "../../assets/img/no-description.png";
-import ChangeClassTeacher from "./ChangeClassTeacher";
-
 import InputAnnouncement from "./inputAnnouncement";
+
 
 const Description = ({
   targetMaterial,
@@ -16,13 +10,13 @@ const Description = ({
   setUpdateMode,
   setMaterialId
 }) => {
-  
+
 
   return (
     <div className="px-8">
       <div className="border border-solid rounded-[20px] px-12 pt-12">
 
-      {/* <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
+        {/* <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
             <img
               className="w-[50px]"
               src="https://i.ibb.co/y0XWBqF/Ellipse-18.png"

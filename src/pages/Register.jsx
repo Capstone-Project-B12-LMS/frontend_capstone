@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import { setUsername, setPassword,setEmail} from "../redux/registerSlice";
+import { setUsername, setPassword, setEmail } from "../redux/registerSlice";
 import { Button, Input, Spinner } from "../components";
 import useRegisterMutation from "../graphql/RegisterMutation";
 
@@ -13,19 +13,19 @@ import useRegisterMutation from "../graphql/RegisterMutation";
 
 const Register = () => {
 
-  const [inputManager,setInputManger] = useState({
-    usernameForm : {
-      rule:"Fullname format doesn't match",
-      pattern:/^([A-Za-z]+|([A-Za-z]+\s{1}[A-Za-z]+)*)$/,
+  const [inputManager, setInputManger] = useState({
+    usernameForm: {
+      rule: "Fullname format doesn't match",
+      pattern: /^([A-Za-z]+|([A-Za-z]+\s{1}[A-Za-z]+)*)$/,
       match: true
     },
     emailForm: {
-      rule:"Email format doesn't match",
-      pattern:/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+      rule: "Email format doesn't match",
+      pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
       match: true
     },
     passwordForm: {
-      rule:"Min 8 Max 15 Characters | no spaces | contain at least one of these : Uppercase , Number & Symbol",
+      rule: "Min 8 Max 15 Characters | no spaces | contain at least one of these : Uppercase , Number & Symbol",
       pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
       match: true
     }
@@ -45,14 +45,14 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    
-    const { usernameForm , emailForm, passwordForm } = inputManager
-    
+
+    const { usernameForm, emailForm, passwordForm } = inputManager
+
     const isUsernameValid = usernameForm.match && !!username.length;
     const isEmailValid = emailForm.match && !!email.length
     const isPasswordValid = passwordForm.match && !!password.length
 
-    if(isUsernameValid && isEmailValid && isPasswordValid){
+    if (isUsernameValid && isEmailValid && isPasswordValid) {
 
       try {
         await insertRegisterData({
@@ -63,48 +63,48 @@ const Register = () => {
           },
         });
       }
-      catch(err) {
+      catch (err) {
         MySwal.fire({
-          icon:"error",
+          icon: "error",
           title: <h2 className='fs-3'>Register Failed</h2>,
-          html:<p className='fs-6 lh-lg'>Account already exist , please try using another account</p>,
-          showConfirmButton:true
+          html: <p className='fs-6 lh-lg'>Account already exist , please try using another account</p>,
+          showConfirmButton: true
         })
-        
+
         return false
       }
 
       dispatch(setUsername(""));
       dispatch(setEmail(""));
       dispatch(setPassword(""));
-      
+
       return MySwal.fire({
-        icon:"success",
+        icon: "success",
         title: <h2 className='fs-3'>Register Success</h2>,
-        html:<p className='fs-6 lh-lg'>Please login using your new account</p>,
-        confirmButtonText:"Login",
+        html: <p className='fs-6 lh-lg'>Please login using your new account</p>,
+        confirmButtonText: "Login",
       })
-      .then(isConfirmed => isConfirmed ? navigate('/login') : false)
+        .then(isConfirmed => isConfirmed ? navigate('/login') : false)
     }
   };
 
 
-  useEffect(()=>{
+  useEffect(() => {
     setInputManger({
       usernameForm: {
-        ...inputManager.usernameForm ,
+        ...inputManager.usernameForm,
         match: !username.length ? true : inputManager.usernameForm.pattern.test(username)
       },
       emailForm: {
-        ...inputManager.emailForm ,
-        match: !email.length ? true :  inputManager.emailForm.pattern.test(email)
+        ...inputManager.emailForm,
+        match: !email.length ? true : inputManager.emailForm.pattern.test(email)
       },
       passwordForm: {
-        ...inputManager.passwordForm ,
-        match: !password.length ? true :  inputManager.passwordForm.pattern.test(password)
+        ...inputManager.passwordForm,
+        match: !password.length ? true : inputManager.passwordForm.pattern.test(password)
       },
     })
-  },[username, email, password])
+  }, [username, email, password])
 
 
   return (
@@ -124,8 +124,8 @@ const Register = () => {
             setValue={(value) => dispatch(setUsername(value))}
           />
           {
-            !inputManager.usernameForm.match && 
-              <p className="mb-6 text-sm text-[#C9161D]">{inputManager.usernameForm.rule}</p>
+            !inputManager.usernameForm.match &&
+            <p className="mb-6 text-sm text-[#C9161D]">{inputManager.usernameForm.rule}</p>
           }
           <Input
             icon={require("../assets/img/email.png")}
@@ -135,8 +135,8 @@ const Register = () => {
             setValue={(value) => dispatch(setEmail(value))}
           />
           {
-            !inputManager.emailForm.match && 
-              <p className="mb-6 text-sm text-[#C9161D]">{inputManager.emailForm.rule}</p>
+            !inputManager.emailForm.match &&
+            <p className="mb-6 text-sm text-[#C9161D]">{inputManager.emailForm.rule}</p>
           }
           <Input
             icon={require("../assets/img/lock.png")}
@@ -146,8 +146,8 @@ const Register = () => {
             setValue={(value) => dispatch(setPassword(value))}
           />
           {
-            !inputManager.passwordForm.match && 
-              <p className="mb-6 text-sm text-[#C9161D] leading-6">{inputManager.passwordForm.rule}</p>
+            !inputManager.passwordForm.match &&
+            <p className="mb-6 text-sm text-[#C9161D] leading-6">{inputManager.passwordForm.rule}</p>
           }
           <Button
             text="Daftar"
@@ -158,7 +158,7 @@ const Register = () => {
           <p className="text-xl leading-9 text-[#ADADAD] text-center">
             Already have an account ?
             <button
-              onClick={() => navigate('/login', {replace: true})}
+              onClick={() => navigate('/login', { replace: true })}
               className="text-[#000] font-semibold hover:underline bg-transparent ml-2"
             >
               Login
