@@ -1,12 +1,14 @@
 import { useState , useEffect} from "react";
 import { useSelector } from "react-redux";
-import { Routes, Route , useParams } from "react-router-dom"
+import { Routes, Route , useParams, useLocation, useNavigate } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/client";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 // GraphQL
 
-import { GET_CLASS_BYID, REQUEST_COUNSELLING } from "../../graphql/ClassQuery";
+import { GET_CLASS_BYID, REQUEST_COUNSELLING, LEAVE_CLASS } from "../../graphql/ClassQuery";
 import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 
 
@@ -16,7 +18,8 @@ import { FIND_CLASS_MATERIAL } from '../../graphql/MaterialQuery';
 import Description from "./Description";
 import Content from "./Content";
 import Feedback from "./Feedback";
-import { Tab, Button , PopUp , Loading, NoMatch, Spinner } from "../../components";
+import Settings from "./Settings";
+import { Tab, Button , PopUp , Loading, NoMatch, Spinner, Input } from "../../components";
 
 
 
@@ -37,16 +40,26 @@ const StudentClass = () => {
         student : [],
     });
 
+    const [counselling,setCounselling] = useState({
+        topic: "",
+        content:"",
+        sending: false
+    })
 
     const [showCard , setShowCard] = useState(false);
     const [indexMaterial,setIndexMaterial] = useState(null);
+
     const param =  useParams();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const MySwal = withReactContent(Swal)
 
 
     const { dataLogin } = useSelector((state) => state.login);
-    const { data: dataClass , loading: loadingDataClass } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
+    const { data: dataClass , loading: loadingDataClass , refetch } = useQuery(GET_CLASS_BYID , {variables : {id : param.id}});
     const { data: dataMaterial , loading: loadingMaterial } = useQuery(FIND_CLASS_MATERIAL , { variables : { class_id : param.id }})
-    const [ doCounselling , {loading : loadingCouselling }] = useMutation(REQUEST_COUNSELLING);
+    const [ doCounselling , { loading : loadingCouselling }] = useMutation(REQUEST_COUNSELLING);
+    const [leavingClass] = useMutation(LEAVE_CLASS);
 
 
     const materialSize = !loadingMaterial && dataMaterial.material.findAllByClassId.length ? dataMaterial.material.findAllByClassId.length : false
@@ -54,7 +67,8 @@ const StudentClass = () => {
     const Tabpath = [
         { text : "description" , path: `.`},
         { text : `content${materialSize ? `(${materialSize})` : ""}`, path: './content'},
-        { text : "feedback", path: './feedback'}
+        { text : "feedback", path: './feedback'},
+        { text : "settings", path: './settings'}
     ]
 
     
@@ -75,24 +89,88 @@ const StudentClass = () => {
     const isUserAllowed = (id) => !id ? false : !!participants.student.find(student => student.id === dataLogin?.id)
 
 
-    const requestCounselling = async ()=> {
-        await doCounselling({ 
-            variables: { guidance : { 
-                userId:dataLogin?.id , 
-                classId: dataClass.class.findById.id ,
-                content: "Request Counselling"
-            }}
+    const requestCounselling = async (e)=> {
+        e.preventDefault();
+
+        if(!counselling.topic.length || !counselling.content.length) return false
+
+        try {
+            await doCounselling({ 
+                variables: { guidance : { 
+                    userId:dataLogin?.id , 
+                    classId: dataClass.class.findById.id ,
+                    content: counselling.content,
+                    topic: counselling.topic
+                }}
+            })    
+
+            setCounselling({topic:"",content:"", sending:true})
+
+            setTimeout(() => {
+                setShowCard(false)
+                setCounselling({topic:"",content:"", sending:false})
+            },2000);
+        } 
+        catch (err) {
+            MySwal.fire({
+                icon:"error",
+                title: <h2 className='fs-3'>Oops!</h2>,
+                html:<p className='fs-6 lh-lg'>something seems wrong. Try again later</p>,
+                showConfirmButton:true
+              })
+              
+            return false
+        }
+    }
+
+
+    const leaveClass = () =>{
+
+        MySwal.fire({
+            title: 'Leave Class',
+            text: "Are you sure you want to leave this class?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#415A80',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Leave'
         })
-        return setShowCard(true)
+        .then((result) => {
+            if (result.isConfirmed) {
+
+                MySwal.fire({
+                    icon: 'success',
+                    title: 'Please wait',
+                    html: 'Redirecting you to dashboard home...',
+                    allowOutsideClick:false,
+                    showConfirmButton:false,
+                    didOpen: async () => {
+                        await leavingClass({variables : {
+                            class_id: dataClass.class.findById.id,
+                            user_id: dataLogin?.id
+                        }})
+
+                        MySwal.close()
+                        return navigate('/dashboard' , {replace:true})
+                    }
+                })
+            }
+        })
     }
 
 
     useEffect(()=>{
+        refetch()
         if(!loadingDataClass && !!dataClass?.class?.findById && !loadingMaterial && !!dataMaterial?.material?.findAllByClassId){
             setParticipants({...getParticipant()})
             changeIndexMaterial();
         }
     },[loadingDataClass , dataClass , loadingMaterial , dataMaterial])
+
+    useEffect(()=>{
+        window.scrollTo(0,0)
+    },[location.pathname])
+    
 
 
     return (
@@ -111,18 +189,47 @@ const StudentClass = () => {
 
                     <>
                         <PopUp
+                            title={counselling.sending ? "" : "Counseling Request Form"}
+                            description={counselling.sending ? "" : "Fill out this form and receive feedback ASAP."}
                             show={showCard}
                             setShow={()=> setShowCard(!showCard)}
-                            styling='w-[800px] min-h-[300px] max-h-min px-[100px] py-[100px]'
+                            styling='w-[800px] min-h-[300px] max-h-min px-[100px] py-[80px]'
                         >
-                            <img src={CompleteIcon} alt="complete-icon" className=" max-w-[110px] w-[110px] h-[110px]"/>
-                            <h1 className="text-black text-center leading-10 text-[32px] font-bold mt-14">COUNSELING REQUEST COMPLETE!</h1>
-                            <p className="text-center text-black leading-10 text-2xl mt-6">You’ll receive a confirmation when your request has been accepted or declined.</p>
-                            <Button
-                                text={"DONE"}
-                                handleClick={()=> setShowCard(false)}
-                                styling="w-full py-4 mt-10 rounded-[15px]"
-                            />
+                            {
+                                counselling.sending ?
+
+                                <>
+                                    <img src={CompleteIcon} alt="complete-icon" className=" max-w-[110px] w-[110px] h-[110px]"/>
+                                    <h1 className="text-black text-center leading-10 text-[32px] font-bold mt-14">COUNSELING REQUEST COMPLETE!</h1>
+                                    <p className="text-center text-black leading-10 text-2xl mt-6">You’ll receive a confirmation when your request has been accepted or declined.</p>
+                                </>
+
+                                :
+
+                                <form
+                                    className="max-w-[550px] w-full flex flex-col mt-10"
+                                    onSubmit={requestCounselling}
+                                >
+                                    <Input
+                                        name="topic"
+                                        type="text"
+                                        value={counselling.topic}
+                                        setValue={(value) => setCounselling({...counselling,topic:value})}
+                                    />
+                                    <Input
+                                        name="content"
+                                        type="text"
+                                        value={counselling.content}
+                                        setValue={(value) => setCounselling({...counselling,content:value})}
+                                    />
+                                    <Button
+                                        text="SUBMIT REQUEST"
+                                        formBtn={true}
+                                        styling="py-4 mt-6 mb-8 text-xl font-medium w-full rounded-[15px] flex justify-center"
+                                        icon={loadingCouselling ? <Spinner styling='ml-3' /> : false}
+                                    />
+                                </form>
+                            }
                         </PopUp>
                         
                         <div className="mb-6 mx-auto w-full">
@@ -158,8 +265,7 @@ const StudentClass = () => {
                                         <Button
                                             text='Request Counselling'
                                             styling='uppercase font-bold text-base py-3 px-6 rounded-[10px] mt-4 flex'
-                                            handleClick={requestCounselling}
-                                            icon={loadingCouselling ? <Spinner styling='ml-2' /> : false}
+                                            handleClick={()=> setShowCard(true)}
                                         />
                                     </div>
 
@@ -169,7 +275,8 @@ const StudentClass = () => {
 
                                 <div>
                                     <Routes>
-                                        <Route index 
+                                        <Route 
+                                            index 
                                             element={
                                                 <Description 
                                                     participant={participants} 
@@ -184,7 +291,16 @@ const StudentClass = () => {
                                                     handleSelectMaterial={changeIndexMaterial}
                                             />} 
                                         />
-                                        <Route path="feedback" element={<Feedback/>}/>
+                                        <Route path="feedback" element={<Feedback user_id={dataLogin?.id} class_id={dataClass.class.findById.id}/>}/>
+                                        <Route path="settings" element={
+                                            <Settings 
+                                                materialSize={dataMaterial.material.findAllByClassId.length}
+                                                studentTotal={participants.student.length}
+                                                leaveButtonClick={leaveClass}
+                                                reportUrl={dataClass.class.findById.reportUrl}
+                                            />
+                                            
+                                        }/>
                                     </Routes>
                                 </div>
                                                     
@@ -197,3 +313,6 @@ const StudentClass = () => {
 };
 
 export default StudentClass;
+
+
+// icon={loadingCouselling ? <Spinner styling='ml-2' /> : false}

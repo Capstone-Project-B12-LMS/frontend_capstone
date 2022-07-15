@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { useClickOutSide } from "../../utils/hooks/useClickOutside";
 
-const AddLinkVideo = ({ func }) => {
+const AddLinkVideo = ({ linkVideo, setMaterial }) => {
 
-  const [linkVideo, setLinkVideo] = useState("");
   // const regex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/
-  const handleChange = (e) => {
-    setLinkVideo(e.target.value)
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newLink = linkVideo.split("").slice(-11).join("");
-    console.log(newLink);
-    func(newLink);
+    const newLink = e.target.value.split("").slice(-11).join("");
+    setMaterial(prev => ({ ...prev, linkVideo: newLink }))
+    // console.log(newLink)
   }
 
   return (
@@ -25,7 +21,7 @@ const AddLinkVideo = ({ func }) => {
             value={linkVideo}
             placeholder=" Input Link Video"
             className="border-2 w-[340px] h-[28px] rounded-md"
-            onChange={handleChange}
+            onChange={handleSubmit}
           ></input>
           <button
             className="w-[340px] h-[28px] rounded-lg mt-4"

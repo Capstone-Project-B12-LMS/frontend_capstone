@@ -3,7 +3,7 @@ import Logo from "../../assets/img/Logo.png";
 const Footer = () => {
   return (
     <div className="relative">
-      <div className="flex mt-[150px]">
+      <div className="flex mt-[10px]">
         <div className="box-border w-full p-4 bg-[#9EC9E2]">
           <div className="grid grid-rows-2 grid-flow-col gap-2 text-justify">
             <div className="row-span-6 ">
@@ -17,7 +17,8 @@ const Footer = () => {
                   <strong>About US</strong>
                 </div>
                 <div>Term Condition</div>
-                <div>FaQs</div>
+                <div></div>
+
                 <div></div>
                 <div></div>
                 <div>

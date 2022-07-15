@@ -7,14 +7,14 @@ const InputComponent = ({ name, value, setValue, icon, type }) => {
   };
 
   return (
-    <div className={name !== `password` ? `w-full mb-8` : `w-full mb-10`}>
-      <label htmlFor={name} className="text-2xl leading-9 mb-2 capitalize">
+    <div className="w-full mb-4">
+      <label htmlFor={name} className="block text-xl mb-4 capitalize">
         {name}
       </label>
       <div className="flex items-center relative">
-        <img src={icon} alt={name} className="absolute left-5 top-4" />
+        { icon ? <img src={icon} alt={name} className="absolute left-5 top-4" /> : false }
         <input
-          className={`${name} border-[1px] py-4 px-14 rounded-[10px] border-[#D9D9D9] focus:outline-none w-full h-[62px] placeholder:text-[20px] placeholder:leading-[30px] placeholder:capitalize`}
+          className={`${name} border-[1px] py-4 ${icon ? "px-14" : "px-6"} rounded-[10px] border-[#D9D9D9] focus:outline-none w-full h-[62px] placeholder:text-[20px] placeholder:leading-[30px] placeholder:capitalize`}
           placeholder={name}
           value={value}
           onChange={(e) => setValue(e.target.value)}

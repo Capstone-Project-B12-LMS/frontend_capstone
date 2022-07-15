@@ -6,11 +6,12 @@ import { useSelector } from "react-redux";
 const Home = () => {
   const { dataLogin } = useSelector((state) => state.login);
   const { data, loading, error } = useGetClass();
-  if (loading) return <Loading size="100"/>;
+
+  if (loading) return <Loading size="100" />;
   if (error) return "Data Error...";
 
   const dataEmail = dataLogin?.email;
-  console.log(dataEmail);
+  // console.log(dataEmail);
 
   const student = data.user.findByClassByUserId.filter(
     (e) => dataEmail !== e.createdBy
