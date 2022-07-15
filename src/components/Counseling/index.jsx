@@ -4,7 +4,6 @@ import CounselingPopUp from "./CounselingPopUp";
 
 const Counseling = ({ userName, id, userId }) => {
   const [isClicked, setIsClicked] = useState(false);
-  console.log(userId)
   return (
     <>
       {isClicked && <CounselingPopUp avatar={avatar} userName={userName} setIsClicked={setIsClicked} id={id} userId={userId} />}

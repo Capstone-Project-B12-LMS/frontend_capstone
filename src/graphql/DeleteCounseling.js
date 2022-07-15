@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { counselingQuery } from "./GetCounseling";
 
 const deleteCounseling = gql`
   mutation deleteCounseling($id: ID!) {
@@ -11,9 +12,14 @@ const deleteCounseling = gql`
   }
 `;
 
-const useDeleteCounseling = () => {
+const useDeleteCounseling = (classId) => {
   const [insertCounselingID, { data, loading, error }] =
-    useMutation(deleteCounseling);
+    useMutation(deleteCounseling, {
+      refetchQueries: [{
+        query: counselingQuery,
+        variables: {classId: classId}
+      }]
+    });
 
   return { insertCounselingID, data, loading, error };
 };
