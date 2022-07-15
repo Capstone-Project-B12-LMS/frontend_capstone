@@ -45,39 +45,52 @@ const MyAccount = () => {
 
   const submitAccountChange = (e) => {
     e.preventDefault();
-    MySwal.fire({
-      title: "Class Data Changes",
-      text: "Are you sure you want to change the data?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#415A80",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await insertAccountData({
-          variables: {
-            id: dataLogin.id,
-            fullName: accountData.fullName,
-            telepon: accountData.telepon,
-            email: accountData.email,
-          },
-        });
-        MySwal.fire({
-          title: "Update Success",
-          icon: "success",
-          showCancelButton: true,
-          showConfirmButton: false,
-          cancelButtonColor: "#d33",
-        });
-      }
-    });
+    const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    const phoneRegex = /^[0-9]{11,15}$/
+    if (!accountData.email.match(emailRegex) || !accountData.telepon.match(phoneRegex)) {
+      MySwal.fire({
+        title: "Wrong Email/Telepon Pattern",
+        text: "Email must follow standard email pattern and phone must be number more than 11 less than 15",
+        icon: "error",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonColor: "#d33",
+      });
+    } else {
+      MySwal.fire({
+        title: "Class Data Changes",
+        text: "Are you sure you want to change the data?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#415A80",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await insertAccountData({
+            variables: {
+              id: dataLogin.id,
+              fullName: accountData.fullName,
+              telepon: accountData.telepon,
+              email: accountData.email,
+            },
+          });
+          MySwal.fire({
+            title: "Update Success",
+            icon: "success",
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: "#d33",
+          });
+        }
+      });
+    }
   };
   if (error) return <pre>{error.message}</pre>;
   return (
     <div className="flex justify-center my-10">
       {loading ? (
-        <Loading size="50" />
+        <Loading size="100" />
       ) : (
         <div className="w-[85%] flex justify-between p-16 rounded-[20px] shadow-[4px_2px_8px_0px_rgba(0,0,0,0.25)]">
           <form className="w-1/2" onSubmit={submitAccountChange}>
@@ -105,7 +118,11 @@ const MyAccount = () => {
             />
           </form>
           <div className="w-1/2 flex justify-center items-center">
-            <img src={`https://i.pravatar.cc/300?u=${dataLogin.id}`} alt="avatar" className="rounded-full"/>
+            <img
+              src={`https://i.pravatar.cc/300?u=${dataLogin.id}`}
+              alt="avatar"
+              className="rounded-full"
+            />
           </div>
         </div>
       )}
