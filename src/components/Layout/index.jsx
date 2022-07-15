@@ -208,7 +208,7 @@ const Layout = () => {
 
     useEffect(() => {
         if (location.pathname === '/dashboard') navigate('home', { replace: true })
-        if(!cookies.get("token")) window.location.href = ""
+        if (!cookies.get("token")) window.location.href = ""
     }, [location.pathname])
 
 
@@ -232,7 +232,7 @@ const Layout = () => {
                             />
                         ))
                     }
-                    <AlertText text="Letters and numbers , allowed symbols : & -" color="#747d8c"/>
+                    <AlertText text="Letters and numbers , allowed symbols : & -" color="#747d8c" />
                     <Button
                         formBtn={true}
                         styling={"rounded-[15px] w-full mt-8 h-[62px] text-[20px] font-bold flex justify-center items-center"}
@@ -263,8 +263,8 @@ const Layout = () => {
                         ))
                     }
                     {
-                        error ? <AlertText text="Sorry, the code you entered does not exist" color="#C9161D" /> : 
-                        <AlertText text="Only letter and number | Max 10 characters" color="#747d8c"/>
+                        error ? <AlertText text="Sorry, the code you entered does not exist" color="#C9161D" /> :
+                            <AlertText text="Only letter and number | Max 10 characters" color="#747d8c" />
                     }
                     <Button
                         formBtn={true}
@@ -309,7 +309,7 @@ const Layout = () => {
                     <Route path="my-class" element={<Classall />} />
                     <Route path="my-class/student" element={<ClassStudent />} />
                     <Route path="my-class/teacher" element={<ClassTeacher />} />
-                    <Route path="history" element={<History />}/>
+                    <Route path="history" element={<History />} />
                     <Route path="account" element={<MyAccount />} />
                     <Route path="*" element={
                         <NoMatch
