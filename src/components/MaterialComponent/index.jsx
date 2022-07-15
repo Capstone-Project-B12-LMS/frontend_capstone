@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 
 
 
-const MaterialComponent = ({ item , refetching , func }) => {
+const MaterialComponent = ({ item, refetching, func }) => {
 
   const [deleteMaterial] = useMutation(DELETE_MATERIAL)
   const navigate = useNavigate();
@@ -30,11 +30,11 @@ const MaterialComponent = ({ item , refetching , func }) => {
   }
 
   const handleDeleteMaterial = async (id) => {
-    try{
-      await deleteMaterial({variables : { id }})
+    try {
+      await deleteMaterial({ variables: { id } })
       return refetching()
     }
-    catch (error){
+    catch (error) {
       MySwal.fire({
         title: "Failed !",
         text: "Delete Materil Failed , Please try again.",
@@ -66,7 +66,7 @@ const MaterialComponent = ({ item , refetching , func }) => {
             Update Material
           </p>
           <p
-            onClick={()=> handleDeleteMaterial(item.id)}
+            onClick={() => handleDeleteMaterial(item.id)}
             className="text-sm absolute right-[60px] p-2.5 rounded-[10px] shadow-md cursor-pointer font-medium mt-[2.5rem]"
 
           >

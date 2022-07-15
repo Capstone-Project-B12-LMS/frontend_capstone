@@ -12,14 +12,14 @@ const InputComponent = ({ name, value, setValue, icon, type }) => {
         {name}
       </label>
       <div className="flex items-center relative">
-        { icon ? <img src={icon} alt={name} className="absolute left-5 top-4" /> : false }
+        {icon ? <img src={icon} alt={name} className="absolute left-5 top-4" /> : false}
         <input
           className={`${name} border-[1px] py-4 ${icon ? "px-14" : "px-6"} rounded-[10px] border-[#D9D9D9] focus:outline-none w-full h-[62px] placeholder:text-[20px] placeholder:leading-[30px] placeholder:capitalize`}
           placeholder={name}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           // type={name !== `password` ? `text` : passwordType()}
-          type={type === 'password' && passwordType() || type}
+          type={type === ('password' && passwordType()) || type}
           name={name}
           required
         />
