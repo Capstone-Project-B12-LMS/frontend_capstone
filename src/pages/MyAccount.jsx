@@ -110,7 +110,6 @@ const MyAccount = () => {
               value={accountData?.telepon}
               handleChange={handleChange}
             />
-            <MyAccountInput inputFor="occupation" />
             <Button
               text="Change"
               formBtn={true}
