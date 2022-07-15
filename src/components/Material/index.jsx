@@ -33,7 +33,14 @@ const Material = ({ assets }) => {
                     />
                 </div>
 
-                : false
+                : 
+
+                <iframe 
+                    title="web-view" 
+                    src={fileUrl}
+                    className='mt-10 w-full h-[800px] bg-[#dfe4ea]'
+                >
+                </iframe>
             }
             
             {

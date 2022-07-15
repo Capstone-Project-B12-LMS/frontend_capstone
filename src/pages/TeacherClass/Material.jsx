@@ -1,11 +1,11 @@
-import React from 'react'
+import { Loading } from '../../components';
 import MaterialComponent from '../../components/MaterialComponent';
 
 
-const Material = ({ dataMaterial, loadingMaterial, classId, func }) => {
+const Material = ({ dataMaterial, loadingMaterial, refetching , func }) => {
 
 
-  if (loadingMaterial) return <p>Loading...</p>
+  if (loadingMaterial) return <Loading size="100"/>
 
   return (
     <div className="border border-solid rounded-[20px] px-12 py-10">
@@ -14,7 +14,7 @@ const Material = ({ dataMaterial, loadingMaterial, classId, func }) => {
         !!dataMaterial?.material?.findAllByClassId.length ?
           
           dataMaterial?.material?.findAllByClassId?.map((item) => (
-            <MaterialComponent item={item} key={item.id} classId={classId} func={func} />
+            <MaterialComponent refetching={refetching} item={item} key={item.id} func={func} />
           ))
 
         :
