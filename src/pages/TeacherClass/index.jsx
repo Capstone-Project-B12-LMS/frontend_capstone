@@ -11,7 +11,7 @@ import Kebab from "../../assets/icons/kebab-menu.svg"
 // Graphql
 import { GET_CLASS_BYID } from "../../graphql/ClassQuery";
 import { FIND_CLASS_MATERIAL } from "../../graphql/MaterialQuery";
-import useGetCounseling from "../../graphql/GetCounseling";
+import { useGetCounseling } from "../../graphql/GetCounseling";
 
 // Components
 import { Tab, Loading } from "../../components";

@@ -21,4 +21,4 @@ const useGetCounseling = (classId) => {
   return { data, loading, error }
 }
 
-export default useGetCounseling;
+export  {useGetCounseling, counselingQuery};

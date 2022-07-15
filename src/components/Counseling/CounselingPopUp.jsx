@@ -2,10 +2,11 @@ import React from "react";
 import useDeleteCounseling from "../../graphql/DeleteCounseling";
 import Button from "../Button";
 import Loading from "../Spinner/Loading";
+import { useParams } from "react-router-dom";
 
-const CounselingPopUp = ({ avatar, setIsClicked, userName, id, userId }) => {
-  console.log(userId);
-  const { insertCounselingID, data, loading, error } = useDeleteCounseling();
+const CounselingPopUp = ({ setIsClicked, userName, id, userId }) => {
+  const params = useParams();
+  const { insertCounselingID, data, loading, error } = useDeleteCounseling(params.id);
   const handleDeletedCounseling = async () => {
     await insertCounselingID({
       variables: {
