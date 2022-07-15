@@ -7,7 +7,7 @@ import Loading from "../Spinner/Loading";
 
 const MemberComponent = ({ student, classId }) => {
   const MySwal = withReactContent(Swal);
-  const { insertStudentData, data, loading, error } = useRemoveStudent(classId);
+  const { insertStudentData, loading, } = useRemoveStudent(classId);
   const [isDotClicked, SetIsDotClicked] = useState(false);
   const handleRemoveStudent = (userId) => {
     MySwal.fire({

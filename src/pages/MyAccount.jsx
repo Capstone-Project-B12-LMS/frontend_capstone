@@ -8,7 +8,7 @@ import useUpdateAccount from "../graphql/UpdateAccount";
 const MyAccount = () => {
   const MySwal = withReactContent(Swal);
   const { dataLogin } = useSelector((state) => state.login);
-  const { insertAccountData, error, loading, data } = useUpdateAccount(
+  const { insertAccountData, error, loading, } = useUpdateAccount(
     dataLogin?.id
   );
   const [accountData, setAccountData] = useState({
