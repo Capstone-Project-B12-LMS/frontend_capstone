@@ -237,7 +237,7 @@ const Layout = () => {
 
     useEffect(() => {
         if (location.pathname === '/dashboard') navigate('home', { replace: true })
-        if(!cookies.get("token")) window.location.href = ""
+        if (!cookies.get("token")) window.location.href = ""
     }, [location.pathname])
 
 
@@ -342,7 +342,7 @@ const Layout = () => {
                     <Route path="my-class" element={<Classall />} />
                     <Route path="my-class/student" element={<ClassStudent />} />
                     <Route path="my-class/teacher" element={<ClassTeacher />} />
-                    <Route path="history" element={<History />}/>
+                    <Route path="history" element={<History />} />
                     <Route path="account" element={<MyAccount />} />
                     <Route path="*" element={
                         <NoMatch

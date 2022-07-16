@@ -20,7 +20,7 @@ const Login = () => {
   const [inputManager,setInputManger] = useState({
     emailForm: {
       rule:"Email format doesn't match",
-      pattern:/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+      pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
       match: true
     },
     passwordForm: {

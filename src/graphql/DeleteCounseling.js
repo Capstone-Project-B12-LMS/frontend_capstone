@@ -12,13 +12,15 @@ const deleteCounseling = gql`
   }
 `;
 
+
 const useDeleteCounseling = (classId) => {
   const [insertCounselingID, { data, loading, error }] =
     useMutation(deleteCounseling, {
       refetchQueries: [{
         query: counselingQuery,
         variables: {classId: classId}
-      }]
+      }],
+      notifyOnNetworkStatusChange: true
     });
 
   return { insertCounselingID, data, loading, error };

@@ -4,9 +4,8 @@ import useGetClass from "../../graphql/GetClass";
 import Illustration from "../../assets/img/illustration_1.png";
 
 const HeaderClass = () => {
-  const { data, loading, error } = useGetClass();
+  const { data, loading, } = useGetClass();
   if (loading) return <Loading size="100" />;
-  if (error) return "Data Error...";
 
   const cekData = data.user.findByClassByUserId;
 

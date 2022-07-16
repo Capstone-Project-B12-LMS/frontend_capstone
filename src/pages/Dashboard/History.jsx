@@ -4,9 +4,8 @@ import useGetHistory from "../../graphql/GetHistory";
 import Illustration from "../../assets/img/illustration_1.png";
 
 const History = () => {
-  const { data, loading, error } = useGetHistory();
+  const { data, loading, } = useGetHistory();
   if (loading) return <Loading size="100" />;
-  if (error) return "Data Error..";
 
   const dataHistory = data.activityHistory.findByUserId;
 

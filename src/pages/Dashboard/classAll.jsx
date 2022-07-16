@@ -5,10 +5,9 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
   const { dataLogin } = useSelector((state) => state.login);
-  const { data, loading, error } = useGetClass();
+  const { data, loading, } = useGetClass();
 
   if (loading) return <Loading size="100" />;
-  if (error) return "Data Error...";
 
   const dataEmail = dataLogin?.email;
 

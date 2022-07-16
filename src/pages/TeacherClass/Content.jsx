@@ -19,11 +19,13 @@ const Content = ({ materials, }) => {
                 {
                     !materials?.length || !materials ?
 
-                        <EmptyContent
-                            img={Illustration}
-                            title="This is where you will see updates for this class"
-                            description="The teacher has not provided materials or quiz in this class. Use the content page to view material updates or quiz"
-                        />
+                        <div className="border border-solid rounded-[20px] p-8">
+                            <EmptyContent
+                                img={Illustration}
+                                title="This is where you will see updates for this class"
+                                description="The teacher has not provided materials or quiz in this class. Use the content page to view material updates or quiz"
+                            />
+                        </div>
 
                         :
 

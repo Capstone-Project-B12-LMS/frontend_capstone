@@ -8,7 +8,7 @@ import useUpdateAccount from "../graphql/UpdateAccount";
 const MyAccount = () => {
   const MySwal = withReactContent(Swal);
   const { dataLogin } = useSelector((state) => state.login);
-  const { insertAccountData, error, loading, data } = useUpdateAccount(
+  const { insertAccountData, error, loading, } = useUpdateAccount(
     dataLogin?.id
   );
   const [accountData, setAccountData] = useState({
@@ -78,8 +78,8 @@ const MyAccount = () => {
           MySwal.fire({
             title: "Update Success",
             icon: "success",
-            showCancelButton: true,
-            showConfirmButton: false,
+            showCancelButton: false,
+            showConfirmButton: true,
             cancelButtonColor: "#d33",
           });
         }
@@ -92,7 +92,7 @@ const MyAccount = () => {
       {loading ? (
         <Loading size="100" />
       ) : (
-        <div className="w-[85%] flex justify-between p-16 rounded-[20px] shadow-[4px_2px_8px_0px_rgba(0,0,0,0.25)]">
+        <div className="w-[85%] flex justify-between p-16 rounded-[20px] shadow-[4px_2px_8px_0px_rgba(0,0,0,0.25)] relative overflow-hidden">
           <form className="w-1/2" onSubmit={submitAccountChange}>
             <h2 className="font-medium text-[32px] mb-10">My Account</h2>
             <MyAccountInput
@@ -110,7 +110,6 @@ const MyAccount = () => {
               value={accountData?.telepon}
               handleChange={handleChange}
             />
-            <MyAccountInput inputFor="occupation" />
             <Button
               text="Change"
               formBtn={true}
@@ -119,11 +118,12 @@ const MyAccount = () => {
           </form>
           <div className="w-1/2 flex justify-center items-center">
             <img
-              src={`https://i.pravatar.cc/300?u=${dataLogin.id}`}
+              src={`https://i.pravatar.cc/300?u=${dataLogin?.id}`}
               alt="avatar"
               className="rounded-full"
             />
           </div>
+          <div className="bg-[#9EC9E2] h-[20px] absolute bottom-0 w-full left-0"></div>
         </div>
       )}
     </div>
