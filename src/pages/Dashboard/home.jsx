@@ -77,7 +77,7 @@ const Home = ({ createClass, joinClass }) => {
 
                                 <div className="flex flex-col items-center my-18 mx-auto">
                                     <img src={Illustration} alt="illustartion" className="w-[400px] h-[400px]" />
-                                    <p className="text-black font-normal text-2xl">Anda belum memiliki kelas</p>
+                                    <p className="text-black font-normal text-center text-2xl leading-10">Sorry you don't have a class to display <br/> Please create or join a class</p>
                                     <div className="mt-8">
                                         <div>
                                             <button

@@ -18,8 +18,8 @@ const History = () => {
             alt="illustartion"
             className="w-[400px] h-[400px]"
           />
-          <p className="text-black font-normal text-2xl">
-            Sorry, your history is not found
+          <p className="text-black text-center font-normal text-2xl leading-10">
+            Sorry you don't have any history to display
           </p>
         </div>
       ) : (

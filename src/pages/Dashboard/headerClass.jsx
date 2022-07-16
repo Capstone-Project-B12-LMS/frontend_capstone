@@ -18,8 +18,8 @@ const HeaderClass = () => {
             alt="illustartion"
             className="w-[400px] h-[400px]"
           />
-          <p className="text-black font-normal text-2xl">
-            Sorry, your class is not found
+          <p className="text-black text-center font-normal text-2xl leading-10">
+           Sorry you don't have a class to display <br/> Please create or join a class
           </p>
         </div>
       ) : (
