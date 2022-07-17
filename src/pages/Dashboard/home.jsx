@@ -20,7 +20,7 @@ const Home = ({ createClass, joinClass }) => {
 
     useEffect(() => {
         refetch();
-    }, [])
+    },[])
 
 
     return (
@@ -77,7 +77,7 @@ const Home = ({ createClass, joinClass }) => {
 
                                 <div className="flex flex-col items-center my-18 mx-auto">
                                     <img src={Illustration} alt="illustartion" className="w-[400px] h-[400px]" />
-                                    <p className="text-black font-normal text-2xl">Anda belum memiliki kelas</p>
+                                    <p className="text-black font-normal text-center text-2xl leading-10">Sorry you haven't joined any class <br/>Please join first</p>
                                     <div className="mt-8">
                                         <div>
                                             <button
@@ -85,10 +85,6 @@ const Home = ({ createClass, joinClass }) => {
                                                 onClick={joinClass}
                                             >Join Class
                                             </button>
-                                            <button
-                                                className="text-normal font-medium px-6 py-2 rounded-[20px] border border-[#415A80] text-[#415A80] bg-transparent hover:bg-[#415A80] hover:text-white"
-                                                onClick={createClass}
-                                            >Create Class</button>
                                         </div>
 
                                     </div>

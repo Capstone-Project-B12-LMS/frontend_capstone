@@ -18,19 +18,19 @@ const History = () => {
             alt="illustartion"
             className="w-[400px] h-[400px]"
           />
-          <p className="text-black font-normal text-2xl">
-            Sorry, your history is not found
+          <p className="text-black text-center font-normal text-2xl leading-10">
+            Sorry you don't have any history to display
           </p>
         </div>
       ) : (
         <>
-          <div className="container mx-auto px-24 mt-6">
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="container mx-auto px-24 my-6">
+            <div className="relative overflow-x-auto shadow-md">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                   <tr>
-                    <th scope="col" colSpan="3" className="px-6 py-3 text-xl">
-                      Today
+                    <th scope="col" colSpan="3" className="px-6 py-8 text-xl text-center">
+                      History
                     </th>
                   </tr>
                 </thead>

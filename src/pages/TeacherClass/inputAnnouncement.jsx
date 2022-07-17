@@ -44,7 +44,7 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
 
     //Graphql
 
-    const [addData , {loading: loadingAdd}] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData , {loading: loadingAdd , error}] = useMutation(NEW_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
         onCompleted: () => Swal.fire("Success","Your material has been successfully uploaded","success"),
         onError: () => Swal.fire("Upload Failed", "Material failed to upload, please try again", "error"),
@@ -57,17 +57,13 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
     })
 
     const handleSubmit = async (e) => {
-        if (material.title === "" && material.description === "") {
-            Swal.fire("Mohon isi title dan deskripsi")
-        }
-        else if (material.title === "") {
-            Swal.fire("Mohon isi title")
-        } else if (material.description === "") {
-            Swal.fire("Mohon isi deksripsi")
-        } else {
+        if (material.title === "" || material.description.replace(/(<([^>]+)>)/gi, "") === "") {
+            Swal.fire("Post Material Failed","At least fill title & description form","warning")
+        } 
+        else {
             e.preventDefault();
-            await
-            addData({
+            
+            const response = await addData({
                 variables: {
                     classId: params.id,
                     title: material.title,
@@ -77,24 +73,23 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
                     point: 100
                 }
             })
-            setMaterial({
-                title: "",
-                description: "",
-                linkVideo: null,
-                linkPowerPoint: null
-            })
+            
+            if(!response.errors){
+                return setMaterial({
+                    title: "",
+                    description: "",
+                    linkVideo: null,
+                    linkPowerPoint: null
+                })
+            }
         }
     }
 
     const handleUpdate = async (e) => {
-        if (material.title === "" && material.description === "") {
-            Swal.fire("Mohon isi title dan deskripsi")
-        }
-        else if (material.title === "") {
-            Swal.fire("Mohon isi title")
-        } else if (material.description === "") {
-            Swal.fire("Mohon isi deksripsi")
-        } else {
+        if (material.title === "" || material.description.replace(/(<([^>]+)>)/gi, "") === "") {
+            Swal.fire("Post Material Failed","At least fill title & description form","warning")
+        } 
+        else {
             e.preventDefault();
             await
             updateData({

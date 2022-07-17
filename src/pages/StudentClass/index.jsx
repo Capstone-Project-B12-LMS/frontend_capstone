@@ -111,7 +111,7 @@ const StudentClass = () => {
             setTimeout(() => {
                 setShowCard(false)
                 setCounselling({ topic: "", content: "", sending: false })
-            }, 2000);
+            }, 3000);
         }
         catch (err) {
             MySwal.fire({
@@ -176,7 +176,15 @@ const StudentClass = () => {
     }, [location.pathname])
 
 
-    if (dataClass?.class?.findById?.status === "INACTIVE") {
+    if(dataClass?.class?.findById?.isDeleted){
+        return(
+            <NoMatch
+                text="The Class is Deleted"
+                description="You can't access this class"
+            />
+        )
+    }
+    else if (dataClass?.class?.findById?.status === "INACTIVE") {
         return (
             <NoMatch
                 text="The Class is Disabled"
@@ -214,7 +222,7 @@ const StudentClass = () => {
                                         <>
                                             <img src={CompleteIcon} alt="complete-icon" className=" max-w-[110px] w-[110px] h-[110px]" />
                                             <h1 className="text-black text-center leading-10 text-[32px] font-bold mt-14">COUNSELING REQUEST COMPLETE!</h1>
-                                            <p className="text-center text-black leading-10 text-2xl mt-6">You’ll receive a confirmation when your request has been accepted or declined.</p>
+                                            <p className="text-center text-black leading-10 text-2xl mt-6">We will send a notification to your email, please wait and check regularly</p>
                                         </>
 
                                         :
@@ -326,6 +334,3 @@ const StudentClass = () => {
 };
 
 export default StudentClass;
-
-
-// icon={loadingCouselling ? <Spinner styling='ml-2' /> : false}

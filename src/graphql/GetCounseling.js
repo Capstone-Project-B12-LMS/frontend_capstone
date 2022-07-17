@@ -7,12 +7,15 @@ const counselingQuery = gql`
         id
         topic
         content
+        createdAt
         user {
           id
           fullName
+          email
         }
         classEntity{
           id
+          name
         }
       }
     }

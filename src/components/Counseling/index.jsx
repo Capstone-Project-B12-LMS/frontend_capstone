@@ -10,12 +10,8 @@ const Counseling = ({ data }) => {
     <>
       {isClicked &&
         <CounselingPopUp
-          id={data.id}
-          user={data.user}
-          userName={data.user.fullName}
+          data={data}
           setIsClicked={setIsClicked}
-          topic={data.topic}
-          classId={data.classEntity.id}
         />
       }
       <div

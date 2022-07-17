@@ -11,7 +11,12 @@ import Profile from "./Profile";
 const Setting = ({ dataClass, func }) => {
 
   const param = useParams();
-  const { data: dataMaterial, loading: loadingMaterial , refetch } = useQuery(FIND_CLASS_MATERIAL, { variables: { class_id: param.id } })
+  const { data: dataMaterial, loading: loadingMaterial , refetch } = useQuery(FIND_CLASS_MATERIAL, 
+    { 
+      variables: { class_id: param.id },
+      notifyOnNetworkStatusChange: true
+    } ,
+  )
   
   const Tabpath = [
     { text: "member", path: `.` },

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import { setUsername, setPassword, setEmail } from "../redux/registerSlice";
+import { setUsername, setPassword, setEmail, setPhoneNumber } from "../redux/registerSlice";
 import { Button, Input, Spinner } from "../components";
 import useRegisterMutation from "../graphql/RegisterMutation";
 
@@ -21,12 +21,17 @@ const Register = () => {
     },
     emailForm: {
       rule: "Email format doesn't match",
-      pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+      pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
       match: true
     },
     passwordForm: {
       rule: "Min 8 Max 15 Characters | no spaces | contain at least one of these : Uppercase , Number & Symbol",
       pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
+      match: true
+    },
+    teleponForm: {
+      rule: "Phone number is not valid",
+      pattern: /^\d{10,13}$/,
       match: true
     }
   })
@@ -34,6 +39,7 @@ const Register = () => {
   const { username } = useSelector((state) => state.register);
   const { email } = useSelector((state) => state.register);
   const { password } = useSelector((state) => state.register);
+  const { phoneNumber } = useSelector(state => state.register)
 
 
   const { insertRegisterData, loading } = useRegisterMutation();
@@ -46,13 +52,17 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    const { usernameForm, emailForm, passwordForm } = inputManager
+    const { usernameForm, emailForm, teleponForm , passwordForm } = inputManager
 
     const isUsernameValid = usernameForm.match && !!username.length;
     const isEmailValid = emailForm.match && !!email.length
     const isPasswordValid = passwordForm.match && !!password.length
+    const isTeleponValid = teleponForm.match && !!phoneNumber.length
 
-    if (isUsernameValid && isEmailValid && isPasswordValid) {
+
+    if (isUsernameValid && isEmailValid && isTeleponValid && isPasswordValid) {
+
+      const telp = phoneNumber[0] === "0" ? phoneNumber.replace("08","628") : phoneNumber;
 
       try {
         await insertRegisterData({
@@ -60,6 +70,7 @@ const Register = () => {
             fullName: username,
             email: email,
             password: password,
+            telepon: telp
           },
         });
       }
@@ -77,6 +88,7 @@ const Register = () => {
       dispatch(setUsername(""));
       dispatch(setEmail(""));
       dispatch(setPassword(""));
+      dispatch(setPhoneNumber(""));
 
       return MySwal.fire({
         icon: "success",
@@ -84,7 +96,8 @@ const Register = () => {
         html: <p className='fs-6 lh-lg'>Please login using your new account</p>,
         confirmButtonText: "Login",
       })
-        .then(isConfirmed => isConfirmed ? navigate('/login') : false)
+      .then(isConfirmed => isConfirmed ? navigate('/login') : false)
+      
     }
   };
 
@@ -103,8 +116,13 @@ const Register = () => {
         ...inputManager.passwordForm,
         match: !password.length ? true : inputManager.passwordForm.pattern.test(password)
       },
+      teleponForm: {
+        ...inputManager.teleponForm,
+        match: !phoneNumber.length ? true : inputManager.teleponForm.pattern.test(phoneNumber)
+      },
     })
-  }, [username, email, password])
+  }, [username, email, password, phoneNumber])
+
 
 
   return (
@@ -137,6 +155,17 @@ const Register = () => {
           {
             !inputManager.emailForm.match &&
             <p className="mb-6 text-sm text-[#C9161D]">{inputManager.emailForm.rule}</p>
+          }
+          <Input
+            icon={require("../assets/img/telepone.png")}
+            name="Phone Number"
+            type="number"
+            value={phoneNumber}
+            setValue={(value) => dispatch(setPhoneNumber(value))}
+          />
+          {
+            !inputManager.teleponForm.match &&
+            <p className="mb-6 text-sm text-[#C9161D]">{inputManager.teleponForm.rule}</p>
           }
           <Input
             icon={require("../assets/img/lock.png")}

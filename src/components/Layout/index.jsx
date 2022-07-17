@@ -43,7 +43,10 @@ const Layout = () => {
     const [showSidebar, setShowSidebar] = useState(false);
     const [createClassShow, setCreateClassShow] = useState(false);
     const [joinClassShow, setjoinClassShow] = useState(false);
-    const [error, setError] = useState(false)
+    const [error, setError] = useState({
+        form : "",
+        text: ""
+    })
 
     const [inputs, setInputs] = useState({
         create: [
@@ -92,7 +95,7 @@ const Layout = () => {
     });
 
 
-    const [joined, { data, loading: joinLoading }] = useMutation(JOIN_CLASS, {
+    const [joined, { loading: joinLoading }] = useMutation(JOIN_CLASS, {
         onCompleted: data => data?.class?.join ? navigateToClass(`class/${data?.class?.join?.id}`, setjoinClassShow) : setError(true),
         onError: () => { },
         notifyOnNetworkStatusChange: true
@@ -106,11 +109,10 @@ const Layout = () => {
     const showPopupJoin = (e, show = !joinClassShow) => setjoinClassShow(show);
 
     const handleInputChange = (value, index, form) => {
-        if (data?.class?.join === null) setError(false);
-
         const newInputs = [...inputs[form]]
         newInputs[index] = { ...newInputs[index], value };
         setInputs({ ...inputs, [form]: newInputs })
+        setError({form:"",text:""})
     }
 
     const navigateToClass = (path, popupShow) => {
@@ -136,7 +138,20 @@ const Layout = () => {
         const matchClassname = classname.value.trim() !== "" && classname.pattern.test(classname.value);
         const matchRoom = room.pattern.test(room.value)
 
-        if (!(matchClassname && matchRoom)) return false;
+        if (!classname.value.length){
+            setError({
+                form:"create",
+                text:"Please fill the empty form"
+            })
+            return false
+        }
+        else if(!(matchClassname && matchRoom)){
+            setError({
+                form:"create",
+                text:"Format is incorrect"
+            })
+            return false
+        }
 
         return creating({ variables: { name: classname.value, room: room.value } });
     }
@@ -147,7 +162,21 @@ const Layout = () => {
         const { value: class_code, pattern } = inputs.join[0];
         const u_id = dataLogin.id;
 
-        if (!pattern.test(class_code)) return false
+        if (!class_code.length){
+            setError({
+                form:"join",
+                text:"Please fill the empty form"
+            })
+            return false
+        }
+        else if (!pattern.test(class_code)){
+            setError({
+                form:"join",
+                text:"Class Code Format is Incorrect"
+            })
+            return false
+        }
+
         return joined({ variables: { class_code, u_id } })
     };
 
@@ -232,7 +261,11 @@ const Layout = () => {
                             />
                         ))
                     }
-                    <AlertText text="Letters and numbers , allowed symbols : & -" color="#747d8c" />
+                    {
+                        error.form === "create" ? 
+                            <AlertText text={error.text} color="#C9161D" /> : 
+                                <AlertText text="Letters and numbers , allowed symbols : & -" color="#747d8c"/>
+                    }
                     <Button
                         formBtn={true}
                         styling={"rounded-[15px] w-full mt-8 h-[62px] text-[20px] font-bold flex justify-center items-center"}
@@ -263,8 +296,8 @@ const Layout = () => {
                         ))
                     }
                     {
-                        error ? <AlertText text="Sorry, the code you entered does not exist" color="#C9161D" /> :
-                            <AlertText text="Only letter and number | Max 10 characters" color="#747d8c" />
+                        error.form === "join" ? <AlertText text={error.text} color="#C9161D" /> : 
+                        <AlertText text="Only letter and number | Max 10 characters" color="#747d8c"/>
                     }
                     <Button
                         formBtn={true}
