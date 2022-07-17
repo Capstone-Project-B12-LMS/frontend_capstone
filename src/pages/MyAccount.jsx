@@ -8,9 +8,7 @@ import useUpdateAccount from "../graphql/UpdateAccount";
 const MyAccount = () => {
   const MySwal = withReactContent(Swal);
   const { dataLogin } = useSelector((state) => state.login);
-  const { insertAccountData, error, loading, } = useUpdateAccount(
-    dataLogin?.id
-  );
+  const { insertAccountData, error, loading } = useUpdateAccount(dataLogin?.id);
   const [accountData, setAccountData] = useState({
     fullName: "",
     email: "",
@@ -33,6 +31,8 @@ const MyAccount = () => {
         showCancelButton: true,
         showConfirmButton: false,
         cancelButtonColor: "#d33",
+      }).then(() => {
+        window.location.reload();
       });
     }
   }, [error]);
@@ -46,8 +46,11 @@ const MyAccount = () => {
   const submitAccountChange = (e) => {
     e.preventDefault();
     const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    const phoneRegex = /^[0-9]{11,15}$/
-    if (!accountData.email.match(emailRegex) || !accountData.telepon.match(phoneRegex)) {
+    const phoneRegex = /^[0-9]{11,15}$/;
+    if (
+      !accountData.email.match(emailRegex) ||
+      !accountData.telepon.match(phoneRegex)
+    ) {
       MySwal.fire({
         title: "Wrong Email/Telepon Pattern",
         text: "Email must follow standard email pattern and phone must be number more than 11 less than 15",
@@ -86,7 +89,6 @@ const MyAccount = () => {
       });
     }
   };
-  if (error) return <pre>{error.message}</pre>;
   return (
     <div className="flex justify-center my-10">
       {loading ? (
