@@ -11,7 +11,7 @@ const Home = () => {
 
   const dataEmail = dataLogin?.email
 
-  const student = data?.user.findByClassByUserId.filter(
+  const student = data?.user?.findByClassByUserId?.filter(
     (e) => dataEmail !== e.createdBy
   );
 

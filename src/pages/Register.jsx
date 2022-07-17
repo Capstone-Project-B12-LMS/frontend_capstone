@@ -31,7 +31,7 @@ const Register = () => {
     },
     teleponForm: {
       rule: "Phone number is not valid",
-      pattern: /\d{10,13}/,
+      pattern: /^\d{10,13}$/,
       match: true
     }
   })
@@ -159,7 +159,7 @@ const Register = () => {
           <Input
             icon={require("../assets/img/telepone.png")}
             name="Phone Number"
-            type="text"
+            type="number"
             value={phoneNumber}
             setValue={(value) => dispatch(setPhoneNumber(value))}
           />

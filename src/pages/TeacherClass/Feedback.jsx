@@ -20,7 +20,7 @@ const Feedback = ({ id_class }) => {
             {
                 !dataFeedback.feedback.findByClassId.length ?
 
-                <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] px-10 py-12">
+                <div className="bg-white border border-solid rounded-[20px] px-10 py-12">
                     <EmptyContent
                         img={Illustration}
                         title="Teacher's feedback"
@@ -30,7 +30,7 @@ const Feedback = ({ id_class }) => {
 
                 :
 
-                <div className="bg-white border border-solid border-[#A8A8A8] rounded-[20px] px-10 py-12">
+                <div className="bg-white border border-solid rounded-[20px] px-10 py-12">
                     <h1 className='text-3xl text-black font-bold'>Feedback</h1>
                     <div className='mt-8 min-h-[180px] max-h-[58vh] overflow-y-auto'>
                     {

@@ -176,7 +176,15 @@ const StudentClass = () => {
     }, [location.pathname])
 
 
-    if (dataClass?.class?.findById?.status === "INACTIVE") {
+    if(dataClass?.class?.findById?.isDeleted){
+        return(
+            <NoMatch
+                text="The Class is Deleted"
+                description="You can't access this class"
+            />
+        )
+    }
+    else if (dataClass?.class?.findById?.status === "INACTIVE") {
         return (
             <NoMatch
                 text="The Class is Disabled"

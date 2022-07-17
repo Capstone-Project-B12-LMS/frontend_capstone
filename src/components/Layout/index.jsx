@@ -95,7 +95,7 @@ const Layout = () => {
     });
 
 
-    const [joined, { data, loading: joinLoading }] = useMutation(JOIN_CLASS, {
+    const [joined, { loading: joinLoading }] = useMutation(JOIN_CLASS, {
         onCompleted: data => data?.class?.join ? navigateToClass(`class/${data?.class?.join?.id}`, setjoinClassShow) : setError(true),
         onError: () => { },
         notifyOnNetworkStatusChange: true

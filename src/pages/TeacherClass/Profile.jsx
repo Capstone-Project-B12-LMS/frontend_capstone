@@ -17,11 +17,14 @@ import { useNavigate } from "react-router-dom";
 const Profile = ({ dataClass, materials }) => {
 
   const MySwal = withReactContent(Swal);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [status, setStatus] = useState(dataClass?.class?.findById?.status);
   const [className, setClassName] = useState(dataClass?.class?.findById?.name);
   const [isReportAdded, setIsReportAdded] = useState(false);
   const [reportLink, setReportLink] = useState(dataClass?.class?.findById?.reportUrl);
+  const [isEdit,setEdit] = useState(false)
+
+
   const [insertClassData, { loading }] = useMutation(
     UPDATE_CLASS,
     {
@@ -71,6 +74,7 @@ const Profile = ({ dataClass, materials }) => {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
+        setEdit(false)
         insertClassData({
           variables: {
             id: dataClass?.class?.findById?.id,
@@ -142,7 +146,7 @@ const Profile = ({ dataClass, materials }) => {
             />
           )}
           <div className="flex items-center justify-between">
-            <div className="flex border-[1px] border-[#415A80] rounded-[20px] p-5">
+            <div className="flex border-[1px] rounded-[20px] p-8">
               <div className="mr-10">
                 <h1 className="text-5xl">
                   {dataClass?.class?.findById?.users?.length - 1}
@@ -151,7 +155,7 @@ const Profile = ({ dataClass, materials }) => {
               </div>
               <img src={people_icon} alt="/" />
             </div>
-            <div className="flex border-[1px] border-[#415A80] rounded-[20px] p-5">
+            <div className="flex border-[1px] rounded-[20px] p-8">
               <div className="mr-10">
                 <h1 className="text-5xl">{materials?.length}</h1>
                 <p className="text-xl mt-4">Total Materials</p>
@@ -166,7 +170,7 @@ const Profile = ({ dataClass, materials }) => {
                 src={ON}
                 alt="on"
                 className="cursor-pointer"
-                onClick={() => setStatus("INACTIVE")}
+                onClick={() => isEdit ? setStatus("INACTIVE") : false}
               />
             ) : (
               <img
@@ -179,40 +183,36 @@ const Profile = ({ dataClass, materials }) => {
           </div>
           <div className="mt-10">
             <p className="text-2xl">ClassName</p>
-            <div className="flex items-center relative mt-6 ">
-              <input
-                type="text"
-                className="text-2xl border-[1px] p-3 pr-16 rounded-[10px] border-[#A8A8A8] w-full"
-                value={className}
-                onChange={(e) => setClassName(e.target.value)}
-              />
-              <img src={pencil} alt="/" className="absolute right-[30px]" />
-            </div>
+            <input
+              disabled={!isEdit}
+              type="text"
+              className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
+              value={className}
+              onChange={(e) => isEdit ? setClassName(e.target.value) : false}
+            />
           </div>
 
           <div className="mt-10">
             <p className="text-2xl">Data Report</p>
-            <div className="flex items-center relative mt-6 ">
-              <input
-                placeholder="Add report url here"
-                type="text"
-                className="text-2xl border-[1px] p-3 pr-16 rounded-[10px] border-[#A8A8A8] w-full"
-                value={reportLink}
-                onChange={(e) => setReportLink(e.target.value)}
-              />
-              <img src={pencil} alt="/" className="absolute right-[30px]" />
-            </div>
+            <input
+              disabled={!isEdit}
+              placeholder="Add report url here"
+              type="text"
+              className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
+              value={reportLink}
+              onChange={(e) => setReportLink(e.target.value)}
+            />
           </div>
         
           <Button
-            text="Save Changes"
-            styling={`rounded-[10px] py-3 mt-10 text-2xl font-bold`}
-            handleClick={handleClassChanged}
+            text={isEdit ? "Save Changes" : "Edit"}
+            styling={`rounded-[10px] py-3 mt-12 text-2xl font-bold`}
+            handleClick={()=> isEdit ? handleClassChanged() : setEdit(true)}
           />
           <Button
-            text="Delete Class"
-            styling={`rounded-[10px] py-3 mt-4 bg-[#fff] border-[1px] border-[#415A80] text-[#415A80] text-2xl font-bold`}
-            handleClick={handleClassDeleted}
+            text={isEdit ? "Cancel" : "Delete Class"}
+            styling={`rounded-[10px] py-3 mt-4 text-2xl bg-[#fff] border-[1px] text-[#415A80] te8t-2xl font-bold`}
+            handleClick={()=> isEdit ? setEdit(false) : handleClassDeleted()}
           />
         </div>
       )}

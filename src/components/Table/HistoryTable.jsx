@@ -7,7 +7,6 @@ const historyTable = ({ content }) => {
       >
         <strong>{content}</strong>
       </th>
-      <td className="px-6 py-4">one Minutes ago</td>
     </tr>
   );
 };

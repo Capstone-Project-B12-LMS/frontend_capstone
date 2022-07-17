@@ -24,13 +24,13 @@ const History = () => {
         </div>
       ) : (
         <>
-          <div className="container mx-auto px-24 mt-6">
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="container mx-auto px-24 my-6">
+            <div className="relative overflow-x-auto shadow-md">
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                   <tr>
-                    <th scope="col" colSpan="3" className="px-6 py-3 text-xl">
-                      Today
+                    <th scope="col" colSpan="3" className="px-6 py-8 text-xl text-center">
+                      History
                     </th>
                   </tr>
                 </thead>
