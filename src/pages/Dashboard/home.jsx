@@ -15,7 +15,7 @@ const Home = ({ createClass, joinClass }) => {
 
     const { dataLogin } = useSelector((state) => state.login);
     const { loading, data, refetch } = useQuery(GET_CLASS_BY_U_ID, { variables: { id: dataLogin?.id, status: "ACTIVE" } });
-
+    
     const collectionClass = () => data?.user?.findByClassByUserId.filter(room => room.createdBy !== dataLogin?.email);
 
     useEffect(() => {
@@ -66,6 +66,7 @@ const Home = ({ createClass, joinClass }) => {
                                                         title={room.name}
                                                         url={`../class/${room.id}`}
                                                         code={room.code}
+                                                        status="ACTIVE"
                                                     /> : false
                                                 )
                                             }

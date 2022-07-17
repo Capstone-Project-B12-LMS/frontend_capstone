@@ -1,10 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
 import { useSelector } from "react-redux";
 
-const classQueryActive = gql`
+const classQueryInActive = gql`
   query UserClass($id: ID!) {
     user {
-      findByClassByUserId(id: $id, classStatus: ACTIVE) {
+      findByClassByUserId(id: $id, classStatus: INACTIVE) {
         id
         name
         createdBy
@@ -18,12 +18,12 @@ const classQueryActive = gql`
   }
 `;
 
-const useGetClass = () => {
+const useGetClassInActive = () => {
   const { dataLogin } = useSelector((state) => state.login);
-  const { data, loading, error } = useQuery(classQueryActive, {
+  const { data, loading, error } = useQuery(classQueryInActive, {
     variables: { id: dataLogin?.id },
   });
   return { data, loading, error };
 };
 
-export default useGetClass;
+export default useGetClassInActive;
