@@ -13,7 +13,7 @@ const Home = () => {
   const student = data?.user?.findByClassByUserId?.filter((e) => dataEmail !== e.createdBy);
   const teacher = data?.user?.findByClassByUserId?.filter((e) => dataEmail === e.createdBy);
   
-  console.log(dataInactive)
+
 
   // const studentInactive = dataInactive?.user?.findByClassByUserId?.filter((e) => dataEmail !== e.createdBy);
   const teacherInactive = dataInactive?.user?.findByClassByUserId?.filter((e) => dataEmail === e.createdBy);
