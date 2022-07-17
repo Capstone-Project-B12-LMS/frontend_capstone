@@ -44,7 +44,7 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
 
     //Graphql
 
-    const [addData , {loading: loadingAdd}] = useMutation(NEW_CONTENT_CLASS, {
+    const [addData , {loading: loadingAdd , error}] = useMutation(NEW_CONTENT_CLASS, {
         refetchQueries: [FIND_CLASS_MATERIAL],
         onCompleted: () => Swal.fire("Success","Your material has been successfully uploaded","success"),
         onError: () => Swal.fire("Upload Failed", "Material failed to upload, please try again", "error"),
@@ -62,8 +62,8 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
         } 
         else {
             e.preventDefault();
-            await
-            addData({
+            
+            const response = await addData({
                 variables: {
                     classId: params.id,
                     title: material.title,
@@ -73,12 +73,15 @@ const InputAnnouncement = ({ material, setMaterial, materialId, updateMode, setU
                     point: 100
                 }
             })
-            setMaterial({
-                title: "",
-                description: "",
-                linkVideo: null,
-                linkPowerPoint: null
-            })
+            
+            if(!response.errors){
+                return setMaterial({
+                    title: "",
+                    description: "",
+                    linkVideo: null,
+                    linkPowerPoint: null
+                })
+            }
         }
     }
 

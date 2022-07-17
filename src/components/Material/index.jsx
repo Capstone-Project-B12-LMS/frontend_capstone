@@ -22,33 +22,20 @@ const Material = ({ assets }) => {
             }
 
             {
-                fileUrl ?
+                fileUrl && fileUrl.includes("https://docs.google.com") ?
 
-                    <>
-                        {
-                            fileUrl.includes("https://docs.google.com") ?
+                    <div className='mt-10 w-full h-[500px] bg-[#dfe4ea]'>
+                        <ReactGoogleSlides
+                            width={"100%"}
+                            height={"100%"}
+                            slidesLink={fileUrl}
+                            showControls
+                        />
+                    </div>
 
-                                <div className='mt-10 w-full h-[500px] bg-[#dfe4ea]'>
-                                    <ReactGoogleSlides
-                                        width={"100%"}
-                                        height={"100%"}
-                                        slidesLink={fileUrl}
-                                        showControls
-                                    />
-                                </div>
+                    :
 
-                                :
-
-                                <iframe
-                                    title="web-view"
-                                    src={fileUrl}
-                                    className='mt-10 w-full h-[800px] bg-[#dfe4ea]'
-                                >
-                                </iframe>
-                        }
-                    </>
-
-                    : false
+                    false
             }
 
             {
