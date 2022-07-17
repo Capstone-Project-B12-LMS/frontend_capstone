@@ -149,7 +149,7 @@ const Profile = ({ dataClass, materials }) => {
             <div className="flex border-[1px] rounded-[20px] p-8">
               <div className="mr-10">
                 <h1 className="text-5xl">
-                  {dataClass?.class?.findById?.users?.length - 1}
+                  {dataClass?.class?.findById?.users?.length > 0 ? dataClass?.class?.findById?.users?.length - 1 : 0}
                 </h1>
                 <p className="text-xl mt-4">Total Students</p>
               </div>
