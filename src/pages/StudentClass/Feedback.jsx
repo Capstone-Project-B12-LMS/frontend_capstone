@@ -29,7 +29,7 @@ const Feedback = ({ class_id, user_id }) => {
       variables: {
         feedback: {
           classId: class_id,
-          content: comment
+          content: comment.replace(/(<([^>]+)>)/gi, "")
         }
       }
     })
