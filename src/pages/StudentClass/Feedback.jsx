@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { SAVE_FEEDBACK, GET_FEEDBACK } from "../../graphql/ClassQuery";
@@ -11,10 +11,16 @@ const Feedback = ({ class_id, user_id }) => {
   // Hooks 
 
   const [comment, setComment] = useState("")
+  const ref = useRef();
+
+
+  // Apollo Client Hooks
+
   const { data: feedbackData, loading: loadFeedback, refetch } = useQuery(GET_FEEDBACK, {
     variables: { class_id },
     notifyOnNetworkStatusChange: true
   });
+
   const [addFeedback, { loading: loadSaveFeedback }] = useMutation(SAVE_FEEDBACK);
 
 
@@ -22,9 +28,16 @@ const Feedback = ({ class_id, user_id }) => {
 
   const alreadyGiveFeedback = () => feedbackData.feedback.findByClassId.find(feedback => feedback.user.id === user_id);
 
+
   const handleFormSubmit = async (e) => {
+
     e.preventDefault();
-    if (!comment.length) return false;
+
+    if (!comment.length){
+      ref.current.focus()
+      return false;
+    }
+
     await addFeedback({
       variables: {
         feedback: {
@@ -33,13 +46,14 @@ const Feedback = ({ class_id, user_id }) => {
         }
       }
     })
+
     setComment("")
     return refetch();
   }
 
 
   if (loadFeedback) return <Loading size="100" />
-
+  
   return (
     <>
       {
@@ -50,9 +64,10 @@ const Feedback = ({ class_id, user_id }) => {
             <p className="mt-3 text-xl text-slate-400">Give your feedback on your learning experience during this class</p>
             <form onSubmit={handleFormSubmit}>
               <textarea
+                ref={ref}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                className='w-full min-h-[180px] p-6 mt-8 resize-none text-xl leading-10 border border-solid border-[#A8A8A8] rounded-[15px]'
+                className='w-full min-h-[180px] p-6 mt-8 resize-none text-xl leading-10 border border-solid border-[#A8A8A8] rounded-[15px] focus:bg-slate-50'
                 placeholder='Enter your feedback here...'
                 resize="true"
               >
