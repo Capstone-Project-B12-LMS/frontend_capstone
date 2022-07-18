@@ -70,9 +70,6 @@ const TeacherClass = () => {
     (iniUpdate) => iniUpdate.id === materialId,
   );
 
-<<<<<<< HEAD
-  console.log(data);
-=======
   useEffect(() => {
     if (!!materialId) {
       const filterMaterial = dataMaterial?.material.findAllByClassId.filter(
@@ -91,7 +88,6 @@ const TeacherClass = () => {
       setUpdateMode(true);
     }
   }, [materialId]);
->>>>>>> master
 
   return (
     <>
