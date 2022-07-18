@@ -93,11 +93,12 @@ const Register = () => {
       return MySwal.fire({
         icon: "success",
         title: <h2 className='fs-3'>Register Success</h2>,
-        html: <p className='fs-6 lh-lg'>Please login using your new account</p>,
-        confirmButtonText: "Login",
+        html: <p className='fs-6 lh-lg'>Please check your email to verify before login, or check your spam folder.</p>,
+        showCancelButton:false,
+        showCloseButton:true,
+        showConfirmButton:false,
+        allowOutsideClick:false
       })
-      .then(isConfirmed => isConfirmed ? navigate('/login') : false)
-      
     }
   };
 

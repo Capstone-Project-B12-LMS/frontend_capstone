@@ -15,6 +15,7 @@ import {useGetUser} from "./graphql/GetUser";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Verify from "./pages/Verify";
 import Landing from "./pages/Index";
 import NoMatch from "./components/NoMatch";
 import Layout from "./components/Layout";
@@ -49,6 +50,7 @@ const App = () => {
             <>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/verify" element={<Verify/>}/>
               <Route path="*" element={
                 <NoMatch 
                   text="401 - UNAUTHORIZED ACCESS"

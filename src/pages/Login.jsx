@@ -67,13 +67,16 @@ const Login = () => {
 
           return navigate('/dashboard/home', {replace : true})
         }
-        else throw "Login Failed"
+        else throw login.data.user.login.error
       }
       catch(err) {
+        
+        const errorText = err?.message ? "Please check your email and verify your account" : "Please check your email and password and try again"
+
         MySwal.fire({
           icon:"error",
           title: <h2 className='fs-3'>Login Failed</h2>,
-          html:<p className='fs-6 lh-lg'>Please check your email and password and try again.</p>,
+          html:<p className='fs-6 lh-lg'>{errorText}</p>,
           showConfirmButton:true
         })
         
