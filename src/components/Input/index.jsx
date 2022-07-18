@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const InputComponent = ({ name, value, setValue, icon, type }) => {
-  const [isEyeClicked, setIsEyeClicked] = useState(false);
+  const [isEyeClicked, setIsEyeClicked] = useState(true);
   const passwordType = () => {
     return isEyeClicked ? "text" : "password";
   };

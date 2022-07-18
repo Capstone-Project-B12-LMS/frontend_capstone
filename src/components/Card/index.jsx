@@ -9,7 +9,12 @@ const Card = ({
 }) => {
   return (
     <Link to={url}>
-      <div className="bg-white rounded overflow-hidden shadow-md w-full h-full flex flex-col rounded-2xl">
+      <div className="bg-white rounded overflow-hidden shadow-md w-full h-full flex flex-col rounded-2xl relative">
+        <span 
+          className={`right-0 font-medium px-3 py-1 rounded-[5px] absolute bg-[rgba(255,255,255,.2)] ${status === "ACTIVE" ? "text-[#0be881]" : "text-[#f53b57]"}`}
+        >
+          { status }
+        </span>
         <img
           src={thumbnail}
           alt="thumbnail"
@@ -19,9 +24,6 @@ const Card = ({
           <h3 className="text-2xl font-medium text-black">{title}</h3>
           <p className="text-base text-[#A9A9A9] font-normal">
             Code Class: <span className="text-black font-bold">{code}</span>{" "}
-          </p>
-          <p className="text-base text-[#A9A9A9] font-normal">
-            Status Class: <span className="text-black font-bold">{status}</span>{" "}
           </p>
         </div>
       </div>

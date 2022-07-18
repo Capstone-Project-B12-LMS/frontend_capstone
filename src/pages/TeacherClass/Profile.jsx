@@ -187,7 +187,7 @@ const Profile = ({ dataClass, materials }) => {
             <input
               disabled={!isEdit}
               type="text"
-              className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
+              className="text-2xl border-[1px] py-3 px-6 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
               value={className}
               onChange={(e) => (isEdit ? setClassName(e.target.value) : false)}
             />
@@ -199,7 +199,7 @@ const Profile = ({ dataClass, materials }) => {
               disabled={!isEdit}
               placeholder="Add report url here"
               type="text"
-              className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
+              className="text-2xl border-[1px] py-3 px-6 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
               value={reportLink}
               onChange={(e) => setReportLink(e.target.value)}
             />
