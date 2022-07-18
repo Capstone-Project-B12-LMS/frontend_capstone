@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import people_icon from "../../assets/icons/people-icon-vector.svg";
 import book_icon from "../../assets/icons/icons-book.svg";
 import { Button, Loading } from "../../components";
@@ -12,28 +12,20 @@ import { useMutation } from "@apollo/client";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
 import ProfilePopUp from "../../components/ProfilePopUp";
+import { useNavigate } from "react-router-dom";
 
 const Profile = ({ dataClass, materials }) => {
   const MySwal = withReactContent(Swal);
+  const navigate = useNavigate();
   const [status, setStatus] = useState(dataClass?.class?.findById?.status);
   const [className, setClassName] = useState(dataClass?.class?.findById?.name);
   const [isReportAdded, setIsReportAdded] = useState(false);
-  const [reportLink, setReportLink] = useState("");
-  const [insertClassData, { data, loading, error }] = useMutation(
-    UPDATE_CLASS,
-    {
-      refetchQueries: [
-        {
-          query: GET_CLASS_BYID,
-          variables: { id: dataClass?.class?.findById?.id },
-        },
-      ],
-    }
+  const [reportLink, setReportLink] = useState(
+    dataClass?.class?.findById?.reportUrl
   );
-  const [
-    insertClassId,
-    { data: deletedClass, loading: loadingDeleted, error: errorDeleted },
-  ] = useMutation(DELETE_CLASS, {
+  const [isEdit, setEdit] = useState(false);
+
+  const [insertClassData, { loading }] = useMutation(UPDATE_CLASS, {
     refetchQueries: [
       {
         query: GET_CLASS_BYID,
@@ -41,10 +33,33 @@ const Profile = ({ dataClass, materials }) => {
       },
     ],
   });
-  const handleAddReport = () => {
-    setIsReportAdded(true);
-  };
+
+  const [insertClassId] = useMutation(DELETE_CLASS, {
+    refetchQueries: [
+      {
+        query: GET_CLASS_BYID,
+        variables: { id: dataClass?.class?.findById?.id },
+      },
+    ],
+  });
+
   const handleClassChanged = () => {
+    const regex = /^[A-Za-z0-9\s\-&]+$/;
+
+    if (!(regex.test(className) && !!className.length)) {
+      MySwal.fire({
+        title: "Update Failed !",
+        text: "Fill the classname with Letters and numbers , allowed symbols : & -",
+        icon: "error",
+        showCancelButton: true,
+        confirmButtonColor: "#415A80",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      });
+
+      return false;
+    }
+
     MySwal.fire({
       title: "Class Data Changes",
       text: "Are you sure you want to save this changes?",
@@ -53,7 +68,7 @@ const Profile = ({ dataClass, materials }) => {
       confirmButtonColor: "#415A80",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         insertClassData({
           variables: {
@@ -64,10 +79,11 @@ const Profile = ({ dataClass, materials }) => {
             reportUrl: reportLink,
           },
         });
+        setEdit(false);
       }
     });
   };
-  const handleClassDeleted = async () => {
+  const handleClassDeleted = () => {
     MySwal.fire({
       title: "Delete Class",
       text: "Are you sure you want to delete this class?",
@@ -76,19 +92,47 @@ const Profile = ({ dataClass, materials }) => {
       confirmButtonColor: "#415A80",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        insertClassId({
-          variables: {
-            id: dataClass?.class?.findById?.id,
-          },
+        MySwal.fire({
+          title: "Please await",
+          text: "Deleting your class...",
+          showConfirmButton: false,
+          allowOutsideClick: false,
         });
-        window.location.pathname = "dashboard";
+
+        try {
+          await insertClassId({
+            variables: { id: dataClass?.class?.findById?.id },
+          });
+
+          MySwal.close();
+        } catch (error) {
+          MySwal.fire({
+            icon: "error",
+            title: "Failed",
+            text: "Delete Class Failed, try again later.",
+          });
+
+          return false;
+        }
+
+        return navigate("/dashboard/home", { replace: true });
       }
     });
   };
+
+  useEffect(() => {
+    if (isEdit === false) {
+      setStatus(dataClass?.class?.findById?.status);
+      setClassName(dataClass?.class?.findById?.name);
+      setIsReportAdded(false);
+      setReportLink(dataClass?.class?.findById?.reportUrl);
+    }
+  }, [isEdit, dataClass]);
+
   return (
-    <div className="flex justify-center">
+    <div className="border border-solid rounded-[20px] px-12 py-10 flex justify-center">
       {loading ? (
         <Loading size={100} />
       ) : (
@@ -101,16 +145,18 @@ const Profile = ({ dataClass, materials }) => {
             />
           )}
           <div className="flex items-center justify-between">
-            <div className="flex border-[1px] border-[#415A80] rounded-[20px] p-5">
+            <div className="flex border-[1px] rounded-[20px] p-8">
               <div className="mr-10">
                 <h1 className="text-5xl">
-                  {dataClass?.class?.findById?.users?.length - 1}
+                  {dataClass?.class?.findById?.users?.length > 0
+                    ? dataClass?.class?.findById?.users?.length - 1
+                    : 0}
                 </h1>
                 <p className="text-xl mt-4">Total Students</p>
               </div>
               <img src={people_icon} alt="/" />
             </div>
-            <div className="flex border-[1px] border-[#415A80] rounded-[20px] p-5">
+            <div className="flex border-[1px] rounded-[20px] p-8">
               <div className="mr-10">
                 <h1 className="text-5xl">{materials?.length}</h1>
                 <p className="text-xl mt-4">Total Materials</p>
@@ -118,62 +164,56 @@ const Profile = ({ dataClass, materials }) => {
               <img src={book_icon} alt="/" />
             </div>
           </div>
-          <div className="flex items-center justify-between mt-5">
+          <div className="flex items-center justify-between mt-12">
             <p className="text-2xl">Status Class</p>
             {status === "ACTIVE" ? (
               <img
                 src={ON}
                 alt="on"
                 className="cursor-pointer"
-                onClick={() => setStatus("INACTIVE")}
+                onClick={() => (isEdit ? setStatus("INACTIVE") : false)}
               />
             ) : (
               <img
                 src={OFF}
                 alt="off"
                 className="cursor-pointer"
-                onClick={() => setStatus("ACTIVE")}
+                onClick={() => (isEdit ? setStatus("ACTIVE") : false)}
               />
             )}
           </div>
-          <div className="mt-5">
+          <div className="mt-10">
             <p className="text-2xl">ClassName</p>
-            <div className="flex items-center relative">
-              <input
-                type="text"
-                className="text-2xl border-[1px] p-3 rounded-[10px] border-[#A8A8A8] w-full"
-                value={className}
-                onChange={(e) => setClassName(e.target.value)}
-              />
-              <img src={pencil} alt="/" className="absolute right-[30px]" />
-            </div>
-          </div>
-          {/* <div className="mt-5">
-          <p className="text-2xl">Room</p>
-          <div className="flex items-center relative">
-            <p className="text-2xl border-[1px] p-3 rounded-[10px] border-[#A8A8A8] w-full">
-              {dataClass?.class?.findById?.room}
-            </p>
-            <img src={pencil} alt="/" className="absolute right-[30px]" />
-          </div>
-        </div> */}
-          <div className="flex justify-between mt-5">
-            <p className="text-2xl">Data Report</p>
-            <Button
-              text="ADD"
-              styling={`py-2 px-4 rounded-[10px]`}
-              handleClick={handleAddReport}
+            <input
+              disabled={!isEdit}
+              type="text"
+              className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
+              value={className}
+              onChange={(e) => (isEdit ? setClassName(e.target.value) : false)}
             />
           </div>
+
+          <div className="mt-10">
+            <p className="text-2xl">Data Report</p>
+            <input
+              disabled={!isEdit}
+              placeholder="Add report url here"
+              type="text"
+              className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
+              value={reportLink}
+              onChange={(e) => setReportLink(e.target.value)}
+            />
+          </div>
+
           <Button
-            text="Save Changes"
-            styling={`rounded-[10px] py-3 mt-10 text-2xl font-bold`}
-            handleClick={handleClassChanged}
+            text={isEdit ? "Save Changes" : "Edit"}
+            styling={`rounded-[10px] py-3 mt-12 text-2xl font-bold`}
+            handleClick={() => (isEdit ? handleClassChanged() : setEdit(true))}
           />
           <Button
-            text="Delete Class"
-            styling={`rounded-[10px] py-3 mt-4 bg-[#fff] border-[1px] border-[#415A80] text-[#415A80] text-2xl font-bold`}
-            handleClick={handleClassDeleted}
+            text={isEdit ? "Cancel" : "Delete Class"}
+            styling={`rounded-[10px] py-3 mt-4 text-2xl bg-[#fff] border-[1px] text-[#415A80] te8t-2xl font-bold`}
+            handleClick={() => (isEdit ? setEdit(false) : handleClassDeleted())}
           />
         </div>
       )}

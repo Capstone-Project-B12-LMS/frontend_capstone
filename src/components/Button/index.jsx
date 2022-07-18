@@ -1,6 +1,6 @@
 import React from "react";
 
-const Button = ({ text, formBtn, styling, handleClick , icon }) => {
+const Button = ({ text, formBtn, styling, handleClick, icon }) => {
   return (
     <button
       type={formBtn ? "submit" : ""}

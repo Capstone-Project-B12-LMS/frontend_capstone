@@ -1,21 +1,65 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import dot from "../../assets/img/3dot.png";
 import material from "../../assets/img/material.png";
-import useUpdateMaterial from "../../graphql/UpdateMaterial";
 
-const MaterialComponent = ({ item, classId }) => {
-  const { insertNewMaterial, data, loading, error } = useUpdateMaterial();
+import { useMutation } from "@apollo/client";
+import { DELETE_MATERIAL } from "../../graphql/UpdateMaterial";
+
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+
+
+
+const MaterialComponent = ({ item, refetching, func }) => {
+
+  const [deleteMaterial] = useMutation(DELETE_MATERIAL)
+  const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
+
   const [isDotClicked, SetIsDotClicked] = useState(false);
   const handleClickedOutside = () => {
     isDotClicked && SetIsDotClicked(false);
   };
+
   const handleUpdateMaterial = (materialId) => {
+    const targetId = materialId
+    func(targetId)
+    navigate("../..", { replace: true })
+  }
+
+  const handleDeleteMaterial = async (id) => {
+    MySwal.fire({
+      title: "Delete Material",
+      text: "Are you sure want to delete this material?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#415A80",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result)=>{
+      if(result.isConfirmed){
+        try {
+          await deleteMaterial({ variables: { id } })
+          return refetching()
+        }
+        catch (error) {
+          MySwal.fire({
+            title: "Failed !",
+            text: "Delete Materil Failed , Please try again.",
+            icon: "error",
+          })
+          return false
+        }
+      }
+    })
     
   }
-  
+
   return (
     <div
-      className="py-4 w-full border-b-2 flex items-center rounded-[10px] shadow-sm relative"
+      className="py-4 w-full border border-solid flex items-center relative"
       onClick={handleClickedOutside}
     >
       <img src={material} alt="/" className="mr-5 pl-5" />
@@ -27,12 +71,21 @@ const MaterialComponent = ({ item, classId }) => {
         onClick={() => SetIsDotClicked(true)}
       />
       {isDotClicked && (
-        <p
-          className="text-sm absolute right-[60px] p-3 rounded-[10px] shadow-md cursor-pointer font-medium"
-          onClick={() => handleUpdateMaterial(item.id)}
-        >
-          Update Material
-        </p>
+        <>
+          <p
+            className="text-sm absolute right-[60px] p-2.5 rounded-[10px] shadow-md cursor-pointer font-medium mb-[2.5rem]"
+            onClick={() => handleUpdateMaterial(item.id)}
+          >
+            Update Material
+          </p>
+          <p
+            onClick={() => handleDeleteMaterial(item.id)}
+            className="text-sm absolute right-[60px] p-2.5 rounded-[10px] shadow-md cursor-pointer font-medium mt-[2.5rem]"
+
+          >
+            Delete Material
+          </p>
+        </>
       )}
     </div>
   );

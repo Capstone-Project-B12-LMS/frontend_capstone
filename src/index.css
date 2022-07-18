@@ -44,6 +44,17 @@
     display: none;
   }
 }
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
 .modal {
   font-size: 12px;
 }
@@ -105,4 +116,8 @@
 .loading{
   background: conic-gradient(#0000 10%,#415a80);
   -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 14.1px),#000 0);
+}
+
+.ql-editor{
+  min-height:200px;
 }

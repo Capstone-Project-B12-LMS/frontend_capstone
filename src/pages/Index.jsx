@@ -5,19 +5,21 @@ import { Cookies } from "react-cookie";
 import Login from "./Login";
 import Register from "./Register";
 
-import { Footer } from "../components";
+import { Footer, Faq } from "../components";
 
 import home from "../assets/img/home.png";
+import faq from "../assets/img/FAQ.png";
 import picture_contactus from "../assets/img/bg-contact-us.png";
 import logo from "../assets/icons/brand-logo.svg";
 import swal from "sweetalert";
+import ractangel from "../assets/img/Rectangle.png";
 
 const Index = () => {
   const cookies = new Cookies();
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRegisterModal, setOpenRegisterModal] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function sendEmail(e) {
     e.preventDefault();
@@ -29,7 +31,6 @@ const Index = () => {
         "rAAkn0OTCciFiL6cn"
       )
       .then((res) => {
-        console.log(res);
         swal({
           title: "Pesan anda sudah terkirim !",
           text: "Terimakasih!",
@@ -38,10 +39,39 @@ const Index = () => {
         });
         e.target.reset();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        swal({
+          title: "Terjadi error",
+          text: err,
+          icon: "error",
+          button: "Oke"
+        })
+      });
   }
 
-  // console.log(process.env.REACT_APP_BASE_URL)
+  const accordionData = [
+    {
+      title: "What is the Study Learning Management System ? ",
+      content: `Is an online learning room where users can create classes or join to start online classes. 
+      Here users can see what class they are taking and see the course or assignments given by the teacher`,
+    },
+    {
+      title: "Why can't i access the class via the link ?",
+      content: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia veniam
+      reprehenderit nam assumenda voluptatem ut. Ipsum eius dicta, officiis
+      quaerat iure quos dolorum accusantium ducimus in illum vero commodi
+      pariatur? Impedit autem esse nostrum quasi, fugiat a aut error cumque
+      quidem maiores doloremque est numquam praesentium eos voluptatem amet!
+      Repudiandae, mollitia id reprehenderit a ab odit!`,
+    },
+    {
+      title:
+        "Why do i have to wait a long time in requesting counseling guidance ?",
+      content: `Sapiente expedita hic obcaecati, laboriosam similique omnis architecto ducimus magnam accusantium corrupti
+      quam sint dolore pariatur perspiciatis, necessitatibus rem vel dignissimos
+      dolor ut sequi minus iste? Quas?`,
+    },
+  ];
 
   return (
     <div>
@@ -73,14 +103,14 @@ const Index = () => {
                   {!cookies.get("token") && (
                     <>
                       <button
-                        onClick={() => navigate('/login')}
+                        onClick={() => navigate("/login")}
                         className="w-full h-[52px] w-[113px] ml-[100px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 "
                       >
                         Login
                       </button>
 
                       <button
-                        onClick={() => navigate('/register')}
+                        onClick={() => navigate("/register")}
                         className="w-full h-[52px] w-[117px] ml-[30px] mt-[20px] rounded-[10px] text-xl leading-[30px] font-medium mb-5 bg-transparent outline outline-2 outline-[#415A80] text-[#415A80]  "
                       >
                         Sign up
@@ -118,6 +148,7 @@ const Index = () => {
               <img src={home} alt="" />
             </div>
           </div>
+
           <div className="container mx-auto mt-12">
             <div className="">
               <div className="">
@@ -152,7 +183,7 @@ const Index = () => {
                             <input
                               type="text"
                               id="name-address-icon"
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                               placeholder="Full Name"
                               name="name"
                               required
@@ -176,7 +207,7 @@ const Index = () => {
                             <input
                               type="email"
                               id="email-address-icon"
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                               placeholder="example@gmail.com"
                               name="email"
                               required
@@ -203,7 +234,7 @@ const Index = () => {
                             <textarea
                               type="text"
                               id="message-address-icon"
-                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  "
                               placeholder="Message"
                               rows="8"
                               cols="80"
@@ -224,6 +255,24 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="flex">
+              <div className="mt-[10px] ml-[20px]">
+                <img src={faq} alt="" />
+              </div>
+              <div
+                id="accordion-collapse"
+                className="mt-[150px] w-[580px]"
+                data-accordion="collapse"
+              >
+                <h2 className="ml-4">FAQ</h2>
+                <img src={ractangel} alt="" className="mb-6 ml-4" />
+                {accordionData.map(({ title, content }) => (
+                  <Faq title={title} content={content} />
+                ))}
               </div>
             </div>
           </div>

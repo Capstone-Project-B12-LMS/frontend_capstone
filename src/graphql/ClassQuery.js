@@ -53,6 +53,8 @@ const GET_CLASS_BYID = gql`
         name
         room
         status
+        reportUrl
+        isDeleted
         users {
           id
           fullName

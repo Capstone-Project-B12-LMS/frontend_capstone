@@ -4,8 +4,18 @@ const counselingQuery = gql`
   query counsReq($classId: ID!) {
     guidance {
       findByClassId(classId: $classId) {
+        id
+        topic
+        content
+        createdAt
         user {
+          id
           fullName
+          email
+        }
+        classEntity{
+          id
+          name
         }
       }
     }
@@ -13,10 +23,10 @@ const counselingQuery = gql`
 `;
 
 const useGetCounseling = (classId) => {
-    const {data, loading, error} = useQuery(counselingQuery, {
-      variables: { classId: classId },
-    });
-    return {data, loading, error}
+  const { data, loading, error } = useQuery(counselingQuery, {
+    variables: { classId: classId },
+  });
+  return { data, loading, error }
 }
 
-export default useGetCounseling;
+export  {useGetCounseling, counselingQuery};

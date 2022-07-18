@@ -1,75 +1,82 @@
-import { useState } from "react";
-
-// Assets
-import Repeat from "../../assets/icons/repeat.svg";
-import Illustration from "../../assets/img/no-description.png";
-import ChangeClassTeacher from "./ChangeClassTeacher";
-
 import InputAnnouncement from "./inputAnnouncement";
 
-const Description = () => {
-  const [announcement, setAnnouncement] = useState(false);
-  const [openChangeClass, setOpenChangeClass] = useState(false);
 
-  // Handler
-  const handleClick = () => {
-    setAnnouncement(true);
-  };
-  const handleClickBack = () => {
-    setAnnouncement(false);
-  };
+const Description = ({
+  targetMaterial,
+  material,
+  setMaterial,
+  materialId,
+  updateMode,
+  setUpdateMode,
+  setMaterialId
+}) => {
+
 
   return (
-    <div className="mx-[0.5rem]">
-      {announcement ? (
-        <InputAnnouncement />
-      ) : (
-        <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
-          <img
-            className="w-[50px]"
-            src="https://i.ibb.co/y0XWBqF/Ellipse-18.png"
-            alt="icon"
-          />
-          <input
-            onClick={handleClick}
-            className="w-[80%]"
-            type="text"
-            placeholder="Annonce something to your class"
-          />
-          <span onClick={() => setOpenChangeClass(true)}>
-            <img className="w-[32px] " src={Repeat} alt="repeat" />
-          </span>
-          {openChangeClass && openChangeClass && (
-            <ChangeClassTeacher
-              openChangeClass={openChangeClass}
-              setOpenChangeClass={() => setOpenChangeClass(false)}
+    <div className="px-8">
+      <div className="border border-solid rounded-[20px] px-12 pt-12">
+
+        {/* <div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
+            <img
+              className="w-[50px]"
+              src="https://i.ibb.co/y0XWBqF/Ellipse-18.png"
+              alt="icon"
             />
-          )}
-        </div>
-      )}
-      <div
-        className="mt-[2rem] border-[1px] p-[0.5rem] rounded-[10px] flex"
-        onClick={handleClickBack}
-      >
-        <div className="w-[30%] flex justify-center">
-          <img
-            src={Illustration}
-            className="w-[350px] h-[250px] object-cover"
-            alt="illustration"
-          />
-        </div>
-        <div className="w-[70%] p-[2rem]">
-          <h3 className="text-[32px] text-black font-medium">
-            This is where you can talk to your class
-          </h3>
-          <p className="text-xl text-black mt-4">
-            Use the forums to share announcements, post assignments, and answer
-            student questions
-          </p>
-        </div>
+            <input
+              onClick={handleClick}
+              className="w-[80%]"
+              type="text"
+              placeholder="Annonce something to your class"
+            />
+            <span onClick={() => setOpenChangeClass(true)}>
+              <img className="w-[32px] " src={Repeat} alt="repeat" />
+            </span>
+            {openChangeClass && openChangeClass && (
+              <ChangeClassTeacher
+                openChangeClass={openChangeClass}
+                setOpenChangeClass={() => setOpenChangeClass(false)}
+              />
+            )}
+          </div> */}
+        <InputAnnouncement
+          targetMaterial={targetMaterial}
+          material={material}
+          setMaterial={setMaterial}
+          materialId={materialId}
+          setUpdateMode={setUpdateMode}
+          updateMode={updateMode}
+          setMaterialId={setMaterialId}
+        />
       </div>
     </div>
   );
 };
 
 export default Description;
+
+
+/*
+<div className="border-[1px] p-[1rem] mb-[1rem] rounded-[10px] flex justify-around">
+            <img
+              className="w-[50px]"
+              src="https://i.ibb.co/y0XWBqF/Ellipse-18.png"
+              alt="icon"
+            />
+            <input
+              onClick={handleClick}
+              className="w-[80%]"
+              type="text"
+              placeholder="Annonce something to your class"
+            />
+            <span onClick={() => setOpenChangeClass(true)}>
+              <img className="w-[32px] " src={Repeat} alt="repeat" />
+            </span>
+            {openChangeClass && openChangeClass && (
+              <ChangeClassTeacher
+                openChangeClass={openChangeClass}
+                setOpenChangeClass={() => setOpenChangeClass(false)}
+              />
+            )}
+          </div>
+
+*/

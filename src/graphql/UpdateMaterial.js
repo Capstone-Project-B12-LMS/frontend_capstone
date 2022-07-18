@@ -19,6 +19,19 @@ const updateMaterial = gql`
   }
 `;
 
+
+const DELETE_MATERIAL = gql`
+  mutation DELETE_MATERIAL($id:ID!){
+    material{
+      deleteById(id:$id){
+        error
+        status
+      }
+    }
+  }
+`
+
+
 const useUpdateMaterial = (classId) => {
     const [insertNewMaterial, { data, loading, error }] = useMutation(updateMaterial,{
         refetchQueries: [{
@@ -30,4 +43,7 @@ const useUpdateMaterial = (classId) => {
     return {insertNewMaterial, data, loading, error}
 }
 
+export {
+  DELETE_MATERIAL
+}
 export default useUpdateMaterial;

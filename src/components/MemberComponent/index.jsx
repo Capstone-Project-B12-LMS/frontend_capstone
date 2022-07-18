@@ -7,7 +7,7 @@ import Loading from "../Spinner/Loading";
 
 const MemberComponent = ({ student, classId }) => {
   const MySwal = withReactContent(Swal);
-  const { insertStudentData, data, loading, error } = useRemoveStudent(classId);
+  const { insertStudentData, loading, } = useRemoveStudent(classId);
   const [isDotClicked, SetIsDotClicked] = useState(false);
   const handleRemoveStudent = (userId) => {
     MySwal.fire({
@@ -39,14 +39,15 @@ const MemberComponent = ({ student, classId }) => {
         <Loading size={100} />
       ) : (
         <div
-          className="flex py-4 w-full border-b-2 rounded-[8px] shadow-sm justify-between items-center relative"
+          className="flex py-4 w-full border border-solid items-center relative"
           onClick={handleClickedOutside}
         >
+          <img src={`https://i.pravatar.cc/100?u=${student.id}`} alt="avatar" className="ml-4 w-[60px] h-[60px] rounded-full mr-4" />
           <h4 className="pl-4 text-xl">{student.fullName}</h4>
           <img
             src={dot}
             alt="/"
-            className="pr-4 cursor-pointer"
+            className="pr-4 cursor-pointer ml-auto"
             onClick={() => SetIsDotClicked(true)}
           />
           {isDotClicked && (

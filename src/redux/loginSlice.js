@@ -5,6 +5,7 @@ export const loginSlice = createSlice({
   initialState: {
     email: '',
     password:'',
+    telepon:'',
     isLoggedIn: false,
     decode: '',
     dataLogin:''
@@ -25,10 +26,13 @@ export const loginSlice = createSlice({
     setPassword: (state, action) => {
       state.password = action.payload
     },
+    setTelepon: (state, action) => {
+      state.telepon = action.payload
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setEmail, setPassword, setIsLoggedIn, setDecode, setDataLogin } = loginSlice.actions
+export const { setEmail, setPassword, setIsLoggedIn, setDecode, setDataLogin, setTelepon } = loginSlice.actions
 
 export default loginSlice.reducer

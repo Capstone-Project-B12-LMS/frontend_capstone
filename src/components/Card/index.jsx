@@ -5,6 +5,7 @@ const Card = ({
   code,
   thumbnail = "https://i.ibb.co/k6wjmXK/thumbnail-class.png",
   url,
+  status
 }) => {
   return (
     <Link to={url}>
@@ -18,6 +19,9 @@ const Card = ({
           <h3 className="text-2xl font-medium text-black">{title}</h3>
           <p className="text-base text-[#A9A9A9] font-normal">
             Code Class: <span className="text-black font-bold">{code}</span>{" "}
+          </p>
+          <p className="text-base text-[#A9A9A9] font-normal">
+            Status Class: <span className="text-black font-bold">{status}</span>{" "}
           </p>
         </div>
       </div>
