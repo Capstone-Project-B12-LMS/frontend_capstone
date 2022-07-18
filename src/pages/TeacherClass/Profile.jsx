@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import people_icon from "../../assets/icons/people-icon-vector.svg";
 import book_icon from "../../assets/icons/icons-book.svg";
 import { Button, Loading } from "../../components";
@@ -15,29 +15,17 @@ import ProfilePopUp from "../../components/ProfilePopUp";
 import { useNavigate } from "react-router-dom";
 
 const Profile = ({ dataClass, materials }) => {
-
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
   const [status, setStatus] = useState(dataClass?.class?.findById?.status);
   const [className, setClassName] = useState(dataClass?.class?.findById?.name);
   const [isReportAdded, setIsReportAdded] = useState(false);
-  const [reportLink, setReportLink] = useState(dataClass?.class?.findById?.reportUrl);
-  const [isEdit,setEdit] = useState(false)
-
-
-  const [insertClassData, { loading }] = useMutation(
-    UPDATE_CLASS,
-    {
-      refetchQueries: [
-        {
-          query: GET_CLASS_BYID,
-          variables: { id: dataClass?.class?.findById?.id },
-        },
-      ],
-    }
+  const [reportLink, setReportLink] = useState(
+    dataClass?.class?.findById?.reportUrl
   );
+  const [isEdit, setEdit] = useState(false);
 
-  const [ insertClassId ] = useMutation(DELETE_CLASS, {
+  const [insertClassData, { loading }] = useMutation(UPDATE_CLASS, {
     refetchQueries: [
       {
         query: GET_CLASS_BYID,
@@ -45,12 +33,20 @@ const Profile = ({ dataClass, materials }) => {
       },
     ],
   });
-  
-  const handleClassChanged = () => {
 
+  const [insertClassId] = useMutation(DELETE_CLASS, {
+    refetchQueries: [
+      {
+        query: GET_CLASS_BYID,
+        variables: { id: dataClass?.class?.findById?.id },
+      },
+    ],
+  });
+
+  const handleClassChanged = () => {
     const regex = /^[A-Za-z0-9\s\-&]+$/;
 
-    if(!(regex.test(className) && !!className.length)){
+    if (!(regex.test(className) && !!className.length)) {
       MySwal.fire({
         title: "Update Failed !",
         text: "Fill the classname with Letters and numbers , allowed symbols : & -",
@@ -59,7 +55,7 @@ const Profile = ({ dataClass, materials }) => {
         confirmButtonColor: "#415A80",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes",
-      })
+      });
 
       return false;
     }
@@ -72,9 +68,8 @@ const Profile = ({ dataClass, materials }) => {
       confirmButtonColor: "#415A80",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setEdit(false)
         insertClassData({
           variables: {
             id: dataClass?.class?.findById?.id,
@@ -84,11 +79,11 @@ const Profile = ({ dataClass, materials }) => {
             reportUrl: reportLink,
           },
         });
+        setEdit(false);
       }
     });
   };
   const handleClassDeleted = () => {
-
     MySwal.fire({
       title: "Delete Class",
       text: "Are you sure you want to delete this class?",
@@ -97,40 +92,44 @@ const Profile = ({ dataClass, materials }) => {
       confirmButtonColor: "#415A80",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes",
-    })
-    .then(async (result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-
         MySwal.fire({
           title: "Please await",
           text: "Deleting your class...",
-          showConfirmButton:false,
-          allowOutsideClick: false
-        })
+          showConfirmButton: false,
+          allowOutsideClick: false,
+        });
 
         try {
           await insertClassId({
-            variables: { id: dataClass?.class?.findById?.id }
-          })
+            variables: { id: dataClass?.class?.findById?.id },
+          });
 
-          MySwal.close()
-        } 
-        catch (error) {
+          MySwal.close();
+        } catch (error) {
           MySwal.fire({
-            icon:"error",
+            icon: "error",
             title: "Failed",
             text: "Delete Class Failed, try again later.",
-          })
+          });
 
-          return false
+          return false;
         }
 
-        return navigate('/dashboard/home', { replace: true})
+        return navigate("/dashboard/home", { replace: true });
       }
     });
-
   };
 
+  useEffect(() => {
+    if (isEdit === false) {
+      setStatus(dataClass?.class?.findById?.status);
+      setClassName(dataClass?.class?.findById?.name);
+      setIsReportAdded(false);
+      setReportLink(dataClass?.class?.findById?.reportUrl);
+    }
+  }, [isEdit, dataClass]);
 
   return (
     <div className="border border-solid rounded-[20px] px-12 py-10 flex justify-center">
@@ -149,7 +148,9 @@ const Profile = ({ dataClass, materials }) => {
             <div className="flex border-[1px] rounded-[20px] p-8">
               <div className="mr-10">
                 <h1 className="text-5xl">
-                  {dataClass?.class?.findById?.users?.length > 0 ? dataClass?.class?.findById?.users?.length - 1 : 0}
+                  {dataClass?.class?.findById?.users?.length > 0
+                    ? dataClass?.class?.findById?.users?.length - 1
+                    : 0}
                 </h1>
                 <p className="text-xl mt-4">Total Students</p>
               </div>
@@ -170,14 +171,14 @@ const Profile = ({ dataClass, materials }) => {
                 src={ON}
                 alt="on"
                 className="cursor-pointer"
-                onClick={() => isEdit ? setStatus("INACTIVE") : false}
+                onClick={() => (isEdit ? setStatus("INACTIVE") : false)}
               />
             ) : (
               <img
                 src={OFF}
                 alt="off"
                 className="cursor-pointer"
-                onClick={() => setStatus("ACTIVE")}
+                onClick={() => (isEdit ? setStatus("ACTIVE") : false)}
               />
             )}
           </div>
@@ -188,7 +189,7 @@ const Profile = ({ dataClass, materials }) => {
               type="text"
               className="text-2xl border-[1px] py-3 px-4 pr-16 mt-6 rounded-[10px] border-[#A8A8A8] w-full"
               value={className}
-              onChange={(e) => isEdit ? setClassName(e.target.value) : false}
+              onChange={(e) => (isEdit ? setClassName(e.target.value) : false)}
             />
           </div>
 
@@ -203,16 +204,16 @@ const Profile = ({ dataClass, materials }) => {
               onChange={(e) => setReportLink(e.target.value)}
             />
           </div>
-        
+
           <Button
             text={isEdit ? "Save Changes" : "Edit"}
             styling={`rounded-[10px] py-3 mt-12 text-2xl font-bold`}
-            handleClick={()=> isEdit ? handleClassChanged() : setEdit(true)}
+            handleClick={() => (isEdit ? handleClassChanged() : setEdit(true))}
           />
           <Button
             text={isEdit ? "Cancel" : "Delete Class"}
             styling={`rounded-[10px] py-3 mt-4 text-2xl bg-[#fff] border-[1px] text-[#415A80] te8t-2xl font-bold`}
-            handleClick={()=> isEdit ? setEdit(false) : handleClassDeleted()}
+            handleClick={() => (isEdit ? setEdit(false) : handleClassDeleted())}
           />
         </div>
       )}

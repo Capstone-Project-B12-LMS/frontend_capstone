@@ -30,18 +30,31 @@ const MaterialComponent = ({ item, refetching, func }) => {
   }
 
   const handleDeleteMaterial = async (id) => {
-    try {
-      await deleteMaterial({ variables: { id } })
-      return refetching()
-    }
-    catch (error) {
-      MySwal.fire({
-        title: "Failed !",
-        text: "Delete Materil Failed , Please try again.",
-        icon: "error",
-      })
-      return false
-    }
+    MySwal.fire({
+      title: "Delete Material",
+      text: "Are you sure want to delete this material?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#415A80",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then(async (result)=>{
+      if(result.isConfirmed){
+        try {
+          await deleteMaterial({ variables: { id } })
+          return refetching()
+        }
+        catch (error) {
+          MySwal.fire({
+            title: "Failed !",
+            text: "Delete Materil Failed , Please try again.",
+            icon: "error",
+          })
+          return false
+        }
+      }
+    })
+    
   }
 
   return (
