@@ -62,8 +62,8 @@ const MyAccount = () => {
       const telp = telepon[0] === "0" ? telepon.replace("08","628") : telepon;
 
       MySwal.fire({
-        title: "Class Data Changes",
-        text: "Are you sure you want to change the data?",
+        title: "Update Account",
+        text: "Are you sure you want to update your account ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#415A80",
