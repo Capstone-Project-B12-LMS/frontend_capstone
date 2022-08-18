@@ -63,7 +63,7 @@ const MyAccount = () => {
 
       MySwal.fire({
         title: "Update Account",
-        text: "Are you sure you want to update your account ?",
+        text: "Are you sure to update your account ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#415A80",
